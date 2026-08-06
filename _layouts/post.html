@@ -1,0 +1,25 @@
+---
+layout: default
+---
+<article class="post">
+  <h1>{{ page.title }}</h1>
+  <p class="meta">{{ page.date | date: "%Y-%m-%d" }}</p>
+  <nav class="post-actions" aria-label="Post navigation">
+    <a class="button ghost" href="{{ '/blog/' | relative_url }}">&larr; 返回 Blog</a>
+  </nav>
+  {% if page.cover %}
+    {% assign cover_file = site.static_files | where: "path", page.cover | first %}
+  {% endif %}
+  {% if page.cover and cover_file %}
+    <figure class="post-cover">
+      <img src="{{ page.cover | relative_url }}" alt="{{ page.cover_alt | default: page.title | escape }}">
+      {% if page.cover_caption and page.cover_caption != "" %}
+        <figcaption>{{ page.cover_caption }}</figcaption>
+      {% endif %}
+    </figure>
+  {% endif %}
+  {{ content }}
+  <nav class="post-actions post-actions-bottom" aria-label="Post navigation">
+    <a class="button ghost" href="{{ '/blog/' | relative_url }}">&larr; 返回 Blog</a>
+  </nav>
+</article>

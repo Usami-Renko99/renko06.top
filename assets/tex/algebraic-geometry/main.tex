@@ -1,0 +1,131 @@
+\documentclass[12pt,openany]{book}
+
+\usepackage[a5paper,margin=0.65in]{geometry}
+\usepackage[T1]{fontenc}
+\usepackage{amsmath,amssymb,amsthm}
+\usepackage{enumitem}
+\usepackage{tikz-cd}
+\linespread{1.26}
+\setlength{\emergencystretch}{2em}
+
+\numberwithin{equation}{chapter}
+
+\theoremstyle{definition}
+\newtheorem{definition}{Definition}[chapter]
+\newtheorem{example}[definition]{Example}
+\newtheorem{remark}[definition]{Remark}
+\newtheorem{notation}[definition]{Notation}
+\newtheorem{convention}[definition]{Convention}
+\newtheorem{exercise}[definition]{Exercise}
+
+\theoremstyle{plain}
+\newtheorem{theorem}[definition]{Theorem}
+\newtheorem{proposition}[definition]{Proposition}
+\newtheorem{lemma}[definition]{Lemma}
+\newtheorem{corollary}[definition]{Corollary}
+\newtheorem{fact}[definition]{Commutative Algebra Fact}
+
+\theoremstyle{remark}
+\newtheorem*{claim}{Claim}
+
+\newenvironment{solution}{\begin{proof}[Solution]}{\end{proof}}
+\providecommand{\texorpdfstring}[2]{#1}
+
+\renewcommand{\AA}{\mathbb{A}}
+\newcommand{\PP}{\mathbb{P}}
+\newcommand{\ZZ}{\mathbb{Z}}
+\newcommand{\QQ}{\mathbb{Q}}
+\newcommand{\OO}{\mathcal{O}}
+\newcommand{\FF}{\mathcal{F}}
+\newcommand{\GG}{\mathcal{G}}
+\newcommand{\HH}{\mathcal{H}}
+\newcommand{\II}{\mathcal{I}}
+\newcommand{\JJ}{\mathcal{J}}
+\newcommand{\LL}{\mathcal{L}}
+\newcommand{\MM}{\mathcal{M}}
+\newcommand{\NN}{\mathcal{N}}
+\newcommand{\UU}{\mathfrak{U}}
+\newcommand{\VV}{\mathfrak{V}}
+\newcommand{\shHom}{\mathcal{H}om}
+\newcommand{\dual}{\mathbin{\check{\ }}}
+\newcommand{\tensor}{\otimes}
+\newcommand{\xto}[1]{\xrightarrow{#1}}
+\newcommand{\xfrom}[1]{\xleftarrow{#1}}
+\newcommand{\cech}{\check{C}}
+\newcommand{\cH}{\check{H}}
+\newcommand{\kbar}{\overline{k}}
+
+\DeclareMathOperator{\Spec}{Spec}
+\DeclareMathOperator{\Proj}{Proj}
+\DeclareMathOperator{\Hom}{Hom}
+\DeclareMathOperator{\End}{End}
+\DeclareMathOperator{\Pic}{Pic}
+\DeclareMathOperator{\Div}{Div}
+\DeclareMathOperator{\CaDiv}{CaDiv}
+\DeclareMathOperator{\Cl}{Cl}
+\DeclareMathOperator{\Frac}{Frac}
+\DeclareMathOperator{\Supp}{Supp}
+\DeclareMathOperator{\Ass}{Ass}
+\DeclareMathOperator{\im}{im}
+\DeclareMathOperator{\coker}{coker}
+\DeclareMathOperator{\id}{id}
+\DeclareMathOperator{\codim}{codim}
+\DeclareMathOperator{\rank}{rank}
+\DeclareMathOperator{\trdeg}{trdeg}
+\DeclareMathOperator{\length}{length}
+\DeclareMathOperator{\ord}{ord}
+\DeclareMathOperator{\res}{res}
+\DeclareMathOperator{\QCoh}{QCoh}
+\DeclareMathOperator{\Coh}{Coh}
+\DeclareMathOperator{\Der}{Der}
+\DeclareMathOperator{\pr}{pr}
+\DeclareMathOperator{\Ann}{Ann}
+\DeclareMathOperator{\Sym}{Sym}
+\DeclareMathOperator{\Tor}{Tor}
+\DeclareMathOperator{\Ext}{Ext}
+\DeclareMathOperator{\depth}{depth}
+\DeclareMathOperator{\Sing}{Sing}
+
+\title{Algebraic Geometry Notes Toward Riemann--Roch}
+\author{Renko}
+\date{\today}
+
+\begin{document}
+\pagestyle{plain}
+\maketitle
+\tableofcontents
+
+\chapter*{Preface}
+\addcontentsline{toc}{chapter}{Preface}
+These notes are organized toward one theorem: Riemann--Roch for smooth
+projective curves.  The order of the chapters is deliberately linear.  A
+result may use commutative algebra and material from earlier chapters, but not
+from later chapters.  The exposition keeps the scheme-theoretic language
+minimal: sheaves, schemes, morphisms, quasi-coherent sheaves, cohomology,
+differentials, divisors, and finally curves.
+
+Throughout, rings are commutative with identity.  A curve over a field means a
+separated scheme of finite type over the field whose irreducible components
+have dimension one.  In the final chapter, unless explicitly stated otherwise,
+the curve is smooth, projective, and geometrically integral over the base
+field.  This hypothesis implies \(H^0(X,\OO_X)=k\), so that the usual form of
+Riemann--Roch has constant term \(1-g\).
+
+The enlarged version follows the arrangement of Liu and Hartshorne where this
+serves the present goal: affine and projective schemes, local properties,
+finite and proper morphisms, coherent sheaves, Cech cohomology, differentials,
+divisors, and the geometry of curves.  Exercises marked as used later are
+included in the text with solutions.  Pure commutative algebra facts are stated
+without proof; they are exactly the kind of algebraic input normally supplied
+by a preceding commutative algebra course.
+
+\input{sheaves}
+\input{schemes}
+\input{morphisms}
+\input{modules}
+\input{cohomology}
+\input{differentials}
+\input{divisors}
+\input{curves}
+
+\end{document}

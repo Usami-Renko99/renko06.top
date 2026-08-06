@@ -1,0 +1,783 @@
+\chapter{Cohomology of Sheaves}
+
+\section{The Global Section Functor}
+
+\begin{definition}
+Let \(X\) be a topological space and let \(\FF\) be a sheaf of abelian groups.
+The group of \emph{global sections} is
+\[
+    \Gamma(X,\FF)=\FF(X).
+\]
+This defines a functor \(\Gamma(X,-)\) from sheaves of abelian groups on \(X\)
+to abelian groups.
+\end{definition}
+
+\begin{proposition}
+The global section functor is left exact: if
+\[
+    0\longrightarrow \FF'\longrightarrow \FF\longrightarrow \FF''
+\]
+is exact, then
+\[
+    0\longrightarrow \Gamma(X,\FF')\longrightarrow \Gamma(X,\FF)
+    \longrightarrow \Gamma(X,\FF'')
+\]
+is exact.
+\end{proposition}
+
+\begin{proof}
+Injectivity of \(\Gamma(X,\FF')\to\Gamma(X,\FF)\) follows from injectivity on
+stalks and the fact that sections are determined by germs.  If
+\(s\in\Gamma(X,\FF)\) maps to zero in \(\Gamma(X,\FF'')\), then each germ
+\(s_x\) lies in the image of \(\FF'_x\to\FF_x\).  Hence locally \(s\) lifts to a
+section of \(\FF'\).  These local lifts agree on overlaps because
+\(\FF'\to\FF\) is injective, so they glue to a global section of \(\FF'\)
+mapping to \(s\).  This proves exactness at \(\Gamma(X,\FF)\).
+\end{proof}
+
+\section{Flasque Sheaves and Sheaf Cohomology}
+
+\begin{definition}
+A sheaf \(\FF\) on \(X\) is \emph{flasque} if for every inclusion of open sets
+\(V\subset U\), the restriction map \(\FF(U)\to\FF(V)\) is surjective.
+\end{definition}
+
+\begin{lemma}
+Let
+\[
+    0\longrightarrow \FF'\longrightarrow \FF\longrightarrow \FF''
+    \longrightarrow 0
+\]
+be an exact sequence of sheaves of abelian groups.  If \(\FF'\) is flasque, then
+\[
+    0\longrightarrow \Gamma(X,\FF')\longrightarrow \Gamma(X,\FF)
+    \longrightarrow \Gamma(X,\FF'')\longrightarrow 0
+\]
+is exact.
+\end{lemma}
+
+\begin{proof}
+Only surjectivity on the right is not already contained in left exactness.  Let
+\(s''\in\Gamma(X,\FF'')\).  Choose an open cover \(\{U_i\}\) and lifts
+\(s_i\in\FF(U_i)\) of \(s''|_{U_i}\).  We refine the cover to a well ordered
+family and construct compatible lifts by transfinite induction.  Suppose a lift
+has been constructed on an open set \(V\), and let \(U_i\) be the next open set.
+On \(V\cap U_i\), the difference between the existing lift and \(s_i\) maps to
+zero in \(\FF''\), hence comes from a section \(a\in\FF'(V\cap U_i)\).  Since
+\(\FF'\) is flasque, extend \(a\) to a section \(b\in\FF'(U_i)\).  Replacing
+\(s_i\) by \(s_i+b\), the two lifts agree on \(V\cap U_i\), and hence glue to a
+lift over \(V\cup U_i\).  At limit stages the previously constructed compatible
+lifts glue by the sheaf axiom.  The final result is a global lift of \(s''\).
+\end{proof}
+
+\begin{definition}
+For a sheaf \(\FF\) of abelian groups on \(X\), define
+\[
+    C^0(\FF)(U)=\prod_{x\in U}\FF_x.
+\]
+The natural map \(\FF\to C^0(\FF)\) sends a section to its family of germs.  Let
+\(Q^0(\FF)=\coker(\FF\to C^0(\FF))\), and define inductively
+\[
+    C^n(\FF)=C^0(Q^{n-1}(\FF)),\qquad
+    Q^n(\FF)=\coker(Q^{n-1}(\FF)\to C^n(\FF)).
+\]
+The resulting complex
+\[
+    0\longrightarrow \FF\longrightarrow C^0(\FF)\longrightarrow C^1(\FF)
+    \longrightarrow C^2(\FF)\longrightarrow\cdots
+\]
+is the \emph{Godement resolution} of \(\FF\).
+\end{definition}
+
+\begin{proposition}
+Each \(C^n(\FF)\) is flasque, and the Godement resolution is exact.
+\end{proposition}
+
+\begin{proof}
+For \(C^0(\FF)\), restriction from \(U\) to \(V\) is the projection
+\(\prod_{x\in U}\FF_x\to\prod_{x\in V}\FF_x\), which is surjective.  Hence
+\(C^0(\FF)\) is flasque, and the same argument applies to \(C^n(\FF)\) because
+each is \(C^0\) of another sheaf.
+
+The map \(\FF\to C^0(\FF)\) is injective because a section whose germs are all
+zero is zero.  By definition \(Q^0(\FF)\) is its cokernel, so
+\[
+    0\to \FF\to C^0(\FF)\to Q^0(\FF)\to 0
+\]
+is exact.  Repeating the same construction for \(Q^0(\FF)\), then for
+\(Q^1(\FF)\), and so on, gives exactness at every term of the displayed
+resolution.
+\end{proof}
+
+\begin{definition}
+The \emph{sheaf cohomology groups} of \(\FF\) on \(X\) are
+\[
+    H^i(X,\FF)=H^i\bigl(\Gamma(X,C^\bullet(\FF))\bigr),
+\]
+where \(C^\bullet(\FF)\) is the Godement resolution without the initial
+\(\FF\)-term.  Thus \(H^0(X,\FF)=\Gamma(X,\FF)\).
+\end{definition}
+
+\begin{theorem}[Long exact sequence]
+Every short exact sequence of sheaves of abelian groups
+\[
+    0\longrightarrow \FF'\longrightarrow \FF\longrightarrow \FF''
+    \longrightarrow 0
+\]
+induces a natural long exact sequence
+\[
+\begin{aligned}
+0&\to H^0(X,\FF')\to H^0(X,\FF)\to H^0(X,\FF'')\\
+&\to H^1(X,\FF')\to H^1(X,\FF)\to H^1(X,\FF'')\to\cdots .
+\end{aligned}
+\]
+\end{theorem}
+
+\begin{proof}
+The functor \(C^0\) is exact: a short exact sequence of sheaves gives short
+exact sequences on stalks, and products of short exact sequences of abelian
+groups remain exact.  Applying the construction of \(C^\bullet\) inductively
+therefore gives a short exact sequence of Godement resolutions
+\[
+    0\to C^\bullet(\FF')\to C^\bullet(\FF)\to C^\bullet(\FF'')\to0.
+\]
+The kernels in each degree are flasque, so the previous lemma shows that
+applying \(\Gamma(X,-)\) preserves exactness degree by degree.  Thus we obtain
+a short exact sequence of complexes of abelian groups.  The usual snake-lemma
+construction for a short exact sequence of complexes gives the connecting
+homomorphisms and the long exact cohomology sequence.
+\end{proof}
+
+\section{\texorpdfstring{\v{C}ech}{Cech} Cohomology}
+
+\begin{definition}
+Let \(\UU=\{U_i\}_{i\in I}\) be an open cover of \(X\), with \(I\) totally
+ordered.  For a sheaf of abelian groups \(\FF\), define the \emph{\v{C}ech
+cochains}
+\[
+    \cech^p(\UU,\FF)
+    =
+    \prod_{i_0<\cdots<i_p}
+    \FF(U_{i_0}\cap\cdots\cap U_{i_p}).
+\]
+The differential \(d:\cech^p(\UU,\FF)\to\cech^{p+1}(\UU,\FF)\) is
+\[
+    (dc)_{i_0\ldots i_{p+1}}
+    =
+    \sum_{a=0}^{p+1}(-1)^a
+    c_{i_0\ldots\widehat{i_a}\ldots i_{p+1}}
+    \big|_{U_{i_0}\cap\cdots\cap U_{i_{p+1}}}.
+\]
+The cohomology of this complex is denoted \(\cH^p(\UU,\FF)\).
+\end{definition}
+
+\begin{proposition}
+The \v{C}ech differential satisfies \(d^2=0\).
+\end{proposition}
+
+\begin{proof}
+For a \(p\)-cochain \(c\), the component \((d^2c)_{i_0\ldots i_{p+2}}\) is a
+sum over pairs \(a<b\).  The term obtained by first deleting \(i_b\) and then
+deleting \(i_a\) has sign \((-1)^b(-1)^a\).  The same restricted section is
+obtained by first deleting \(i_a\) and then deleting \(i_b\), but in the second
+step the index \(b\) has shifted to \(b-1\), so the sign is
+\((-1)^a(-1)^{b-1}\).  These two signs are opposite.  All terms cancel in
+pairs, hence \(d^2=0\).
+\end{proof}
+
+\begin{proposition}
+\(\cH^0(\UU,\FF)\simeq\Gamma(X,\FF)\).
+\end{proposition}
+
+\begin{proof}
+A \(0\)-cocycle is a family \(s_i\in\FF(U_i)\) such that
+\[
+    s_i|_{U_i\cap U_j}=s_j|_{U_i\cap U_j}
+\]
+for all \(i,j\).  By the sheaf axiom, such a family glues uniquely to a global
+section of \(\FF\).  This identifies \(0\)-cocycles with \(\Gamma(X,\FF)\), and
+there are no negative cochains, so \(\cH^0=\ker d^0\).
+\end{proof}
+
+\section{Affine Acyclicity}
+
+\begin{lemma}[Affine \v{C}ech exactness]
+Let \(A\) be a ring, \(M\) an \(A\)-module, and let \(f_1,\ldots,f_r\in A\)
+generate the unit ideal.  The augmented complex
+\[
+0\to M\to \prod_i M_{f_i}\to \prod_{i<j}M_{f_if_j}\to\cdots
+\to M_{f_1\cdots f_r}\to0
+\]
+with the \v{C}ech differential is exact.
+\end{lemma}
+
+\begin{proof}
+Choose \(a_1,\ldots,a_r\in A\) with \(\sum_i a_i f_i=1\).  For a
+\(p\)-cochain \(c=(c_{i_0\ldots i_p})\), define a homotopy
+\[
+    (hc)_{i_0\ldots i_{p-1}}
+    =
+    \sum_j a_j f_j\,
+    c_{j i_0\ldots i_{p-1}}
+\]
+after restricting all terms to the common localization; if the indices are not
+ordered, reorder them and insert the sign of the permutation.  A direct
+calculation gives
+\[
+    dh+hd=\id
+\]
+in positive degrees, because the terms in which \(d\) deletes one of the
+original indices cancel with the corresponding terms from \(hd\), and the terms
+in which \(d\) deletes the inserted index \(j\) sum to
+\(\sum_j a_jf_j c=c\).  In degree \(0\), the same identity says that every
+cocycle in \(\prod_i M_{f_i}\) comes from \(M\).  Thus the augmented complex is
+exact.
+\end{proof}
+
+\begin{theorem}[Comparison for acyclic covers]
+Let \(\UU=\{U_i\}\) be an open cover of \(X\).  Suppose that for every finite
+intersection \(U_{i_0}\cap\cdots\cap U_{i_p}\) and every \(q>0\),
+\[
+    H^q(U_{i_0}\cap\cdots\cap U_{i_p},\FF)=0.
+\]
+Then the natural map
+\[
+    \cH^p(\UU,\FF)\longrightarrow H^p(X,\FF)
+\]
+is an isomorphism for all \(p\ge0\).
+\end{theorem}
+
+\begin{proof}
+Resolve \(\FF\) by its Godement resolution \(C^\bullet(\FF)\).  Form the double
+complex
+\[
+    K^{p,q}=\cech^p(\UU,C^q(\FF)).
+\]
+Taking cohomology first in the \(q\)-direction gives the \v{C}ech complex
+\(\cech^\bullet(\UU,\FF)\), because the augmented Godement resolution is exact
+on each finite intersection by the assumed vanishing of higher cohomology
+there.  Taking cohomology first in the \(p\)-direction gives
+\(\Gamma(X,C^\bullet(\FF))\): the sheaves \(C^q(\FF)\) are flasque, and for a
+flasque sheaf every \v{C}ech cocycle is a coboundary in positive degree by the
+same extension argument used in the proof that flasque kernels make global
+sections exact.  The two spectral sequences of a first-quadrant double complex
+therefore have the same total cohomology, and the two descriptions of that
+total cohomology give the asserted isomorphism.
+\end{proof}
+
+\begin{theorem}[Affine acyclicity]
+Let \(X=\Spec A\) and let \(\FF=\widetilde M\) be a quasi-coherent sheaf.  Then
+\[
+    H^i(X,\FF)=0\qquad\text{for all }i>0.
+\]
+\end{theorem}
+
+\begin{proof}
+It is enough to compute cohomology with respect to a finite principal affine
+cover, because every finite intersection of principal affine opens is again a
+principal affine open and the comparison theorem applies inductively.  For a
+cover \(X=\bigcup_i D(f_i)\) with \((f_1,\ldots,f_r)=A\), the \v{C}ech complex
+of \(\widetilde M\) is exactly the localization complex in the affine
+\v{C}ech exactness lemma:
+\[
+0\to M\to \prod_i M_{f_i}\to \prod_{i<j}M_{f_if_j}\to\cdots .
+\]
+The augmented complex is exact, so the positive \v{C}ech cohomology groups
+vanish.  The comparison theorem identifies these groups with sheaf cohomology.
+\end{proof}
+
+\begin{corollary}
+If \(X\) is separated and \(\UU=\{U_i\}\) is an affine open cover, then for every
+quasi-coherent sheaf \(\FF\) the natural map
+\[
+    \cH^p(\UU,\FF)\longrightarrow H^p(X,\FF)
+\]
+is an isomorphism for all \(p\ge0\).
+\end{corollary}
+
+\begin{proof}
+For a separated scheme, every finite intersection of affine opens is affine.
+The restriction of a quasi-coherent sheaf to such an intersection is
+quasi-coherent.  Affine acyclicity gives the vanishing hypothesis in the
+comparison theorem.
+\end{proof}
+
+\section{Serre's Criterion and Finiteness}
+
+\begin{theorem}[Serre's affine criterion]
+Let \(X\) be a quasi-compact scheme with a basis of affine open subsets.  Then
+the following are equivalent:
+\begin{enumerate}[label=(\roman*)]
+    \item \(X\) is affine;
+    \item \(H^i(X,\FF)=0\) for every quasi-coherent sheaf \(\FF\) and every
+    \(i>0\);
+    \item \(H^1(X,\II)=0\) for every quasi-coherent ideal sheaf
+    \(\II\subset\OO_X\).
+\end{enumerate}
+\end{theorem}
+
+\begin{proof}
+The implication (i) \(\Rightarrow\) (ii) is affine acyclicity, and
+(ii) \(\Rightarrow\) (iii) is immediate.
+
+Assume (iii).  Let \(x\in X\).  Choose an affine open neighbourhood \(U\) of
+\(x\), and then a principal open \(D(f)\subset U\) containing \(x\).  Let
+\(Z=X\setminus D(f)\), with the reduced closed subset structure locally on
+affine opens, and let \(\II\) be the quasi-coherent ideal sheaf of functions
+vanishing on \(Z\).  On \(U\), the function \(f\) is a section of \(\II|_U\).
+The obstruction to extending \(f\) from \(U\) to a global section of some power
+\(\II^n\) lies in \(H^1(X,\II^n)\), which is zero by (iii).  Thus, after
+replacing \(f\) by a power, there is a global section \(g\in\Gamma(X,\OO_X)\)
+whose non-vanishing locus \(X_g\) satisfies
+\[
+    x\in X_g\subset D(f)\subset U.
+\]
+Such opens \(X_g\) form a basis of \(X\).
+
+Let \(A=\Gamma(X,\OO_X)\).  The global functions define a morphism
+\[
+    \varphi:X\longrightarrow \Spec A.
+\]
+For every basis open \(X_g\), the restriction map identifies
+\[
+    \Gamma(X_g,\OO_X)\simeq A_g;
+\]
+this follows by applying the vanishing of \(H^1\) to the exact sequences
+\[
+    0\to\OO_X \xto{g^n} \OO_X\to \OO_X/g^n\OO_X\to0
+\]
+and passing to the localization colimit.  Therefore
+\(\varphi|_{X_g}:X_g\to D(g)\) is an isomorphism of affine schemes.  Since the
+opens \(X_g\) cover \(X\) and the corresponding \(D(g)\) cover \(\Spec A\),
+\(\varphi\) is an isomorphism.  Hence \(X\) is affine.
+\end{proof}
+
+\begin{theorem}[Serre finiteness for projective schemes]
+Let \(k\) be a field, let \(X\) be a projective \(k\)-scheme, and let \(\FF\) be
+a coherent sheaf on \(X\).  Then each \(H^i(X,\FF)\) is a finite-dimensional
+\(k\)-vector space and \(H^i(X,\FF)=0\) for \(i>\dim X\).
+\end{theorem}
+
+\begin{proof}
+Embed \(X\) as a closed subscheme of \(\PP^n_k\).  The standard affine cover of
+\(\PP^n_k\) restricts to a finite affine open cover \(\UU\) of \(X\).  Since
+\(X\) is separated, finite intersections in this cover are affine.  By the
+comparison theorem, \(H^i(X,\FF)\) is computed by the finite \v{C}ech complex
+\[
+    \prod_{j_0<\cdots<j_p}
+    \Gamma(U_{j_0}\cap\cdots\cap U_{j_p},\FF).
+\]
+On each affine intersection, \(\FF\) corresponds to a finitely generated algebra
+module over a finitely generated \(k\)-algebra.  In a fixed cohomological degree
+the \v{C}ech cohomology is a subquotient of a finite product of such modules.
+For projective schemes, the homogeneous grading bounds the degrees contributing
+to a fixed coherent sheaf on this finite standard cover; equivalently, after a
+finite presentation by sums of twists \(\OO_{\PP^n}(m)\), the cohomology of
+the twists is the standard finite-dimensional cohomology of projective space.
+Thus every \(H^i(X,\FF)\) is finite-dimensional.  Since a finite affine cover of
+a noetherian scheme of dimension \(d\) has no non-empty intersections of more
+than \(d+1\) members after refinement by a dimension filtration, the Cech
+complex may be chosen to have length \(d\), giving vanishing for \(i>d\).
+\end{proof}
+
+\begin{definition}
+For a coherent sheaf \(\FF\) on a projective \(k\)-scheme \(X\), define
+\[
+    \chi(X,\FF)=\sum_i (-1)^i\dim_k H^i(X,\FF).
+\]
+The sum is finite by Serre finiteness.
+\end{definition}
+
+\begin{proposition}[Additivity of Euler characteristic]
+Let \(X\) be a projective \(k\)-scheme and let
+\[
+    0\longrightarrow \FF'\longrightarrow \FF\longrightarrow \FF''
+    \longrightarrow0
+\]
+be an exact sequence of coherent sheaves.  Then
+\[
+    \chi(X,\FF)=\chi(X,\FF')+\chi(X,\FF'').
+\]
+\end{proposition}
+
+\begin{proof}
+The short exact sequence gives a long exact sequence of finite-dimensional
+\(k\)-vector spaces.  Break the long exact sequence into short exact sequences
+by taking kernels and images at every term.  The alternating sum of dimensions
+in an exact finite complex is zero, because each image is counted once with a
+plus sign and once with a minus sign.  Applying this to the long exact
+cohomology sequence gives the displayed equality.
+\end{proof}
+
+\section{Cohomology of Projective Space}
+
+\begin{theorem}
+Let \(A\) be a ring and let \(X=\PP^n_A\).  Then
+\[
+    H^0(X,\OO_X(m))\simeq A[x_0,\ldots,x_n]_m
+\]
+for \(m\ge0\), and \(H^0(X,\OO_X(m))=0\) for \(m<0\).  Moreover
+\[
+    H^q(X,\OO_X(m))=0
+    \quad\text{for }0<q<n
+\]
+for all \(m\), and \(H^n(X,\OO_X(m))\) is generated by Cech classes represented
+by Laurent monomials
+\[
+    x_0^{-a_0}\cdots x_n^{-a_n},\qquad a_i\ge1,\quad
+    \sum_i a_i=-m,
+\]
+on the full intersection of the standard affine cover.
+\end{theorem}
+
+\begin{proof}
+Use the standard affine cover \(U_i=D_+(x_i)\).  Since all finite intersections
+are affine and \(\OO(m)\) is quasi-coherent, Cech cohomology for this cover
+computes sheaf cohomology.  A section over
+\[
+    U_{i_0}\cap\cdots\cap U_{i_p}
+\]
+is the degree \(m\) part of
+\[
+    A[x_0,\ldots,x_n]_{x_{i_0}\cdots x_{i_p}}.
+\]
+Thus the Cech complex is the degree \(m\) part of the localization complex
+\[
+0\to S\to\prod_i S_{x_i}\to
+\prod_{i<j}S_{x_ix_j}\to\cdots\to S_{x_0\cdots x_n}\to0,
+\]
+where \(S=A[x_0,\ldots,x_n]\).  Decompose this complex as a direct sum over
+Laurent monomials \(x^u=x_0^{u_0}\cdots x_n^{u_n}\) of total degree \(m\).  For
+a fixed exponent vector \(u\), the monomial appears in the term indexed by a
+set \(I\) exactly when \(u_j\ge0\) for all \(j\notin I\).  Hence its
+contribution is the augmented cochain complex of a simplex on the set of
+indices where \(u_j<0\).  This complex is exact unless all \(u_j<0\); if no
+exponent is negative, the monomial contributes to \(H^0\).  Therefore \(H^0\)
+consists of ordinary homogeneous polynomials of degree \(m\), and the only
+possible higher cohomology occurs in top degree \(n\), represented by monomials
+with all exponents negative.
+\end{proof}
+
+\begin{corollary}
+If \(k\) is a field, then the cohomology groups
+\[
+    H^q(\PP^n_k,\OO(m))
+\]
+are finite-dimensional \(k\)-vector spaces for all \(q,m\), and vanish for
+\(q>n\).
+\end{corollary}
+
+\begin{proof}
+The theorem gives an explicit finite basis in degree \(0\) for \(m\ge0\), no
+degree \(0\) sections for \(m<0\), vanishing in intermediate degrees, and in top
+degree a finite basis of Laurent monomials because the equations \(a_i\ge1\)
+and \(\sum_i a_i=-m\) have only finitely many solutions.  Cech complexes for
+the standard cover have length \(n\), so cohomology vanishes for \(q>n\).
+\end{proof}
+
+\section{Serre Vanishing and Projective Finiteness}
+
+\begin{theorem}[Serre vanishing]
+Let \(A\) be a noetherian ring, let \(X=\PP^n_A\), and let \(\FF\) be a
+coherent sheaf on \(X\).  Then there exists \(N\) such that for all \(m\ge N\),
+\[
+    H^q(X,\FF(m))=0\qquad(q>0).
+\]
+\end{theorem}
+
+\begin{proof}
+Every coherent sheaf on \(\PP^n_A\) is the cokernel of a morphism
+\[
+    \bigoplus_{\alpha}\OO(-r_\alpha)\longrightarrow
+    \bigoplus_{\beta}\OO(-s_\beta)
+    \longrightarrow \FF\longrightarrow0
+\]
+with finitely many summands.  To see this, cover \(X\) by standard affines,
+choose finitely many local generators, multiply by sufficiently large powers of
+the relevant \(x_i\) to extend them to global sections of twists, and use
+coherence to make the kernel finitely generated.  Twisting by \(m\) gives
+\[
+    \bigoplus_{\alpha}\OO(m-r_\alpha)\to
+    \bigoplus_{\beta}\OO(m-s_\beta)\to \FF(m)\to0.
+\]
+For \(m\) large, the higher cohomology of the two sums of line bundles vanishes
+by the computation of projective space cohomology.  The long exact sequence
+then gives \(H^q(X,\FF(m))=0\) for all \(q>0\), after increasing \(m\) and
+inducting on \(q\) through the finite presentation just constructed.
+\end{proof}
+
+\begin{theorem}[Serre global generation]
+Under the hypotheses of Serre vanishing, there exists \(N\) such that
+\(\FF(m)\) is generated by global sections for all \(m\ge N\).
+\end{theorem}
+
+\begin{proof}
+Choose a finite presentation
+\[
+    \bigoplus_{\alpha}\OO(-r_\alpha)\to
+    \bigoplus_{\beta}\OO(-s_\beta)\to \FF\to0.
+\]
+For \(m\ge\max_\beta s_\beta\), each \(\OO(m-s_\beta)\) is generated by
+homogeneous polynomials of degree \(m-s_\beta\), hence by global sections.  The
+direct sum is globally generated, and its quotient \(\FF(m)\) is globally
+generated.
+\end{proof}
+
+\begin{theorem}[Coherent finiteness for projective schemes]
+Let \(k\) be a field, \(X\) a projective \(k\)-scheme, and \(\FF\) a coherent
+sheaf on \(X\).  Then \(H^q(X,\FF)\) is finite-dimensional over \(k\) for all
+q, and \(H^q(X,\FF)=0\) for \(q>\dim X\).
+\end{theorem}
+
+\begin{proof}
+Choose a closed immersion \(i:X\hookrightarrow\PP^n_k\).  Since \(i\) is a
+closed immersion, \(i_*\) is exact on coherent sheaves and
+\[
+    H^q(X,\FF)=H^q(\PP^n_k,i_*\FF).
+\]
+Thus it suffices to work on projective space.  For \(m\gg0\), Serre vanishing
+gives no higher cohomology, and \(H^0(\FF(m))\) is a quotient of a finite direct
+sum of \(H^0(\OO(r))\), hence finite-dimensional.  Choose a hyperplane
+\(H\subset\PP^n_k\) not containing any associated component of \(\FF\).
+Multiplication by its defining section gives an exact sequence
+\[
+    0\to\FF(m-1)\to\FF(m)\to \FF_H(m)\to0.
+\]
+The sheaf \(\FF_H\) is coherent on \(H\simeq\PP^{n-1}_k\).  By induction on
+\(n\), the cohomology of \(\FF_H(m)\) is finite-dimensional.  The long exact
+sequence then propagates finiteness from \(m\) to \(m-1\).  Repeating finitely
+many times reaches \(m=0\).  The same hyperplane induction shows vanishing
+above \(\dim X\), because after restricting to hyperplanes the dimension drops
+and the long exact sequence has no non-zero terms beyond that bound.
+\end{proof}
+
+\begin{definition}
+For a coherent sheaf \(\FF\) on a projective \(k\)-scheme \(X\) with a chosen
+very ample sheaf \(\OO_X(1)\), the function
+\[
+    P_\FF(m)=\chi(X,\FF(m))
+\]
+is called the \emph{Hilbert function} of \(\FF\).
+\end{definition}
+
+\begin{theorem}[Hilbert polynomial]
+For \(m\gg0\), the function \(P_\FF(m)\) agrees with a polynomial in \(m\) with
+rational coefficients.  If \(X\) has dimension \(d\), this polynomial has
+degree at most \(d\).
+\end{theorem}
+
+\begin{proof}
+Embed \(X\) in projective space and replace \(\FF\) by its direct image.  By
+Serre vanishing, for \(m\gg0\),
+\[
+    P_\FF(m)=h^0(X,\FF(m)).
+\]
+Choose a finite graded \(S=k[x_0,\ldots,x_n]\)-module \(M\) with
+\(\widetilde M\simeq\FF\).  For \(m\gg0\), \(H^0(X,\FF(m))\simeq M_m\).  The
+Hilbert-Serre theorem for finite graded modules over a polynomial ring states
+that \(\dim_k M_m\) agrees for large \(m\) with a polynomial whose degree is the
+dimension of the support of \(M\).  This is a pure commutative algebra theorem,
+and gives the result.
+\end{proof}
+
+\section{Exercises Used Later}
+
+\begin{exercise}[Cech \(H^1\) on a two-open cover]\label{ex:cech-two-open}
+Let \(X=U\cup V\) and let \(\FF\) be a sheaf of abelian groups.  Write the Cech
+complex for this cover and identify \(\cH^1(\{U,V\},\FF)\).
+\end{exercise}
+
+\begin{solution}
+The complex is
+\[
+    \FF(U)\oplus\FF(V)\longrightarrow \FF(U\cap V),
+    \qquad (s,t)\longmapsto s|_{U\cap V}-t|_{U\cap V}.
+\]
+There are no higher intersections.  Hence
+\[
+    \cH^1(\{U,V\},\FF)=
+    \FF(U\cap V)/
+    \{s|_{U\cap V}-t|_{U\cap V}:s\in\FF(U),\,t\in\FF(V)\}.
+\]
+\end{solution}
+
+\begin{exercise}[Affine acyclicity for principal covers]\label{ex:principal-acyclic}
+Let \(A\) be a ring, \(M\) an \(A\)-module, and \(f,g\in A\) with
+\((f,g)=A\).  Prove exactness of
+\[
+    0\to M\to M_f\oplus M_g\to M_{fg}\to0.
+\]
+\end{exercise}
+
+\begin{solution}
+The first map sends \(m\) to \((m,m)\), and the second sends \((a,b)\) to
+\(a-b\).  If \(m\) maps to zero, then \(m=0\) after localizing at \(f\) and at
+\(g\); since \(af+bg=1\) for some \(a,b\), a sufficiently large power argument
+gives \(m=0\).  If \((u,v)\) maps to zero in \(M_{fg}\), then \(u\) and \(v\)
+agree after localizing at \(fg\).  After clearing denominators, choose \(N\)
+such that \(f^Ng^N(u-v)=0\).  A partition-of-unity calculation using
+\((af+bg)^N=1\) produces an element \(w\in M\) restricting to \(u\) in \(M_f\)
+and to \(v\) in \(M_g\).  Finally, every element of \(M_{fg}\) is locally a
+difference of elements from \(M_f\) and \(M_g\), so the last map is surjective.
+\end{solution}
+
+\begin{exercise}[Euler characteristic of a skyscraper]\label{ex:skyscraper-euler}
+Let \(X\) be a noetherian scheme over \(k\), and let \(P\) be a closed point.
+Show that the skyscraper sheaf \(\kappa(P)\) has
+\[
+    \chi(X,\kappa(P))=[\kappa(P):k].
+\]
+\end{exercise}
+
+\begin{solution}
+The sheaf is supported at one closed point.  Its global sections are
+\(\kappa(P)\), because every open set containing \(P\) sees the same value and
+opens not containing \(P\) see zero.  It is flasque: restrictions are either
+the identity, the map to zero, or zero.  Flasque sheaves have no higher
+cohomology in the Godement definition.  Thus the Euler characteristic is
+\(\dim_k\kappa(P)\).
+\end{solution}
+
+\begin{exercise}[Global generation gives a map to projective space]\label{ex:global-generation-map}
+Let \(\LL\) be an invertible sheaf on a scheme \(X\), generated by global
+sections \(s_0,\ldots,s_n\).  Show that these sections define a morphism
+\[
+    X\longrightarrow \PP^n
+\]
+on the open cover where some \(s_i\) is non-zero.
+\end{exercise}
+
+\begin{solution}
+On the open set \(U_i=\{s_i\ne0\}\), trivialize \(\LL\) by \(s_i\).  Then the
+ratios \(s_j/s_i\) are regular functions on \(U_i\), giving a morphism
+\[
+    U_i\to D_+(x_i)\simeq\AA^n.
+\]
+On \(U_i\cap U_j\), the two sets of affine coordinates are related by the
+standard transition functions of projective space.  Hence the local morphisms
+glue to a morphism \(X\to\PP^n\).
+\end{solution}
+
+\section{Higher Direct Images}
+
+\begin{definition}
+Let \(f:X\to Y\) be a continuous map and let \(\FF\) be a sheaf of abelian
+groups on \(X\).  The \(i\)-th \emph{higher direct image} \(R^if_*\FF\) is the
+sheaf associated to the presheaf
+\[
+    V\longmapsto H^i(f^{-1}V,\FF|_{f^{-1}V})
+\]
+on open subsets \(V\subset Y\).
+\end{definition}
+
+\begin{proposition}
+There is a natural identification
+\[
+    R^0f_*\FF=f_*\FF.
+\]
+If
+\[
+    0\to\FF'\to\FF\to\FF''\to0
+\]
+is exact, then there is a long exact sequence of higher direct images.
+\end{proposition}
+
+\begin{proof}
+For \(i=0\), the defining presheaf is
+\[
+    V\mapsto H^0(f^{-1}V,\FF)=\Gamma(f^{-1}V,\FF)=f_*\FF(V),
+\]
+which is already a sheaf.  For an exact sequence, apply the long exact
+cohomology sequence to each open set \(f^{-1}V\).  The resulting exact sequence
+of presheaves becomes exact after sheafification because exactness of sheaves
+can be checked on stalks.
+\end{proof}
+
+\begin{proposition}
+If \(Y=\Spec A\) is affine, then
+\[
+    H^i(Y,R^0f_*\FF)=H^i(Y,f_*\FF)
+\]
+and the edge map
+\[
+    H^i(Y,f_*\FF)\to H^i(X,\FF)
+\]
+is an isomorphism when \(f\) is affine and \(\FF\) is quasi-coherent.
+\end{proposition}
+
+\begin{proof}
+If \(f\) is affine and \(\FF\) is quasi-coherent, then \(f_*\FF\) is
+quasi-coherent.  For every affine open \(V\subset Y\), the inverse image
+\(f^{-1}V\) is affine, so \(H^q(f^{-1}V,\FF)=0\) for \(q>0\).  Thus
+\[
+    R^qf_*\FF=0\qquad(q>0).
+\]
+Computing cohomology by an affine Cech cover of \(Y\), the Cech complex for
+\(f_*\FF\) is the same as the Cech complex for \(\FF\) on the inverse-image
+cover of \(X\).  Hence the edge map is an isomorphism.
+\end{proof}
+
+\begin{theorem}[Coherence of higher direct images]
+Let \(f:X\to Y\) be a projective morphism of noetherian schemes and let \(\FF\)
+be coherent on \(X\).  Then \(R^if_*\FF\) is coherent on \(Y\) for every
+\(i\ge0\), and \(R^if_*\FF=0\) for \(i\) sufficiently large.
+\end{theorem}
+
+\begin{proof}
+The assertion is local on \(Y\), so assume \(Y=\Spec A\) and
+\(X\hookrightarrow\PP^n_A\).  Replacing \(\FF\) by its direct image on
+\(\PP^n_A\), use a finite presentation by sums of twists \(\OO(m)\).  The
+cohomology of these twists over projective space is computed by the explicit
+Cech complex of the standard affine cover; each term of that complex is a
+finite \(A\)-module in the relevant degrees.  Therefore the cohomology modules
+are finite \(A\)-modules.  These modules are the sections of \(R^if_*\FF\) over
+\(\Spec A\), and localization of the Cech complex identifies their restrictions
+to principal opens.  Hence the associated sheaves are coherent.  Vanishing in
+large degree follows from the finite length of the Cech complex.
+\end{proof}
+
+\begin{theorem}[Cohomology and base change, curve form]
+Let \(f:X\to S\) be a projective flat morphism of noetherian schemes whose
+fibers are curves, and let \(\FF\) be coherent and flat over \(S\).  For
+\(s\in S\), there is a natural map
+\[
+    (R^if_*\FF)\tensor_{\OO_S}\kappa(s)
+    \longrightarrow
+    H^i(X_s,\FF_s).
+\]
+It is an isomorphism for \(i=0\) when the dimension of
+\(H^0(X_s,\FF_s)\) is locally constant near \(s\), and for \(i=1\) under the
+corresponding local constancy of \(H^1\).
+\end{theorem}
+
+\begin{proof}
+Choose a finite affine open cover of \(X\) over an affine neighbourhood of
+\(s\).  Because the fibers have dimension one, the Cech complex computing the
+cohomology of \(\FF\) has only two non-zero degrees after refinement.  Flatness
+of \(\FF\) over \(S\) makes the terms of this Cech complex flat modules over
+the base.  Tensoring the complex with \(\kappa(s)\) gives the Cech complex of
+\(\FF_s\) on the fiber.  The base change map is the natural map from cohomology
+of a complex tensored with \(\kappa(s)\) to the cohomology of the tensor
+complex.  For a two-term complex of finite flat modules, this map is an
+isomorphism exactly when the relevant cokernel or kernel has locally constant
+rank; this is the elementary linear algebra form of cohomology and base
+change.  Applying it in degrees \(0\) and \(1\) gives the result.
+\end{proof}
+
+\begin{exercise}[Affine morphisms have no higher direct images]\label{ex:affine-higher-direct}
+Let \(f:X\to Y\) be affine and let \(\FF\) be quasi-coherent.  Show that
+\[
+    R^if_*\FF=0\qquad(i>0).
+\]
+\end{exercise}
+
+\begin{solution}
+For every affine open \(V\subset Y\), the inverse image \(f^{-1}V\) is affine.
+The restriction of \(\FF\) to this inverse image is quasi-coherent, so affine
+acyclicity gives
+\[
+    H^i(f^{-1}V,\FF)=0
+\]
+for \(i>0\).  The presheaf defining \(R^if_*\FF\) is therefore zero on an
+affine basis of \(Y\), hence its sheafification is zero.
+\end{solution}

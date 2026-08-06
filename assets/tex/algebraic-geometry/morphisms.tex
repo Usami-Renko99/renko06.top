@@ -1,0 +1,734 @@
+\chapter{Morphisms and Base Change}
+
+\section{Morphisms of Schemes}
+
+\begin{definition}
+A \emph{morphism of schemes} is a morphism of locally ringed spaces.  If \(S\)
+is a scheme, an \emph{\(S\)-scheme} is a scheme \(X\) together with a morphism
+\(X\to S\).  A morphism of \(S\)-schemes \(X\to Y\) is a morphism of schemes
+compatible with the maps to \(S\).
+\end{definition}
+
+\begin{definition}
+A morphism \(f:X\to Y\) is \emph{locally of finite type} if for every affine
+open \(V=\Spec A\subset Y\) and every affine open \(U=\Spec B\subset f^{-1}V\),
+the \(A\)-algebra \(B\) is finitely generated.  It is \emph{of finite type} if
+it is locally of finite type and quasi-compact.
+\end{definition}
+
+\begin{proposition}
+It is enough to test local finite type on affine open covers of \(X\) and
+\(Y\).  More precisely, if \(Y=\bigcup_i V_i\) is an affine open cover and each
+\(f^{-1}V_i\) is covered by affine opens \(U_{ij}=\Spec B_{ij}\) such that
+\(B_{ij}\) is a finitely generated \(\OO_Y(V_i)\)-algebra, then \(f\) is locally
+of finite type.
+\end{proposition}
+
+\begin{proof}
+Let \(V=\Spec A\subset Y\) and \(U=\Spec B\subset f^{-1}V\) be affine opens.  It
+suffices to prove that every point of \(U\) has a principal open neighbourhood
+\(D(b)\subset U\) such that \(B_b\) is a finitely generated \(A\)-algebra.  Fix
+\(x\in U\).  Choose \(i,j\) with \(x\in V\cap V_i\) and
+\(x\in U\cap U_{ij}\).  After shrinking inside affine schemes, there are
+principal opens \(D(a)\subset V\cap V_i\) and
+\(D(b)\subset U\cap U_{ij}\) with \(f(D(b))\subset D(a)\).  The ring
+\(\OO_X(D(b))=B_b\) is a localization of \(B_{ij}\), and
+\(\OO_Y(D(a))=A_a\) is a localization of \(A\).  Since localizations of
+finitely generated algebras are finitely generated, \(B_b\) is finitely
+generated over \(A_a\), hence also over \(A\) after adjoining the image of
+\(a^{-1}\), which already lies in \(B_b\).  These neighbourhoods cover \(U\).
+\end{proof}
+
+\section{Fiber Products}
+
+\begin{definition}
+Given morphisms \(X\to S\) and \(Y\to S\), a \emph{fiber product}
+\(X\times_S Y\) is an \(S\)-scheme equipped with projections
+\[
+\begin{tikzcd}
+X\times_S Y \arrow[r,"\pr_2"] \arrow[d,"\pr_1"'] & Y \arrow[d]\\
+X \arrow[r] & S
+\end{tikzcd}
+\]
+such that for every \(S\)-scheme \(T\), composition with the projections gives
+a bijection
+\[
+    \Hom_S(T,X\times_S Y)
+    \simeq
+    \Hom_S(T,X)\times \Hom_S(T,Y).
+\]
+\end{definition}
+
+\begin{proposition}
+If \(X=\Spec B\), \(Y=\Spec C\), and \(S=\Spec A\), with structure maps
+corresponding to \(A\to B\) and \(A\to C\), then
+\[
+    X\times_S Y \simeq \Spec(B\tensor_A C).
+\]
+\end{proposition}
+
+\begin{proof}
+For every affine scheme \(T=\Spec R\), morphisms \(T\to \Spec(B\tensor_A C)\)
+correspond to ring maps \(B\tensor_A C\to R\).  By the universal property of the
+tensor product, these are the same as pairs of ring maps \(B\to R\) and
+\(C\to R\) whose restrictions to \(A\) agree.  By the affine correspondence,
+this is exactly the set of pairs of morphisms \(T\to X\) and \(T\to Y\) over
+S.  For a general scheme \(T\), the same bijection is obtained by checking on
+an affine open cover of \(T\) and gluing, because morphisms to affine schemes
+are determined by compatible maps on affine opens.  Hence
+\(\Spec(B\tensor_A C)\) satisfies the required universal property.
+\end{proof}
+
+\begin{theorem}
+Fiber products exist in the category of schemes.
+\end{theorem}
+
+\begin{proof}
+Cover \(S\) by affine opens \(S_i\).  Cover the inverse images of \(S_i\) in
+\(X\) and \(Y\) by affine opens \(X_{ij}\) and \(Y_{ik}\).  The affine products
+\[
+    X_{ij}\times_{S_i}Y_{ik}
+\]
+exist by the previous proposition.  On overlaps the affine constructions agree
+because tensor product satisfies the same universal property after
+localization.  Therefore the affine products glue along open subschemes.  The
+glued scheme carries projections to \(X\) and \(Y\), and the universal property
+is local on the source: a morphism from \(T\) to the glued scheme is equivalent
+to compatible morphisms from an open cover of \(T\) into the affine product
+pieces.  This gives the desired fiber product.
+\end{proof}
+
+\begin{definition}
+Let \(f:X\to S\) be a morphism and let \(S'\to S\) be another morphism.  The
+\emph{base change} of \(X\) to \(S'\) is
+\[
+    X_{S'}=X\times_S S'.
+\]
+If \(f:X\to Y\) is a morphism of \(S\)-schemes, its base change is the induced
+morphism
+\[
+    f_{S'}:X\times_S S'\longrightarrow Y\times_S S'.
+\]
+\end{definition}
+
+\begin{proposition}
+Let \(f:X\to S\) be a morphism and let \(s\in S\).  The fiber of \(f\) over
+\(s\), as a scheme, is
+\[
+    X_s=X\times_S \Spec \kappa(s),
+\]
+where \(\kappa(s)\) is the residue field of \(s\).  If \(X=\Spec B\) and
+\(S=\Spec A\), and \(s\) corresponds to \(\mathfrak p\subset A\), then
+\[
+    X_s\simeq \Spec(B\tensor_A \kappa(\mathfrak p)).
+\]
+\end{proposition}
+
+\begin{proof}
+The first statement is the definition of the scheme-theoretic fiber.  The
+second follows from the affine construction of fiber products and the
+identification \(\Spec\kappa(\mathfrak p)\to\Spec A\) induced by
+\(A\to A_{\mathfrak p}\to\kappa(\mathfrak p)\).
+\end{proof}
+
+\section{Separated Morphisms}
+
+\begin{definition}
+For a morphism \(f:X\to S\), the \emph{diagonal morphism} is the unique
+\(S\)-morphism
+\[
+    \Delta_{X/S}:X\longrightarrow X\times_S X
+\]
+whose two projections to \(X\) are both the identity.  The morphism \(f\) is
+\emph{separated} if \(\Delta_{X/S}\) is a closed immersion.  A scheme \(X\) is
+\emph{separated} if \(X\to\Spec\ZZ\) is separated.
+\end{definition}
+
+\begin{definition}
+A morphism \(i:Z\to X\) is a \emph{closed immersion} if \(i\) identifies \(Z\)
+homeomorphically with a closed subset of \(X\), and the morphism
+\(\OO_X\to i_*\OO_Z\) is surjective.
+\end{definition}
+
+\begin{proposition}
+Every affine morphism is separated.  In particular every affine scheme is
+separated.
+\end{proposition}
+
+\begin{proof}
+It suffices to consider \(X=\Spec B\) over \(S=\Spec A\).  Then
+\[
+    X\times_S X=\Spec(B\tensor_A B).
+\]
+The diagonal corresponds to the multiplication map
+\[
+    B\tensor_A B\longrightarrow B,\qquad b\otimes b'\longmapsto bb'.
+\]
+This ring map is surjective because \(b\) is the image of \(b\otimes 1\).
+Therefore the corresponding morphism of affine schemes is a closed immersion.
+The general affine case is obtained by checking over an affine open cover of
+the base.
+\end{proof}
+
+\begin{proposition}
+Separatedness is stable under base change and composition.
+\end{proposition}
+
+\begin{proof}
+For base change, let \(X\to S\) be separated and \(S'\to S\) any morphism.
+There is a cartesian square
+\[
+\begin{tikzcd}
+X_{S'} \arrow[r,"\Delta_{X_{S'}/S'}"] \arrow[d] &
+X_{S'}\times_{S'}X_{S'} \arrow[d]\\
+X \arrow[r,"\Delta_{X/S}"] & X\times_S X .
+\end{tikzcd}
+\]
+Closed immersions are stable under base change: in the affine case this says
+that a surjective ring map remains surjective after tensoring, and the general
+case is local.  Hence the top diagonal is a closed immersion.
+
+For composition, let \(X\to Y\to S\) be separated.  The diagonal
+\(\Delta_{X/S}\) factors as
+\[
+    X \xto{\Delta_{X/Y}} X\times_Y X \longrightarrow X\times_S X.
+\]
+The second arrow is the base change of \(\Delta_{Y/S}\) along
+\(X\times_S X\to Y\times_S Y\), hence is a closed immersion.  The first arrow
+is a closed immersion by separatedness of \(X\to Y\).  A composition of closed
+immersions is a closed immersion.
+\end{proof}
+
+\begin{proposition}
+Let \(X\) be a scheme over \(S\).  If \(X\) is separated over \(S\), and
+\(U,V\subset X\) are affine opens contained in the inverse image of an affine
+open of \(S\), then \(U\cap V\) is affine.
+\end{proposition}
+
+\begin{proof}
+The intersection \(U\cap V\) is the inverse image of \(U\times_S V\) under the
+diagonal \(X\to X\times_S X\).  Since \(U\) and \(V\) lie over an affine open of
+\(S\), the product \(U\times_S V\) is affine.  The restriction
+\[
+    U\cap V\longrightarrow U\times_S V
+\]
+is a closed immersion because it is obtained from the diagonal by base change.
+A closed subscheme of an affine scheme is affine, so \(U\cap V\) is affine.
+\end{proof}
+
+\section{Proper Morphisms}
+
+\begin{definition}
+A morphism \(f:X\to S\) is \emph{universally closed} if for every morphism
+\(S'\to S\), the projection \(X\times_S S'\to S'\) is a closed map on
+topological spaces.  A morphism is \emph{proper} if it is separated, of finite
+type, and universally closed.
+\end{definition}
+
+\begin{proposition}
+Properness is stable under base change and composition.
+\end{proposition}
+
+\begin{proof}
+Separatedness is stable under base change and composition by the previous
+section.  Finite type is stable under base change and composition because the
+corresponding statements for finitely generated algebras hold after
+localization and tensor product.  Universal closedness is stable under base
+change by definition: a further base change of a base change is again a base
+change.  It is stable under composition because a composition of closed maps is
+closed, and the same remains true after arbitrary base change.  Combining these
+three facts gives the assertion.
+\end{proof}
+
+\begin{theorem}
+For every ring \(A\), the structure morphism \(\PP^n_A\to\Spec A\) is proper.
+\end{theorem}
+
+\begin{proof}
+The morphism is of finite type because the standard affine opens
+\[
+    D_+(x_i)\simeq \Spec A[x_0/x_i,\ldots,x_n/x_i]
+\]
+are affine spaces of finite type over \(A\).  It is separated because the
+intersection of two standard affine opens is a principal open in each, hence
+affine; the diagonal can therefore be checked on the standard affine cover, and
+on each affine piece it is a closed immersion as in the proof that affine
+morphisms are separated.
+
+It remains to prove universal closedness.  Since projective space commutes with
+base change, it suffices to prove that the projection \(\PP^n_A\to\Spec A\) is
+closed.  A closed subset of \(\PP^n_A\) is locally defined by homogeneous
+ideals; after replacing it by a closed subscheme, it has the form
+\(\Proj S/I\) for \(S=A[x_0,\ldots,x_n]\) and a homogeneous ideal \(I\).  The
+image consists of primes \(\mathfrak p\subset A\) for which
+\(\Proj((S/I)\tensor_A\kappa(\mathfrak p))\) is non-empty.  This condition is
+equivalent to the irrelevant ideal not being contained in the radical of
+\(I(S\tensor_A\kappa(\mathfrak p))\).  By the homogeneous prime avoidance
+criterion, its complement is open and is described by finitely many conditions
+that some power of each \(x_i\) lies in \(I\) after localization on \(A\).  Thus
+the image is closed.  The same argument after replacing \(A\) by any
+\(A\)-algebra proves universal closedness.
+\end{proof}
+
+\begin{corollary}
+A closed subscheme of \(\PP^n_A\) is proper over \(\Spec A\).
+\end{corollary}
+
+\begin{proof}
+A closed immersion is proper: it is affine, hence separated and of finite type
+when the defining ideal is finitely generated locally; it is universally closed
+because it is a homeomorphism onto a closed subset after every base change.
+The composition of a proper morphism with a proper morphism is proper, so a
+closed subscheme of projective space is proper over \(A\).
+\end{proof}
+
+\section{Finite and Projective Morphisms}
+
+\begin{definition}
+A morphism \(f:X\to Y\) is \emph{finite} if for every affine open
+\(V=\Spec A\subset Y\), the inverse image \(f^{-1}V\) is affine, say
+\(\Spec B\), and \(B\) is a finite \(A\)-module.  It is \emph{affine} if the
+same condition holds with no finiteness requirement on \(B\).
+\end{definition}
+
+\begin{proposition}
+Finiteness is local on the target.  More precisely, if \(Y=\bigcup_i V_i\) is
+an affine open cover and each \(f^{-1}V_i\to V_i\) is finite, then \(f\) is
+finite.
+\end{proposition}
+
+\begin{proof}
+Let \(V=\Spec A\subset Y\) be affine.  Cover \(V\) by finitely many principal
+opens \(D(a_j)\) each contained in some \(V_i\); this is possible because
+\(V\) is quasi-compact.  The inverse image of each \(D(a_j)\) is affine
+\(\Spec B_j\), with \(B_j\) finite over \(A_{a_j}\).  The affine pieces glue
+because the morphism is already affine on the cover, and their coordinate rings
+are localizations of a single \(A\)-algebra \(B\).  Since a module is finite if
+and only if it is finite after localization at finitely many elements
+generating the unit ideal, \(B\) is finite over \(A\).  Thus \(f^{-1}V\) is
+affine finite over \(V\).
+\end{proof}
+
+\begin{proposition}
+Finite morphisms are closed.
+\end{proposition}
+
+\begin{proof}
+It suffices to work affine.  Let \(A\to B\) be finite and let
+\(Z=V(I)\subset\Spec B\).  The image of \(Z\) in \(\Spec A\) consists of primes
+\(\mathfrak p\) such that there is a prime of \(B/I\) lying over
+\(\mathfrak p\).  Since \(B/I\) is finite over \(A/J\), where
+\[
+    J=\ker(A\to B/I),
+\]
+the lying-over theorem for integral extensions shows that every prime of
+\(A/J\) has a prime of \(B/I\) above it.  Hence the image is \(V(J)\), a closed
+subset of \(\Spec A\).
+\end{proof}
+
+\begin{corollary}
+Every finite morphism is proper.
+\end{corollary}
+
+\begin{proof}
+A finite morphism is affine.  If \(X=\Spec B\) and \(Y=\Spec A\), then the
+diagonal corresponds to the multiplication map \(B\tensor_A B\to B\), which is
+surjective; hence finite morphisms are separated.  They are of finite type
+because a finite module is a finitely generated algebra.  They are universally
+closed because after any base change \(A\to A'\), the algebra
+\(B\tensor_A A'\) is finite over \(A'\), and the preceding proposition shows
+that the base-changed morphism is closed.  Thus finite morphisms are proper.
+\end{proof}
+
+\begin{definition}
+A morphism \(f:X\to S\) is \emph{projective} if it factors as
+\[
+    X\hookrightarrow \PP^n_S\longrightarrow S
+\]
+for some \(n\), where the first map is a closed immersion.  It is
+\emph{quasi-projective} if it factors as an open immersion into a projective
+\(S\)-scheme.
+\end{definition}
+
+\begin{proposition}
+Projective morphisms are proper.
+\end{proposition}
+
+\begin{proof}
+The projection \(\PP^n_S\to S\) is proper by the theorem on projective space,
+and closed immersions are proper.  A composition of proper morphisms is proper.
+\end{proof}
+
+\section{Flat, Smooth, and Etale Morphisms}
+
+\begin{definition}
+A morphism \(f:X\to Y\) is \emph{flat} if the local homomorphism
+\[
+    \OO_{Y,f(x)}\longrightarrow \OO_{X,x}
+\]
+is flat for every \(x\in X\).  It is \emph{faithfully flat} if it is flat and
+surjective.
+\end{definition}
+
+\begin{fact}
+Flatness of a module is local on source and target: an \(A\)-module \(M\) is
+flat if and only if \(M_{\mathfrak p}\) is flat over \(A_{\mathfrak p}\) for
+all prime ideals \(\mathfrak p\subset A\), and equivalently after localization
+at a family of elements generating the unit ideal.
+\end{fact}
+
+\begin{proposition}
+Flatness is stable under base change and composition.
+\end{proposition}
+
+\begin{proof}
+For composition, the tensor product of flat modules is flat: if \(B\) is flat
+over \(A\) and \(C\) is flat over \(B\), then \(-\tensor_A C\) is the composite
+of the exact functors \(-\tensor_A B\) and \(-\tensor_B C\).  For base change,
+if \(B\) is flat over \(A\), then \(B\tensor_A A'\) is flat over \(A'\) because
+\[
+    -\tensor_{A'}(B\tensor_A A')\simeq -\tensor_A B
+\]
+on \(A'\)-modules.  These affine statements localize to schemes.
+\end{proof}
+
+\begin{definition}
+A morphism \(f:X\to Y\) is \emph{smooth of relative dimension \(d\)} if it is
+locally of finite presentation, flat, and all geometric fibers
+\[
+    X_{\overline y}=X_y\tensor_{\kappa(y)}\overline{\kappa(y)}
+\]
+are regular schemes of dimension \(d\).  A morphism is \emph{etale} if it is
+smooth of relative dimension \(0\).
+\end{definition}
+
+\begin{proposition}
+Smooth and etale morphisms are stable under base change and composition.
+\end{proposition}
+
+\begin{proof}
+Local finite presentation and flatness are stable under base change and
+composition.  For geometric fibers, the fiber of a base change is obtained from
+the original fiber by an extension of the residue field, and regularity of
+geometric fibers is preserved under such extension by definition.  For
+composition, the geometric fiber of \(X\to S\) over a geometric point
+\(\overline s\) is a smooth family over the regular scheme
+\(Y_{\overline s}\); the standard commutative algebra criterion for smooth
+algebras shows it is regular of the sum of the relative dimensions.  The
+relative dimension \(0\) case gives the etale statement.
+\end{proof}
+
+\begin{remark}
+The differential criterion for smoothness is postponed to the chapter on
+differentials.  The present definition is useful here because it behaves well
+under base change without introducing differential modules prematurely.
+\end{remark}
+
+\section{Valuative Criteria}
+
+\begin{theorem}[Valuative criterion for separatedness]
+Let \(f:X\to S\) be a morphism.  Then \(f\) is separated if and only if for
+every valuation ring \(R\) with fraction field \(K\), every commutative diagram
+\[
+\begin{tikzcd}
+\Spec K \arrow[r] \arrow[d] & X \arrow[d,"f"]\\
+\Spec R \arrow[r] & S
+\end{tikzcd}
+\]
+has at most one dotted lift \(\Spec R\to X\).
+\end{theorem}
+
+\begin{proof}
+If \(f\) is separated and two lifts \(g_1,g_2:\Spec R\to X\) agree on
+\(\Spec K\), then the map \((g_1,g_2):\Spec R\to X\times_S X\) sends the
+generic point into the diagonal.  Since the diagonal is closed, the inverse
+image of the diagonal is closed in \(\Spec R\) and contains the generic point.
+It is therefore all of \(\Spec R\), so \(g_1=g_2\).
+
+Conversely, if the diagonal were not closed, there would be a point in the
+closure of \(\Delta(X)\) not lying on \(\Delta(X)\).  The valuative criterion
+for specialization in schemes gives a valuation ring whose generic point maps
+to \(\Delta(X)\) and whose closed point maps to this boundary point.  The two
+projections then give two distinct lifts agreeing generically, contradicting
+the assumed uniqueness.  The specialization fact is a standard commutative
+algebra application of dominating local rings by valuation rings.
+\end{proof}
+
+\begin{theorem}[Valuative criterion for properness]
+Let \(f:X\to S\) be separated and of finite type, with \(S\) noetherian.  Then
+\(f\) is proper if and only if for every valuation ring \(R\) with fraction
+field \(K\), every commutative diagram
+\[
+\begin{tikzcd}
+\Spec K \arrow[r] \arrow[d] & X \arrow[d,"f"]\\
+\Spec R \arrow[r] & S
+\end{tikzcd}
+\]
+has a unique dotted lift \(\Spec R\to X\).
+\end{theorem}
+
+\begin{proof}
+Uniqueness is the separatedness criterion.  If \(f\) is proper, the image of
+the morphism \(\Spec K\to X\) has closure finite type over \(\Spec R\), and the
+closedness of \(X_R\to\Spec R\) forces the closed point of \(\Spec R\) to lie
+in that closure; this gives the required lift after replacing the closure by
+the scheme-theoretic image.  Conversely, suppose the lifting property holds.
+To show universal closedness, it suffices by noetherian reduction to test
+whether every specialization in the target of a base change lifts from the
+image.  Such specializations are detected by valuation rings.  The existence
+of the dotted lift says precisely that the image is stable under
+specialization, hence closed in the noetherian target.
+\end{proof}
+
+\section{Fibers and Field Extensions}
+
+\begin{definition}
+Let \(X\) be a \(k\)-scheme and let \(K/k\) be a field extension.  The
+\emph{extension of scalars} of \(X\) from \(k\) to \(K\) is
+\[
+    X_K=X\times_{\Spec k}\Spec K.
+\]
+If \(X=\Spec A\), then \(X_K=\Spec(A\tensor_k K)\).
+\end{definition}
+
+\begin{proposition}
+Let \(X\) be a \(k\)-scheme and \(K/k\) a field extension.  Then \(K\)-points of
+\(X_K\) are naturally the same as \(K\)-valued points of \(X\):
+\[
+    X_K(K)=X(K)=\Hom_k(\Spec K,X).
+\]
+\end{proposition}
+
+\begin{proof}
+By the universal property of the fiber product,
+\[
+    \Hom_K(\Spec K,X_K)
+    \simeq
+    \Hom_k(\Spec K,X)\times_{\Hom_k(\Spec K,\Spec k)}
+    \Hom_k(\Spec K,\Spec K).
+\]
+The second factor contains the identity structure map, and the fiber product
+therefore identifies with \(\Hom_k(\Spec K,X)\).
+\end{proof}
+
+\begin{proposition}
+Let \(f:X\to Y\) be a morphism locally of finite type over a field \(k\).  For a
+point \(x\in X\) with image \(y=f(x)\), there is a dimension inequality
+\[
+    \dim_x X \ge \dim_y Y+\dim_x X_y.
+\]
+If \(f\) is flat and \(X,Y\) are locally noetherian, then equality holds locally
+in the usual dimension formula.
+\end{proposition}
+
+\begin{proof}
+The inequality and the equality in the flat case are the scheme-theoretic form
+of the dimension theorem for finitely generated algebras and the dimension
+formula for flat local homomorphisms.  They are local on \(X\) and \(Y\), so one
+reduces to a local homomorphism \(A_{\mathfrak p}\to B_{\mathfrak q}\) of
+noetherian local rings essentially of finite type.  The corresponding
+commutative algebra statements give the displayed formulas.
+\end{proof}
+
+\section{Exercises Used Later}
+
+\begin{exercise}[Finite morphisms are affine]\label{ex:finite-affine}
+Let \(f:X\to Y\) be finite.  Show that the inverse image of every affine open
+subset of \(Y\) is affine.
+\end{exercise}
+
+\begin{solution}
+This is part of the definition used in these notes.  If one defines finite
+locally on an affine cover of \(Y\), then the locality proposition above shows
+that the property descends to every affine open: finite algebras glue over a
+finite principal cover and finiteness is local for modules.
+\end{solution}
+
+\begin{exercise}[Fibers of closed immersions]\label{ex:fiber-closed-immersion}
+Let \(i:Z\hookrightarrow X\) be a closed immersion over \(S\), and let
+\(S'\to S\) be any morphism.  Show that
+\[
+    Z\times_S S'\hookrightarrow X\times_S S'
+\]
+is a closed immersion.
+\end{exercise}
+
+\begin{solution}
+The assertion is affine local on \(X\) and \(S\).  A closed immersion is given
+by a surjection \(A\to A/I\).  After base change by \(A\to A'\), the map becomes
+\[
+    A'\longrightarrow (A/I)\tensor_A A'\simeq A'/IA',
+\]
+again a surjection.  Hence the base-changed morphism is a closed immersion.
+\end{solution}
+
+\begin{exercise}[Proper maps to affine space]\label{ex:proper-affine-functions}
+Let \(X\) be proper over a field \(k\).  Show that every morphism
+\(X\to\AA^1_k\) has closed image.  If \(X\) is integral and the image contains
+infinitely many closed points, show that the induced rational function on \(X\)
+is non-constant.
+\end{exercise}
+
+\begin{solution}
+Proper morphisms are universally closed, so the image of the composition
+\(X\to\AA^1_k\) is closed.  A morphism to affine space corresponds to a global
+function.  If this function were constant, the image would be a single closed
+point after passing to the field of constants.  Thus an image with infinitely
+many closed points comes from a non-constant rational function.
+\end{solution}
+
+\begin{exercise}[Base change of projective space]\label{ex:base-change-pn}
+Show that for any morphism \(S'\to S\),
+\[
+    \PP^n_S\times_S S'\simeq \PP^n_{S'}.
+\]
+\end{exercise}
+
+\begin{solution}
+Use the standard affine cover.  Over an affine open \(\Spec A\subset S\) and
+\(\Spec A'\subset S'\), the inverse image of \(D_+(x_i)\) is
+\[
+    \Spec A[x_0/x_i,\ldots,x_n/x_i]\times_{\Spec A}\Spec A'
+    \simeq
+    \Spec A'[x_0/x_i,\ldots,x_n/x_i].
+\]
+These affine isomorphisms agree on the standard intersections, so they glue to
+an isomorphism of projective spaces.
+\end{solution}
+
+\begin{exercise}[Uniqueness in the valuative criterion]\label{ex:valuative-separated}
+Let \(X\to S\) be separated and let \(R\) be a DVR with fraction field \(K\).
+Show directly that two \(S\)-morphisms \(\Spec R\to X\) agreeing on
+\(\Spec K\) are equal.
+\end{exercise}
+
+\begin{solution}
+The pair of morphisms gives \(\Spec R\to X\times_S X\).  Agreement on
+\(\Spec K\) means the generic point maps into the diagonal.  Since \(X\to S\)
+is separated, the diagonal is closed.  The inverse image of the diagonal is a
+closed subset of \(\Spec R\) containing the generic point.  The only such
+closed subset is all of \(\Spec R\), so the pair factors through the diagonal,
+and the two morphisms are equal.
+\end{solution}
+
+\section{Constructible Images and Zariski Main Theorem}
+
+\begin{definition}
+A subset \(E\) of a noetherian topological space \(X\) is \emph{constructible}
+if it is a finite union of locally closed subsets.
+\end{definition}
+
+\begin{theorem}[Chevalley's theorem]
+Let \(f:X\to Y\) be a morphism of finite type between noetherian schemes.  If
+\(E\subset X\) is constructible, then \(f(E)\subset Y\) is constructible.
+\end{theorem}
+
+\begin{proof}
+The proof is noetherian induction on the target and reduces to the affine case
+\(\Spec B\to\Spec A\) with \(B\) a finitely generated \(A\)-algebra.  For an
+irreducible closed subset of \(\Spec B\), replace \(B\) by a domain and \(A\) by
+the image domain.  Noether normalization after localizing \(A\) gives elements
+of \(B\) algebraically independent over a localization of \(A\) such that \(B\)
+is finite over a polynomial algebra.  The image of a non-empty open subset is
+then constructible because finite maps are closed and projections from affine
+space have constructible image by elimination.  Applying the induction to the
+closed complements gives the result for all constructible sets.
+\end{proof}
+
+\begin{theorem}[Zariski main theorem, working form]
+Let \(f:X\to Y\) be a quasi-finite separated morphism of finite type, with
+\(Y\) noetherian.  Then \(f\) factors as
+\[
+    X\hookrightarrow \overline X\longrightarrow Y,
+\]
+where the first morphism is an open immersion and the second is finite.
+\end{theorem}
+
+\begin{proof}
+This is stated in the form used later.  The proof starts affine locally on
+\(Y\), embeds \(X\) into an affine space over \(Y\), takes the scheme-theoretic
+closure in a projective compactification, and then normalizes the closure in
+the finite product of residue fields coming from the quasi-finite generic
+fibers.  Quasi-finiteness makes the resulting normalization finite over a
+neighbourhood of each point of \(Y\), and separatedness identifies \(X\) with
+an open subscheme of it by the valuative criterion.  The affine local
+factorizations agree on overlaps by uniqueness of normalization, and therefore
+glue.
+\end{proof}
+
+\begin{corollary}
+A quasi-finite proper morphism of noetherian schemes is finite.
+\end{corollary}
+
+\begin{proof}
+By Zariski main theorem, factor \(f\) as
+\[
+    X\hookrightarrow \overline X\to Y
+\]
+with the first map open and the second finite.  Since \(f\) is proper, the
+image of \(X\) in \(\overline X\) is also closed: it is the image of the proper
+morphism \(X\to\overline X\).  Thus \(X\) is both open and closed in
+\(\overline X\).  A closed subscheme of a finite \(Y\)-scheme is finite over
+\(Y\), so \(f\) is finite.
+\end{proof}
+
+\section{Blow-ups}
+
+\begin{definition}
+Let \(X\) be a scheme and let \(\II\subset\OO_X\) be a quasi-coherent ideal
+sheaf.  The \emph{blow-up of \(X\) along \(\II\)} is
+\[
+    \operatorname{Bl}_{\II}X
+    =
+    \Proj\left(\bigoplus_{n\ge0}\II^n\right),
+\]
+where the graded algebra is the Rees algebra of \(\II\).
+\end{definition}
+
+\begin{proposition}
+If \(X=\Spec A\) and \(\II=\widetilde I\), then
+\[
+    \operatorname{Bl}_{\II}X
+    =
+    \Proj\left(\bigoplus_{n\ge0}I^n\right).
+\]
+If \(I=(f_1,\ldots,f_r)\), the blow-up is covered by affine opens on which
+\(f_i\) generates the pullback ideal.
+\end{proposition}
+
+\begin{proof}
+The Rees algebra sheaf restricts on \(\Spec A\) to the graded algebra
+\(\bigoplus I^n\), so the first statement is the affine definition of Proj.
+The standard opens \(D_+(f_iT)\) cover the Proj because the elements \(f_iT\)
+generate the positive-degree part after radical.  On \(D_+(f_iT)\), the degree
+zero ring is generated over \(A\) by the ratios \(f_j/f_i\).  Thus the pullback
+of \(I\) is generated by \(f_i\) on this open.
+\end{proof}
+
+\begin{theorem}[Universal property of blow-up]
+Let \(\pi:\operatorname{Bl}_{\II}X\to X\) be the blow-up.  The ideal
+\(\II\OO_{\operatorname{Bl}_{\II}X}\) is invertible.  If \(g:Y\to X\) is a
+morphism such that \(\II\OO_Y\) is invertible, then there exists a unique
+morphism \(h:Y\to\operatorname{Bl}_{\II}X\) over \(X\).
+\end{theorem}
+
+\begin{proof}
+The assertion is local on \(X\), so take \(X=\Spec A\) and \(I=(f_1,\ldots,f_r)\).
+On the affine chart \(D_+(f_iT)\), the pullback of \(I\) is generated by
+\(f_i\), hence is invertible; these charts cover the blow-up.  Now suppose
+\(I\OO_Y\) is invertible.  Locally on \(Y\), one of the generators \(f_i\) of
+the pulled-back ideal generates all of \(I\OO_Y\), so the ratios \(f_j/f_i\)
+are regular functions on that open.  These functions define a morphism to the
+chart \(D_+(f_iT)\).  On overlaps the ratios agree, so the local morphisms glue.
+Uniqueness follows because the blow-up charts are defined by precisely these
+ratios.
+\end{proof}
+
+\begin{example}
+The blow-up of \(\AA^2_k=\Spec k[x,y]\) at the origin is covered by two affine
+charts
+\[
+    \Spec k[x,y/x]\qquad\text{and}\qquad \Spec k[x/y,y].
+\]
+The exceptional divisor is isomorphic to \(\PP^1_k\).
+\end{example}

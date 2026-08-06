@@ -1,0 +1,21 @@
+---
+layout: default
+---
+<article class="page">
+  <p class="breadcrumb"><a href="{{ '/notes/' | relative_url }}">Notes</a> / {{ page.title }}</p>
+  <h1>{{ page.title }}</h1>
+  {{ content }}
+
+  {% assign category_notes = site.data.notes | where: "category", page.category %}
+  {% if category_notes and category_notes.size > 0 %}
+    <div class="note-list">
+      {% for note in category_notes %}
+        {% include note-card.html note=note %}
+      {% endfor %}
+    </div>
+  {% else %}
+    <div class="empty-state">
+      <p>这个分类下还没有笔记。上传 PDF 到 <code>assets/pdf/{{ page.category }}/</code> 后，这里会自动出现。</p>
+    </div>
+  {% endif %}
+</article>

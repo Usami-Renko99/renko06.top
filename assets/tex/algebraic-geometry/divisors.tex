@@ -1,0 +1,653 @@
+\chapter{Divisors and Line Bundles}
+
+\section{Weil Divisors}
+
+\begin{definition}
+Let \(X\) be an integral noetherian scheme.  A \emph{prime divisor} on \(X\) is
+an integral closed subscheme of codimension one, or equivalently a point
+\(\eta\in X\) whose closure has codimension one.  A \emph{Weil divisor} is a
+finite formal sum
+\[
+    D=\sum_\eta n_\eta[\eta],
+\]
+where \(n_\eta\in\ZZ\) and \(\eta\) runs over codimension-one points.  The group
+of Weil divisors is denoted \(\Div(X)\).  A divisor is \emph{effective}, written
+\(D\ge0\), if all \(n_\eta\ge0\).
+\end{definition}
+
+\begin{definition}
+Assume that \(X\) is normal.  For \(f\in k(X)^\times\), the
+\emph{principal divisor} of \(f\) is
+\[
+    \operatorname{div}(f)=
+    \sum_{\codim(\eta)=1}\ord_\eta(f)[\eta],
+\]
+where \(\ord_\eta\) is the discrete valuation of the DVR \(\OO_{X,\eta}\).
+\end{definition}
+
+\begin{proposition}
+For \(f,g\in k(X)^\times\),
+\[
+    \operatorname{div}(fg)=\operatorname{div}(f)+\operatorname{div}(g).
+\]
+Thus principal divisors form a subgroup of \(\Div(X)\).
+\end{proposition}
+
+\begin{proof}
+For every codimension-one point \(\eta\), the valuation
+\(\ord_\eta:k(X)^\times\to\ZZ\) is a group homomorphism.  Therefore
+\[
+    \ord_\eta(fg)=\ord_\eta(f)+\ord_\eta(g)
+\]
+for each \(\eta\).  Since equality of Weil divisors is equality of all
+coefficients, the formula follows.
+\end{proof}
+
+\begin{definition}
+The \emph{class group} of a normal noetherian integral scheme \(X\) is
+\[
+    \Cl(X)=\Div(X)/\{\text{principal divisors}\}.
+\]
+\end{definition}
+
+\section{Cartier Divisors}
+
+\begin{definition}
+Let \(X\) be a scheme.  The sheaf of total quotient rings \(\mathcal K_X\) is
+defined on an affine open \(U=\Spec A\) by
+\[
+    \mathcal K_X(U)=S^{-1}A,
+\]
+where \(S\) is the multiplicative set of non-zero-divisors in \(A\).  A
+\emph{Cartier divisor} is a global section of
+\(\mathcal K_X^\times/\OO_X^\times\).  Equivalently, it is given by an open
+cover \(X=\bigcup_i U_i\) and elements \(f_i\in\mathcal K_X^\times(U_i)\) such
+that \(f_i/f_j\in\OO_X^\times(U_i\cap U_j)\).
+\end{definition}
+
+\begin{definition}
+A Cartier divisor represented by \((U_i,f_i)\) is \emph{principal} if it is
+represented by one global element \(f\in\mathcal K_X^\times(X)\).  It is
+\emph{effective} if it can be represented locally by non-zero-divisors
+\(f_i\in\OO_X(U_i)\).
+\end{definition}
+
+\begin{proposition}
+Cartier divisors form an abelian group \(\CaDiv(X)\), with addition represented
+locally by multiplication of the local equations.
+\end{proposition}
+
+\begin{proof}
+If \(D\) is represented by \((U_i,f_i)\) and \(E\) by \((V_j,g_j)\), then on the
+cover \(U_i\cap V_j\) define \(D+E\) by \(f_i g_j\).  On overlaps,
+\[
+    \frac{f_i g_j}{f_{i'}g_{j'}}
+    =
+    \frac{f_i}{f_{i'}}\frac{g_j}{g_{j'}}
+\]
+is a unit, so the data define a Cartier divisor.  The zero element is
+represented by \(1\), and the inverse of \((U_i,f_i)\) is \((U_i,f_i^{-1})\).
+Associativity and commutativity follow from multiplication in
+\(\mathcal K_X^\times\).
+\end{proof}
+
+\section{The Sheaf \texorpdfstring{\(\OO_X(D)\)}{O(D)}}
+
+\begin{definition}
+Let \(D\) be a Cartier divisor represented by local equations
+\((U_i,f_i)\).  Define an invertible subsheaf \(\OO_X(D)\subset \mathcal K_X\)
+by
+\[
+    \OO_X(D)|_{U_i}=f_i^{-1}\OO_{U_i}.
+\]
+\end{definition}
+
+\begin{proposition}
+The sheaf \(\OO_X(D)\) is well defined and invertible.  Moreover
+\[
+    \OO_X(D+E)\simeq \OO_X(D)\tensor_{\OO_X}\OO_X(E).
+\]
+\end{proposition}
+
+\begin{proof}
+On \(U_i\cap U_j\), the quotient \(f_i/f_j\) is a unit.  Hence
+\[
+    f_i^{-1}\OO_{U_i\cap U_j}
+    =
+    f_j^{-1}\OO_{U_i\cap U_j}
+\]
+as subsheaves of \(\mathcal K_X\).  The local definitions therefore glue to a
+well-defined sheaf.  On \(U_i\), multiplication by \(f_i\) identifies
+\(\OO_X(D)|_{U_i}\) with \(\OO_{U_i}\), so \(\OO_X(D)\) is invertible.
+
+If \(E\) is represented by \((V_j,g_j)\), then \(D+E\) is represented on
+\(U_i\cap V_j\) by \(f_i g_j\).  On this open set,
+\[
+    \OO_X(D+E)=(f_i g_j)^{-1}\OO
+    \simeq f_i^{-1}\OO\tensor_\OO g_j^{-1}\OO.
+\]
+These local multiplication maps are compatible on overlaps and glue to the
+displayed isomorphism.
+\end{proof}
+
+\begin{proposition}
+If \(D=\operatorname{div}(f)\) is principal, then
+\[
+    \OO_X(D)\simeq \OO_X.
+\]
+\end{proposition}
+
+\begin{proof}
+The divisor is represented globally by \(f\in\mathcal K_X^\times(X)\).  Hence
+\(\OO_X(D)=f^{-1}\OO_X\).  Multiplication by \(f\) gives an isomorphism
+\[
+    f^{-1}\OO_X\longrightarrow \OO_X
+\]
+with inverse multiplication by \(f^{-1}\).
+\end{proof}
+
+\begin{proposition}
+Let \(X\) be an integral scheme and \(D\) a Cartier divisor.  Then
+\[
+    H^0(X,\OO_X(D))
+    =
+    \{h\in k(X): \operatorname{div}(h)+D\ge0\},
+\]
+where the right side is interpreted locally by the Cartier equations of \(D\).
+\end{proposition}
+
+\begin{proof}
+Let \(D\) be represented on \(U_i\) by \(f_i\).  A rational function \(h\) is a
+section of \(\OO_X(D)\) precisely when \(h|_{U_i}\in f_i^{-1}\OO_X(U_i)\) for
+all \(i\), equivalently \(hf_i\in\OO_X(U_i)\) for all \(i\).  At each
+codimension-one point \(\eta\), this condition says
+\[
+    \ord_\eta(h)+\ord_\eta(D)\ge0.
+\]
+That is exactly \(\operatorname{div}(h)+D\ge0\).
+\end{proof}
+
+\section{Cartier and Weil Divisors on Regular Schemes}
+
+\begin{proposition}
+Let \(X\) be a regular integral noetherian scheme.  Every Cartier divisor
+defines a Weil divisor by
+\[
+    D=(U_i,f_i)\longmapsto
+    \sum_{\codim(\eta)=1}\ord_\eta(f_i)[\eta],
+\]
+where \(i\) is chosen with \(\eta\in U_i\).  This is independent of \(i\).
+\end{proposition}
+
+\begin{proof}
+If \(\eta\in U_i\cap U_j\), then \(f_i/f_j\) is a unit in
+\(\OO_{X,\eta}\).  Since \(\OO_{X,\eta}\) is a DVR for a regular
+codimension-one point, units have valuation zero.  Therefore
+\(\ord_\eta(f_i)=\ord_\eta(f_j)\).  Only finitely many coefficients are
+non-zero because on each affine open a non-zero rational function has zeros
+and poles along only finitely many height-one primes in a noetherian domain.
+\end{proof}
+
+\begin{proposition}
+If \(X\) is a regular integral noetherian scheme, then every Weil divisor is
+Cartier locally in codimension one.  If \(X\) is a regular integral curve, the
+map from Cartier divisors to Weil divisors is an isomorphism.
+\end{proposition}
+
+\begin{proof}
+Let \(X\) be a regular curve.  For a closed point \(P\), the local ring
+\(\OO_{X,P}\) is a DVR, so its maximal ideal is generated by a uniformizer
+\(t_P\).  A Weil divisor \(D=\sum_P n_P[P]\) has finite support.  Around each
+point \(P\) in the support, the local equation \(t_P^{n_P}\) defines the
+required Cartier divisor.  Away from the support, use the local equation \(1\).
+On overlaps, the ratios are units because they have valuation zero at every
+point of a regular one-dimensional local ring.  Thus \(D\) is Cartier.
+
+The previous proposition gives the inverse map from Cartier divisors to Weil
+divisors, and the two constructions are inverse because both are determined by
+the valuation at each closed point.
+\end{proof}
+
+\section{Degree on Curves}
+
+\begin{definition}
+Let \(X\) be an integral proper curve over a field \(k\).  For a Weil divisor
+\[
+    D=\sum_P n_P[P]
+\]
+with \(P\) running over closed points, define
+\[
+    \deg D=\sum_P n_P[\kappa(P):k].
+\]
+\end{definition}
+
+\begin{proposition}
+The degree map \(\deg:\Div(X)\to\ZZ\) is a group homomorphism.
+\end{proposition}
+
+\begin{proof}
+If \(D=\sum_P n_P[P]\) and \(E=\sum_P m_P[P]\), then
+\[
+    \deg(D+E)
+    =
+    \sum_P (n_P+m_P)[\kappa(P):k]
+    =
+    \deg D+\deg E.
+\]
+The sums are finite because divisors have finite support.
+\end{proof}
+
+\begin{theorem}
+Let \(X\) be a smooth projective integral curve over \(k\).  For every
+\(f\in k(X)^\times\),
+\[
+    \deg\operatorname{div}(f)=0.
+\]
+\end{theorem}
+
+\begin{proof}
+The rational function \(f\) defines a non-constant morphism
+\[
+    \phi:X\longrightarrow \PP^1_k
+\]
+when \(f\notin k^\times\); if \(f\in k^\times\), the divisor is zero.  Since
+both curves are projective, \(\phi\) is proper, and since the induced extension
+of function fields is finite, \(\phi\) is a finite morphism.  The divisor of
+the coordinate \(t\) on \(\PP^1\) is \([0]-[\infty]\).  Pulling back Cartier
+divisors gives
+\[
+    \operatorname{div}(f)=\phi^*[0]-\phi^*[\infty].
+\]
+For a finite morphism of integral proper curves, the degree of the pullback of
+a closed point \(Q\) is
+\[
+    \deg(\phi^*[Q])
+    =
+    [k(X):k(t)]\,[\kappa(Q):k],
+\]
+because the tensor product
+\(\OO_{\PP^1,Q}\)-length of \(\OO_{X,\phi^{-1}Q}\) equals the degree of the
+function field extension.  The points \(0\) and \(\infty\) are \(k\)-rational,
+so the two pullbacks have the same degree.  Hence
+\(\deg\operatorname{div}(f)=0\).
+\end{proof}
+
+\begin{definition}
+Let \(X\) be a smooth projective integral curve.  A \emph{canonical divisor} is
+any divisor \(K\) such that
+\[
+    \OO_X(K)\simeq \omega_X.
+\]
+Such a divisor exists because every invertible sheaf on a regular integral
+curve is obtained from a Cartier divisor.
+\end{definition}
+
+\section{Picard Group and Cartier Divisors}
+
+\begin{proposition}
+For any scheme \(X\), the assignment
+\[
+    D\longmapsto \OO_X(D)
+\]
+defines a group homomorphism
+\[
+    \CaDiv(X)\longrightarrow \Pic(X).
+\]
+Principal Cartier divisors map to the trivial class.
+\end{proposition}
+
+\begin{proof}
+The tensor product formula
+\[
+    \OO_X(D+E)\simeq\OO_X(D)\tensor\OO_X(E)
+\]
+shows that the assignment is a homomorphism.  If \(D=\operatorname{div}(f)\) is
+principal, multiplication by \(f\) gives \(\OO_X(D)\simeq\OO_X\), so principal
+Cartier divisors map to the identity in \(\Pic(X)\).
+\end{proof}
+
+\begin{proposition}
+Let \(X\) be an integral regular noetherian scheme.  Then every invertible
+subsheaf \(\LL\subset\mathcal K_X\) is of the form \(\OO_X(D)\) for a Cartier
+divisor \(D\).  If \(X\) is a regular integral curve, every invertible sheaf is
+isomorphic to \(\OO_X(D)\) for some divisor \(D\).
+\end{proposition}
+
+\begin{proof}
+Choose an open cover \(U_i\) on which \(\LL\) is generated by a rational
+section \(s_i\in\mathcal K_X^\times(U_i)\).  On \(U_i\cap U_j\), the quotient
+\(s_i/s_j\) is a unit because both generate the same invertible subsheaf.
+Therefore the \(s_i^{-1}\) define a Cartier divisor \(D\), and
+\(\LL=\OO_X(D)\).  On a regular integral curve, any invertible sheaf admits a
+non-zero rational section: trivialize it at the generic point, then view local
+generators as rational multiples of this trivialization.  Hence the first part
+applies.
+\end{proof}
+
+\begin{definition}
+Two divisors \(D,E\) on an integral regular scheme are \emph{linearly
+equivalent}, written \(D\sim E\), if \(D-E\) is principal.
+\end{definition}
+
+\begin{corollary}
+On a regular integral curve, the map \(D\mapsto\OO_X(D)\) induces an
+isomorphism
+\[
+    \Div(X)/\sim \;\simeq\; \Pic(X).
+\]
+\end{corollary}
+
+\begin{proof}
+Surjectivity is the preceding proposition.  If \(\OO_X(D)\simeq\OO_X(E)\), then
+\(\OO_X(D-E)\simeq\OO_X\).  A trivialization of \(\OO_X(D-E)\) is given by a
+non-zero rational function \(f\) satisfying
+\[
+    \operatorname{div}(f)+D-E=0.
+\]
+Thus \(D-E\) is principal.  The converse was already shown: principal divisors
+map to the trivial line bundle.
+\end{proof}
+
+\section{Pullback of Divisors}
+
+\begin{definition}
+Let \(f:X\to Y\) be a morphism and let \(D\) be a Cartier divisor on \(Y\)
+represented by \((V_i,g_i)\).  If no \(f(X)\) is contained in the support where
+the local equation becomes a zero-divisor, the \emph{pullback} \(f^*D\) is the
+Cartier divisor represented on \(f^{-1}V_i\) by \(f^\#g_i\).
+\end{definition}
+
+\begin{proposition}
+Under the preceding hypothesis,
+\[
+    \OO_X(f^*D)\simeq f^*\OO_Y(D).
+\]
+\end{proposition}
+
+\begin{proof}
+On \(V_i\), \(\OO_Y(D)\) is \(g_i^{-1}\OO_Y\).  Pulling back to
+\(f^{-1}V_i\) gives \((f^\#g_i)^{-1}\OO_X\), which is exactly the local
+description of \(\OO_X(f^*D)\).  The local identifications agree on overlaps
+because the transition functions \(g_i/g_j\) pull back to the transition
+functions \(f^\#g_i/f^\#g_j\).
+\end{proof}
+
+\begin{proposition}
+Let \(f:X\to Y\) be a finite morphism of smooth projective curves.  For a
+closed point \(Q\in Y\),
+\[
+    f^*[Q]=\sum_{P\mapsto Q} e_P [P],
+\]
+where \(e_P\) is the ramification index at \(P\).  Consequently
+\[
+    \deg f^*[Q]=(\deg f)[\kappa(Q):k].
+\]
+\end{proposition}
+
+\begin{proof}
+Choose a uniformizer \(u\) at \(Q\).  At \(P\), the pullback \(f^\#u\) has order
+\(e_P\) by definition of ramification index, so the coefficient of \(P\) in the
+pullback divisor is \(e_P\).  For the degree formula, localize the finite
+\(\OO_{Y,Q}\)-module \(f_*\OO_X\) at \(Q\).  Its length after quotienting by
+\((u)\) is
+\[
+    \sum_{P\mapsto Q} e_P[\kappa(P):\kappa(Q)].
+\]
+This length is also the degree of the finite extension of function fields
+\(\deg f\).  Multiplying by \([\kappa(Q):k]\) gives the displayed equality.
+\end{proof}
+
+\section{Linear Systems}
+
+\begin{definition}
+Let \(X\) be a smooth projective curve and let \(D\) be a divisor.  The
+\emph{complete linear system} \(|D|\) is the set of effective divisors linearly
+equivalent to \(D\).  Equivalently,
+\[
+    |D|=\PP(H^0(X,\OO_X(D)))
+\]
+after identifying a non-zero section with its divisor of zeros plus \(D\).
+\end{definition}
+
+\begin{proposition}
+Let \(s\in H^0(X,\OO_X(D))\) be non-zero.  Then there is a unique effective
+divisor \(E\) such that
+\[
+    E\sim D.
+\]
+It is given by
+\[
+    E=D+\operatorname{div}(s),
+\]
+where \(s\) is viewed as a rational function after choosing the standard
+rational section of \(\OO_X(D)\).
+\end{proposition}
+
+\begin{proof}
+The condition \(s\in H^0(X,\OO_X(D))\) means
+\[
+    D+\operatorname{div}(s)\ge0.
+\]
+Thus \(E=D+\operatorname{div}(s)\) is effective and linearly equivalent to
+\(D\).  Conversely, if \(E\ge0\) and \(E\sim D\), then \(E-D=\operatorname{div}(s)\)
+for some rational function \(s\), and the inequality \(E\ge0\) says exactly
+that \(s\) is a global section of \(\OO_X(D)\).  Multiplying \(s\) by a scalar
+does not change \(E\), and these are the only ambiguities.
+\end{proof}
+
+\begin{proposition}
+Let \(\LL\) be an invertible sheaf on a scheme \(X\), generated by global
+sections \(s_0,\ldots,s_n\).  Then these sections define a morphism
+\[
+    \phi:X\to\PP^n
+\]
+such that
+\[
+    \LL\simeq \phi^*\OO_{\PP^n}(1).
+\]
+\end{proposition}
+
+\begin{proof}
+The construction of the morphism was given in
+Exercise~\ref{ex:global-generation-map}.  On the open set \(U_i=\{s_i\ne0\}\), the map
+lands in \(D_+(x_i)\) and is described by the regular functions \(s_j/s_i\).
+The pullback of \(\OO(1)\) is trivialized on \(U_i\) by \(x_i\), and under the
+map this trivialization pulls back to the trivialization of \(\LL\) by \(s_i\).
+The transition functions agree, hence \(\LL\simeq\phi^*\OO(1)\).
+\end{proof}
+
+\begin{definition}
+A divisor \(D\) on a smooth projective curve is \emph{base-point free} if for
+every closed point \(P\), there exists a section
+\[
+    s\in H^0(X,\OO_X(D))
+\]
+with \(s(P)\ne0\) in the fiber of \(\OO_X(D)\) at \(P\).  It is \emph{very
+ample} if the associated morphism to projective space is a closed immersion.
+\end{definition}
+
+\section{Degree of Line Bundles}
+
+\begin{definition}
+For an invertible sheaf \(\LL\) on a smooth projective curve \(X\), define
+\[
+    \deg\LL=\deg D
+\]
+for any divisor \(D\) with \(\LL\simeq\OO_X(D)\).
+\end{definition}
+
+\begin{proposition}
+The degree of an invertible sheaf is well defined, and
+\[
+    \deg(\LL\tensor\MM)=\deg\LL+\deg\MM.
+\]
+\end{proposition}
+
+\begin{proof}
+If \(\OO_X(D)\simeq\OO_X(E)\), then \(D-E\) is principal.  Principal divisors
+have degree zero, so \(\deg D=\deg E\).  If
+\(\LL\simeq\OO_X(D)\) and \(\MM\simeq\OO_X(E)\), then
+\[
+    \LL\tensor\MM\simeq\OO_X(D+E),
+\]
+and the degree formula follows from additivity of degree for divisors.
+\end{proof}
+
+\section{Exercises Used Later}
+
+\begin{exercise}[Negative degree has no sections]\label{ex:negative-degree}
+Let \(X\) be a smooth projective curve and let \(D\) be a divisor with
+\(\deg D<0\).  Show that \(H^0(X,\OO_X(D))=0\).
+\end{exercise}
+
+\begin{solution}
+If \(0\ne s\in H^0(X,\OO_X(D))\), then
+\[
+    D+\operatorname{div}(s)\ge0.
+\]
+Taking degrees gives
+\[
+    \deg D+\deg\operatorname{div}(s)\ge0.
+\]
+Principal divisors have degree zero, so \(\deg D\ge0\), contradiction.  Hence
+no non-zero section exists.
+\end{solution}
+
+\begin{exercise}[Linearly equivalent divisors]\label{ex:linearly-equivalent}
+Let \(D\sim E\) on a smooth projective curve.  Show that
+\[
+    H^0(X,\OO_X(D))\simeq H^0(X,\OO_X(E)).
+\]
+\end{exercise}
+
+\begin{solution}
+Write \(E-D=\operatorname{div}(f)\).  Multiplication by \(f\) gives an
+isomorphism \(\OO_X(D)\to\OO_X(E)\), because locally it shifts the allowed pole
+order by exactly the divisor of \(f\).  Taking global sections gives the
+desired isomorphism.
+\end{solution}
+
+\begin{exercise}[Base points and subtraction]\label{ex:basepoint-subtraction}
+Let \(D\) be a divisor on a smooth projective curve and \(P\) a closed point.
+Show that \(P\) is a base point of \(|D|\) if and only if
+\[
+    H^0(X,\OO_X(D-P))=H^0(X,\OO_X(D))
+\]
+inside \(H^0(X,\OO_X(D))\).
+\end{exercise}
+
+\begin{solution}
+The inclusion \(\OO_X(D-P)\subset\OO_X(D)\) identifies sections of
+\(\OO_X(D-P)\) with sections of \(\OO_X(D)\) that vanish at \(P\).  Thus all
+sections vanish at \(P\) exactly when the two spaces of sections are equal.
+This is precisely the statement that \(P\) is a base point.
+\end{solution}
+
+\begin{exercise}[Pullback preserves principal divisors]\label{ex:pullback-principal}
+Let \(f:X\to Y\) be a dominant morphism of integral regular schemes and let
+\(g\in k(Y)^\times\).  Show that
+\[
+    f^*\operatorname{div}(g)=\operatorname{div}(f^\#g)
+\]
+whenever the pullback divisor is defined.
+\end{exercise}
+
+\begin{solution}
+At a codimension-one point \(P\in X\), the coefficient of the pullback is the
+valuation of \(f^\#g\) in the DVR \(\OO_{X,P}\).  This is also the coefficient
+of \(\operatorname{div}(f^\#g)\).  Since equality of Weil divisors is equality
+of all codimension-one coefficients, the formula follows.
+\end{solution}
+
+\section{Divisor Class Groups on Normal Schemes}
+
+\begin{definition}
+Let \(X\) be a normal noetherian integral scheme.  The \emph{Cartier class
+group} is the quotient of Cartier divisors by principal Cartier divisors.  The
+\emph{Weil class group} is \(\Cl(X)\).
+\end{definition}
+
+\begin{proposition}
+There is a natural injective homomorphism from Cartier divisor classes to Weil
+divisor classes on a normal noetherian integral scheme:
+\[
+    \CaDiv(X)/\operatorname{Prin}(X)\hookrightarrow \Cl(X).
+\]
+\end{proposition}
+
+\begin{proof}
+A Cartier divisor is represented locally by rational functions \(f_i\).  At a
+codimension-one point \(\eta\), the local ring \(\OO_{X,\eta}\) is a DVR
+because \(X\) is normal and noetherian, so we may define the coefficient
+\(\ord_\eta(f_i)\).  This is independent of \(i\) because transition quotients
+are units.  Principal Cartier divisors go to principal Weil divisors.
+
+If a Cartier divisor maps to a principal Weil divisor \(\operatorname{div}(g)\),
+then locally \(f_i/g\) has valuation zero at every codimension-one point.  A
+normal noetherian domain is the intersection of its height-one localizations
+inside its fraction field.  Hence \(f_i/g\) is a unit locally, so the Cartier
+divisor differs from \(\operatorname{div}(g)\) by zero.  This proves
+injectivity on classes.
+\end{proof}
+
+\begin{proposition}
+If \(X\) is regular, every Weil divisor is Cartier.  Hence
+\[
+    \Pic(X)\simeq \Cl(X)
+\]
+when \(X\) is regular, noetherian, integral, and every invertible sheaf is
+represented by a Cartier divisor.
+\end{proposition}
+
+\begin{proof}
+Let \(D=\sum n_\eta[\eta]\) be a Weil divisor.  At a codimension-one point
+\(\eta\), the regular local ring \(\OO_{X,\eta}\) is a DVR, and we can choose a
+local parameter \(t_\eta\).  Near \(\eta\), the local equation
+\(t_\eta^{n_\eta}\) gives the prescribed coefficient.  Away from the support of
+\(D\), use the equation \(1\).  Since the support is finite on affine opens,
+these local equations define a Cartier divisor.  The Picard and class group
+identification follows from the Cartier-Weil identification and the map
+\(D\mapsto\OO_X(D)\).
+\end{proof}
+
+\section{Moving and Separating Divisors on Curves}
+
+\begin{proposition}
+Let \(X\) be a smooth projective curve and \(D\) a divisor.  The linear system
+\(|D|\) separates two closed points \(P,Q\) if and only if
+\[
+    \ell(D-P-Q)=\ell(D)-\deg P-\deg Q.
+\]
+For \(k\)-rational points this says \(\ell(D-P-Q)=\ell(D)-2\).
+\end{proposition}
+
+\begin{proof}
+Consider the evaluation map
+\[
+    H^0(X,\OO_X(D))\longrightarrow
+    \OO_X(D)\tensor(\kappa(P)\oplus\kappa(Q)).
+\]
+Its kernel is \(H^0(X,\OO_X(D-P-Q))\).  The system separates \(P\) and \(Q\)
+exactly when this evaluation map is surjective.  The target has dimension
+\(\deg P+\deg Q\) over \(k\).  Therefore surjectivity is equivalent to the
+displayed dimension formula.
+\end{proof}
+
+\begin{proposition}
+The linear system \(|D|\) separates tangent directions at a \(k\)-rational point
+\(P\) if and only if
+\[
+    \ell(D-2P)=\ell(D)-2.
+\]
+\end{proposition}
+
+\begin{proof}
+The first infinitesimal neighbourhood of \(P\) has structure sheaf
+\(\OO_{X,P}/\mathfrak m_P^2\), a two-dimensional \(k\)-vector space.  The
+evaluation map to this first neighbourhood has kernel
+\[
+    H^0(X,\OO_X(D-2P)).
+\]
+Separating tangent directions is exactly surjectivity of this map, and the
+dimension of the target is \(2\).  The formula follows.
+\end{proof}

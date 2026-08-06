@@ -1,0 +1,28 @@
+---
+layout: default
+---
+<article class="page">
+  <h1>{{ page.title }}</h1>
+  {{ content }}
+
+  {% assign notes = site.data.notes %}
+  {% if notes and notes.size > 0 %}
+    {% for category in site.data.categories %}
+      {% assign category_notes = notes | where: "category", category.key %}
+      {% if category_notes.size > 0 %}
+        <section class="note-section">
+          <h2><a href="{{ category.url | relative_url }}">{{ category.title }}</a> <span class="muted">{{ category.zh }}</span></h2>
+          <div class="note-list">
+            {% for note in category_notes %}
+              {% include note-card.html note=note %}
+            {% endfor %}
+          </div>
+        </section>
+      {% endif %}
+    {% endfor %}
+  {% else %}
+    <div class="empty-state">
+      <p>现在还没有发布笔记。把 <code>.pdf</code> 放进 <code>assets/pdf/&lt;category&gt;/</code> 后，网站会自动生成列表；<code>.tex</code> 源文件可选。</p>
+    </div>
+  {% endif %}
+</article>

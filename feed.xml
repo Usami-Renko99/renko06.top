@@ -1,0 +1,39 @@
+---
+layout: null
+---
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+  <title>{{ site.title | xml_escape }}</title>
+  <subtitle>{{ site.description | xml_escape }}</subtitle>
+  <link href="{{ '/feed.xml' | absolute_url }}" rel="self"/>
+  <link href="{{ '/' | absolute_url }}"/>
+  <updated>{{ site.time | date_to_xmlschema }}</updated>
+  <id>{{ '/' | absolute_url }}</id>
+  <author>
+    <name>{{ site.author | default: site.title | xml_escape }}</name>
+  </author>
+
+  {%- assign note_items = site.data.notes | sort: "updated" | reverse -%}
+
+  {%- for note in note_items limit: 30 -%}
+  <entry>
+    <title>{{ note.title | xml_escape }}</title>
+    <link href="{{ note.pdf_url | absolute_url }}"/>
+    <updated>{{ note.updated | date_to_xmlschema }}</updated>
+    <id>{{ note.pdf_url | absolute_url | xml_escape }}</id>
+    <content type="html">{{ note.category_title | xml_escape }} · {{ note.pdf_size | xml_escape }} · PDF 笔记</content>
+  </entry>
+  {%- endfor -%}
+
+  {%- for post in site.posts limit: 20 -%}
+    {%- unless post.draft -%}
+  <entry>
+    <title>{{ post.title | xml_escape }}</title>
+    <link href="{{ post.url | absolute_url }}"/>
+    <updated>{{ post.date | date_to_xmlschema }}</updated>
+    <id>{{ post.id | absolute_url | xml_escape }}</id>
+    <content type="html" xml:base="{{ post.url | absolute_url | xml_escape }}">{{ post.content | strip | xml_escape }}</content>
+  </entry>
+    {%- endunless -%}
+  {%- endfor -%}
+</feed>

@@ -1,0 +1,763 @@
+\chapter{Algebraic Curves and Riemann--Roch}
+
+\section{Smooth Projective Curves}
+
+\begin{definition}
+Let \(k\) be a field.  A \emph{smooth projective curve over \(k\)} is a
+geometrically integral \(k\)-scheme \(X\) that is smooth of dimension one and
+projective over \(k\).
+\end{definition}
+
+\begin{proposition}
+If \(X\) is a smooth projective curve over \(k\), then
+\[
+    H^0(X,\OO_X)=k.
+\]
+\end{proposition}
+
+\begin{proof}
+Since \(X\) is projective over \(k\), it is proper over \(k\).  A global
+function \(f\in H^0(X,\OO_X)\) defines a morphism
+\[
+    f:X\longrightarrow \AA^1_k.
+\]
+Because \(X\) is proper over \(k\), the image of \(f\) is closed in
+\(\AA^1_k\).  Since \(X\) is integral, the image is irreducible.  If the image
+were all of \(\AA^1_k\), then the morphism \(X\to\AA^1_k\) would be dominant,
+so \(k[t]\) would inject into \(k(X)\).  The morphism would extend to a
+rational map \(X\dashrightarrow \PP^1_k\) whose pole divisor is empty, hence
+the induced map to \(\PP^1_k\) avoids \(\infty\).  A non-constant morphism from
+a proper curve to \(\PP^1_k\) is surjective, contradiction.  Thus the image is
+a closed point.  Geometric integrality implies the field of global constants is
+exactly \(k\), so \(f\in k\).
+\end{proof}
+
+\begin{definition}
+The \emph{genus} of a smooth projective curve \(X/k\) is
+\[
+    g=h^1(X,\OO_X)=\dim_k H^1(X,\OO_X).
+\]
+For a divisor \(D\) on \(X\), set
+\[
+    \ell(D)=h^0(X,\OO_X(D)).
+\]
+\end{definition}
+
+\begin{remark}
+The dimensions are finite by Serre finiteness, since \(X\) is projective over
+\(k\) and \(\OO_X(D)\) is coherent.
+\end{remark}
+
+\section{Divisor Exact Sequences}
+
+\begin{proposition}
+Let \(X\) be a smooth projective curve over \(k\), let \(D\) be a divisor, and
+let \(P\) be a closed point of \(X\).  There is a short exact sequence
+\[
+    0\longrightarrow \OO_X(D)\longrightarrow \OO_X(D+P)
+    \longrightarrow \kappa(P)\longrightarrow0,
+\]
+where \(\kappa(P)\) is the skyscraper sheaf at \(P\).
+\end{proposition}
+
+\begin{proof}
+Away from \(P\), the divisors \(D\) and \(D+P\) are equal, so the quotient is
+supported at \(P\).  At \(P\), choose a uniformizer \(t\) in the DVR
+\(\OO_{X,P}\), and write the coefficient of \(D\) at \(P\) as \(n\).  Then the
+stalks are
+\[
+    \OO_X(D)_P=t^{-n}\OO_{X,P},\qquad
+    \OO_X(D+P)_P=t^{-n-1}\OO_{X,P}.
+\]
+Multiplication by \(t^{n+1}\) identifies the quotient with
+\[
+    t^{-n-1}\OO_{X,P}/t^{-n}\OO_{X,P}
+    \simeq
+    \OO_{X,P}/t\OO_{X,P}
+    =
+    \kappa(P).
+\]
+The inclusion is clear on stalks, and the quotient stalks are zero away from
+\(P\) and \(\kappa(P)\) at \(P\).  Hence the displayed sequence is exact.
+\end{proof}
+
+\begin{corollary}
+For every divisor \(D\) on \(X\) and closed point \(P\),
+\[
+    \chi(X,\OO_X(D+P))=\chi(X,\OO_X(D))+[\kappa(P):k].
+\]
+\end{corollary}
+
+\begin{proof}
+Apply additivity of Euler characteristic to the exact sequence
+\[
+    0\to\OO_X(D)\to\OO_X(D+P)\to\kappa(P)\to0.
+\]
+The skyscraper sheaf \(\kappa(P)\) has \(H^0(X,\kappa(P))=\kappa(P)\) and no
+higher cohomology: its Godement resolution is already exact after global
+sections because all restrictions away from \(P\) are zero.  Therefore
+\(\chi(X,\kappa(P))=\dim_k\kappa(P)=[\kappa(P):k]\).
+\end{proof}
+
+\begin{proposition}
+For every divisor \(D\) on \(X\),
+\[
+    \chi(X,\OO_X(D))=\deg D+1-g.
+\]
+\end{proposition}
+
+\begin{proof}
+The previous corollary shows that adding a closed point \(P\) to a divisor
+increases both \(\chi(X,\OO_X(D))\) and \(\deg D\) by
+\([\kappa(P):k]\).  Subtracting \(P\) decreases both quantities by the same
+number, by applying the same statement to \(D-P\).  Since any divisor is
+obtained from \(0\) by finitely many additions and subtractions of closed
+points, the difference
+\[
+    \chi(X,\OO_X(D))-\deg D
+\]
+is independent of \(D\).  At \(D=0\),
+\[
+    \chi(X,\OO_X)=h^0(X,\OO_X)-h^1(X,\OO_X)=1-g,
+\]
+because \(H^0(X,\OO_X)=k\).  Hence
+\(\chi(X,\OO_X(D))=\deg D+1-g\).
+\end{proof}
+
+\section{Residues and Serre Duality}
+
+\begin{definition}
+Let \(K=k(X)\) and let \(P\in X\) be a closed point.  Choose a uniformizer
+\(t\in\OO_{X,P}\).  A rational differential \(\omega\in\Omega_{K/k}\) can be
+written locally as
+\[
+    \omega=\left(\sum_{n\gg-\infty} a_n t^n\right)dt
+\]
+in the completed local field \(\kappa(P)((t))\).  The \emph{residue} is
+\[
+    \res_P(\omega)=\operatorname{Tr}_{\kappa(P)/k}(a_{-1})\in k.
+\]
+\end{definition}
+
+\begin{proposition}
+The residue \(\res_P(\omega)\) is independent of the choice of uniformizer.
+\end{proposition}
+
+\begin{proof}
+Let \(u\) be another uniformizer.  Then \(u=ct+\text{higher powers}\) with
+\(c\in\kappa(P)^\times\).  The change-of-variable formula in the complete DVR
+gives
+\[
+    \left(\sum a_n t^n\right)dt
+    =
+    \left(\sum b_n u^n\right)du.
+\]
+The coefficient of \(t^{-1}dt\) equals the coefficient of \(u^{-1}du\) because
+the difference between the two local primitives has derivative with zero
+\((-1)\)-coefficient.  More explicitly, \(d(t^m)=m t^{m-1}dt\) has no residue
+for \(m\ne0\), and \(d\log(c+\text{higher powers})\) has trace residue zero.
+Taking the trace to \(k\) preserves equality, so the residue is independent of
+the parameter.
+\end{proof}
+
+\begin{theorem}[Residue theorem]
+For every rational differential \(\omega\in\Omega_{k(X)/k}\),
+\[
+    \sum_{P\in X}\res_P(\omega)=0.
+\]
+\end{theorem}
+
+\begin{proof}
+The differential \(\omega\) has only finitely many poles, so the sum is finite.
+Choose a finite morphism \(\phi:X\to\PP^1_k\), obtained from a non-constant
+rational function on \(X\).  The trace of differentials satisfies
+\[
+    \sum_{P\mapsto Q}\res_P(\omega)=\res_Q(\operatorname{Tr}_{k(X)/k(t)}\omega)
+\]
+for every closed point \(Q\in\PP^1\); this is verified after completing the
+local rings, where it becomes the trace identity for finite extensions of
+complete discrete valuation fields.  Therefore
+\[
+    \sum_{P\in X}\res_P(\omega)
+    =
+    \sum_{Q\in\PP^1}\res_Q(\operatorname{Tr}\omega).
+\]
+On \(\PP^1\), every rational differential is a rational function times \(dt\).
+The sum of its residues is zero because the coefficient of \(t^{-1}\) at finite
+points is the negative of the coefficient of \(u^{-1}\) at \(u=1/t=0\).  Hence
+the sum of residues on \(X\) is zero.
+\end{proof}
+
+\begin{theorem}[Serre duality for smooth projective curves]
+Let \(X\) be a smooth projective curve over \(k\), and let \(\LL\) be an
+invertible sheaf on \(X\).  There is a functorial perfect pairing
+\[
+    H^0(X,\LL)\times H^1(X,\LL^\vee\tensor\omega_X)
+    \longrightarrow k.
+\]
+Equivalently,
+\[
+    H^1(X,\LL)^\vee
+    \simeq
+    H^0(X,\LL^\vee\tensor\omega_X).
+\]
+\end{theorem}
+
+\begin{proof}[Proof sketch]
+Choose a divisor \(D\) with \(\LL\simeq\OO_X(D)\).  Using an affine open cover
+and the comparison theorem, a class in \(H^1(X,\OO_X(D))\) may be represented by
+principal parts \((a_P)\), one for each closed point and zero for all but
+finitely many \(P\), modulo principal parts coming from a global rational
+function and modulo regular local functions.  A section of
+\(\omega_X(-D)\) is a rational differential \(\eta\) whose divisor satisfies
+\(\operatorname{div}(\eta)-D\ge0\).  Define
+\[
+    \langle (a_P),\eta\rangle
+    =
+    \sum_P \res_P(a_P\eta).
+\]
+The sum is finite.  Changing \(a_P\) by a regular local function does not change
+the residue because \(a_P\eta\) is regular at \(P\).  Changing the family by a
+global rational function changes the sum by \(\sum_P\res_P(f\eta)\), which is
+zero by the residue theorem.  Thus the pairing is well defined.
+
+Non-degeneracy is local-global.  Locally, over the complete DVR
+\(\widehat{\OO}_{X,P}\), the pairing between principal parts and regular
+differentials is the coefficient pairing
+\[
+    \left(\sum_{n<0} a_n t^n\right),
+    \left(\sum_{m\ge0} b_m t^m dt\right)
+    \longmapsto
+    \operatorname{Tr}_{\kappa(P)/k}
+    \left(\sum_{n+m=-1}a_nb_m\right),
+\]
+which is perfect on finite principal-part quotients.  The global assertion is
+obtained by applying this local perfect pairing to the finite Cech complex of
+an affine cover; the residue theorem identifies exactly the annihilator of
+global rational functions.  This proves that the displayed pairing is perfect
+and functorial in \(\LL\).
+\end{proof}
+
+\section{Riemann--Roch}
+
+\begin{theorem}[Riemann--Roch]
+Let \(X\) be a smooth projective curve over \(k\), let \(D\) be a divisor on
+\(X\), and let \(K\) be a canonical divisor.  Then
+\[
+    \ell(D)-\ell(K-D)=\deg D+1-g.
+\]
+\end{theorem}
+
+\begin{proof}
+By definition,
+\[
+    \ell(D)=h^0(X,\OO_X(D)).
+\]
+Since \(K\) is canonical, \(\OO_X(K)\simeq\omega_X\), and
+\[
+    \OO_X(K-D)\simeq \omega_X\tensor\OO_X(-D).
+\]
+Serre duality applied to \(\LL=\OO_X(D)\) gives
+\[
+    H^1(X,\OO_X(D))^\vee
+    \simeq
+    H^0(X,\omega_X\tensor\OO_X(-D))
+    \simeq
+    H^0(X,\OO_X(K-D)).
+\]
+Therefore
+\[
+    h^1(X,\OO_X(D))=\ell(K-D).
+\]
+Hence
+\[
+    \ell(D)-\ell(K-D)
+    =
+    h^0(X,\OO_X(D))-h^1(X,\OO_X(D))
+    =
+    \chi(X,\OO_X(D)).
+\]
+The Euler characteristic formula for divisors gives
+\[
+    \chi(X,\OO_X(D))=\deg D+1-g.
+\]
+Combining the last two equalities proves the theorem.
+\end{proof}
+
+\begin{corollary}
+For a canonical divisor \(K\),
+\[
+    \deg K=2g-2.
+\]
+\end{corollary}
+
+\begin{proof}
+Apply Riemann--Roch with \(D=K\).  Since \(\ell(0)=h^0(X,\OO_X)=1\) and
+\(\ell(K)=h^0(X,\omega_X)=h^1(X,\OO_X)=g\) by Serre duality with
+\(\LL=\OO_X\), we get
+\[
+    g-1=\deg K+1-g.
+\]
+Thus \(\deg K=2g-2\).
+\end{proof}
+
+\begin{corollary}
+If \(\deg D>2g-2\), then
+\[
+    \ell(D)=\deg D+1-g.
+\]
+\end{corollary}
+
+\begin{proof}
+The degree of \(K-D\) is \(2g-2-\deg D<0\).  If
+\(0\ne s\in H^0(X,\OO_X(K-D))\), then \(s\) corresponds to a rational function
+whose divisor plus \(K-D\) is effective.  Taking degrees gives
+\[
+    0+\deg(K-D)\ge0,
+\]
+because principal divisors have degree zero.  This contradicts
+\(\deg(K-D)<0\).  Hence \(\ell(K-D)=0\), and Riemann--Roch gives the formula.
+\end{proof}
+
+\section{Consequences of Riemann--Roch}
+
+\begin{proposition}
+Let \(D\) be a divisor on a smooth projective curve \(X\) of genus \(g\).  If
+\(\deg D\ge 2g\), then \(|D|\) is base-point free.
+\end{proposition}
+
+\begin{proof}
+For a closed point \(P\), the point \(P\) is a base point of \(|D|\) precisely
+when
+\[
+    \ell(D-P)=\ell(D).
+\]
+By Riemann--Roch,
+\[
+    \ell(D)-\ell(D-P)
+    =
+    \deg P+\ell(K-D)-\ell(K-D+P).
+\]
+If \(\deg D\ge2g\), then \(\deg(K-D)<0\) and
+\(\deg(K-D+P)<0\) for every rational point \(P\); after extending the base
+field this tests all geometric points.  Hence both correction terms vanish,
+and \(\ell(D)-\ell(D-P)=\deg P>0\).  Thus \(P\) is not a base point.
+\end{proof}
+
+\begin{proposition}
+If \(\deg D\ge 2g+1\), then the complete linear system \(|D|\) defines a closed
+immersion
+\[
+    X\hookrightarrow \PP^{\ell(D)-1}.
+\]
+\end{proposition}
+
+\begin{proof}
+It is enough to show that \(|D|\) separates points and tangent directions.  For
+two closed points \(P,Q\), Riemann--Roch gives
+\[
+    \ell(D)-\ell(D-P-Q)=\deg P+\deg Q
+\]
+because \(K-D+P+Q\) has negative degree.  Thus there is a section vanishing at
+one of \(P,Q\) but not the other.  For tangent directions at \(P\), separation
+amounts to
+\[
+    \ell(D-P)-\ell(D-2P)=\deg P,
+\]
+again obtained from Riemann--Roch because \(K-D+2P\) has negative degree.
+Therefore the morphism associated to \(|D|\) separates points and tangent
+directions.  A proper morphism to projective space that separates points and
+tangent directions is a closed immersion onto its image.
+\end{proof}
+
+\section{Finite Maps of Curves and Hurwitz}
+
+\begin{definition}
+Let \(f:X\to Y\) be a finite morphism of smooth projective curves.  Its
+\emph{degree} is the degree of the finite field extension
+\[
+    [k(X):k(Y)].
+\]
+\end{definition}
+
+\begin{proposition}
+Let \(f:X\to Y\) be finite of degree \(n\).  For every divisor \(D\) on \(Y\),
+\[
+    \deg f^*D=n\deg D.
+\]
+\end{proposition}
+
+\begin{proof}
+It is enough to prove the formula for a closed point \(Q\in Y\), because both
+sides are additive in \(D\).  The pullback formula gives
+\[
+    f^*[Q]=\sum_{P\mapsto Q}e_P[P].
+\]
+Thus
+\[
+    \deg f^*[Q]
+    =
+    \sum_{P\mapsto Q}e_P[\kappa(P):k]
+    =
+    [\kappa(Q):k]\sum_{P\mapsto Q}e_P[\kappa(P):\kappa(Q)].
+\]
+The last sum is \(n\), the degree of the function field extension, by the
+length computation for the finite \(\OO_{Y,Q}\)-module \(f_*\OO_X\).  Hence
+\(\deg f^*[Q]=n[\kappa(Q):k]=n\deg[Q]\).
+\end{proof}
+
+\begin{theorem}[Hurwitz formula]
+Let \(f:X\to Y\) be a finite separable morphism of smooth projective curves over
+\(k\), of degree \(n\).  Let
+\[
+    R_f=\sum_P \length_{\OO_{X,P}}(\Omega_{X/Y,P})[P]
+\]
+be the ramification divisor.  Then
+\[
+    2g_X-2=n(2g_Y-2)+\deg R_f.
+\]
+\end{theorem}
+
+\begin{proof}
+The transitivity sequence for differentials gives
+\[
+    f^*\Omega_{Y/k}\longrightarrow \Omega_{X/k}
+    \longrightarrow \Omega_{X/Y}\longrightarrow0.
+\]
+For smooth curves, \(\Omega_{Y/k}\) and \(\Omega_{X/k}\) are invertible sheaves.
+The image of \(f^*\Omega_{Y/k}\to\Omega_{X/k}\) is
+\[
+    \Omega_{X/k}(-R_f),
+\]
+because at each closed point the quotient has length equal to the coefficient
+of \(R_f\).  Hence
+\[
+    \omega_X\simeq f^*\omega_Y\tensor\OO_X(R_f).
+\]
+Taking degrees gives
+\[
+    \deg K_X=\deg f^*K_Y+\deg R_f.
+\]
+Using \(\deg K_X=2g_X-2\), \(\deg K_Y=2g_Y-2\), and
+\(\deg f^*K_Y=n\deg K_Y\), the formula follows.
+\end{proof}
+
+\section{Curves of Small Genus}
+
+\begin{proposition}
+A smooth projective curve \(X\) has genus \(0\) and a \(k\)-rational point if
+and only if \(X\simeq\PP^1_k\).
+\end{proposition}
+
+\begin{proof}
+If \(X\simeq\PP^1_k\), then the standard computation of cohomology gives
+\(H^1(\PP^1,\OO)=0\), so \(g=0\), and \(\PP^1(k)\ne\varnothing\).
+Conversely, let \(P\in X(k)\).  Riemann--Roch gives
+\[
+    \ell(P)-\ell(K-P)=\deg P+1-g=2.
+\]
+Since \(\deg(K-P)=-3\), the second term is zero.  Hence \(\ell(P)=2\).  The
+linear system \(|P|\) gives a non-constant morphism \(X\to\PP^1\) of degree
+one.  A finite degree-one morphism between smooth projective curves induces an
+isomorphism of function fields and is birational.  Since both curves are
+proper and normal, the morphism is an isomorphism.
+\end{proof}
+
+\begin{definition}
+A smooth projective curve of genus \(1\) with a chosen \(k\)-rational point
+\(O\) is called an \emph{elliptic curve}.
+\end{definition}
+
+\begin{proposition}
+Let \(X\) be a genus \(1\) curve with \(P\in X(k)\).  Then \(|3P|\) defines a
+closed immersion
+\[
+    X\hookrightarrow \PP^2_k
+\]
+whose image is a plane cubic.
+\end{proposition}
+
+\begin{proof}
+Since \(g=1\), the canonical divisor has degree \(0\).  For \(D=3P\),
+Riemann--Roch and negativity of \(K-D\) give
+\[
+    \ell(3P)=3.
+\]
+The degree of \(3P\) is \(3=2g+1\), so the very ampleness criterion above shows
+that \(|3P|\) embeds \(X\) in \(\PP^2\).  The degree of the image with respect
+to \(\OO_{\PP^2}(1)\) is \(\deg(3P)=3\), so the image is a plane cubic.
+\end{proof}
+
+\section{Canonical Linear Systems}
+
+\begin{definition}
+The \emph{canonical linear system} of a smooth projective curve is \(|K|\),
+where \(K\) is a canonical divisor.
+\end{definition}
+
+\begin{definition}
+A smooth projective curve \(X\) of genus \(g\ge2\) is \emph{hyperelliptic} if
+there exists a finite morphism
+\[
+    X\to\PP^1_k
+\]
+of degree \(2\).
+\end{definition}
+
+\begin{proposition}
+Let \(X\) have genus \(g\ge2\).  Then \(\ell(K)=g\).  If \(X\) is not
+hyperelliptic, the canonical system defines a morphism
+\[
+    X\longrightarrow \PP^{g-1}
+\]
+which is a closed immersion.  If \(X\) is hyperelliptic, the canonical map
+factors through the degree-two map \(X\to\PP^1\).
+\end{proposition}
+
+\begin{proof}
+The equality \(\ell(K)=g\) is Serre duality applied to \(\OO_X\):
+\[
+    H^0(X,\omega_X)\simeq H^1(X,\OO_X)^\vee.
+\]
+The canonical system fails to separate two points \(P,Q\) exactly when
+\[
+    \ell(K-P-Q)=\ell(K)-1.
+\]
+By Riemann--Roch this is equivalent to \(\ell(P+Q)\ge2\), meaning that
+\(|P+Q|\) contains a non-constant pencil of degree \(2\).  Such a pencil gives
+a degree-two morphism \(X\to\PP^1\), i.e. hyperellipticity.  The tangent
+direction condition is analogous, replacing \(P+Q\) by \(2P\).  Hence if no
+degree-two pencil exists, the canonical map separates points and tangent
+directions and is a closed immersion.  If a degree-two pencil exists, canonical
+differentials are constant along the fibers of that pencil in the canonical
+linear system, so the canonical map factors through it.
+\end{proof}
+
+\section{Exercises Used Later}
+
+\begin{exercise}[Degree of the canonical divisor]\label{ex:canonical-degree}
+Use Riemann--Roch to show that \(\deg K=2g-2\).
+\end{exercise}
+
+\begin{solution}
+Applying Riemann--Roch to \(D=K\) gives
+\[
+    \ell(K)-\ell(0)=\deg K+1-g.
+\]
+Now \(\ell(0)=1\), and Serre duality gives \(\ell(K)=g\).  Therefore
+\[
+    g-1=\deg K+1-g,
+\]
+so \(\deg K=2g-2\).
+\end{solution}
+
+\begin{exercise}[A divisor of large degree is nonspecial]\label{ex:nonspecial-large}
+Let \(D\) be a divisor with \(\deg D>2g-2\).  Show that
+\[
+    H^1(X,\OO_X(D))=0.
+\]
+\end{exercise}
+
+\begin{solution}
+By Serre duality,
+\[
+    H^1(X,\OO_X(D))^\vee\simeq H^0(X,\OO_X(K-D)).
+\]
+But \(\deg(K-D)<0\), so \(\OO_X(K-D)\) has no non-zero global sections by
+Exercise~\ref{ex:negative-degree}.  Hence \(H^1(X,\OO_X(D))=0\).
+\end{solution}
+
+\begin{exercise}[Maps to projective space and degree]\label{ex:map-degree-line-bundle}
+Let \(\phi:X\to\PP^n_k\) be a non-constant morphism from a smooth projective
+curve.  Show that
+\[
+    \deg\phi^*\OO_{\PP^n}(1)
+\]
+is the degree of the pullback of a hyperplane meeting \(\phi(X)\) properly.
+\end{exercise}
+
+\begin{solution}
+A hyperplane \(H\subset\PP^n\) is a Cartier divisor with
+\(\OO_{\PP^n}(H)\simeq\OO_{\PP^n}(1)\).  If \(H\) does not contain
+\(\phi(X)\), then \(\phi^*H\) is a well-defined effective divisor on \(X\), and
+\[
+    \OO_X(\phi^*H)\simeq\phi^*\OO_{\PP^n}(1).
+\]
+The degree of the line bundle is defined as the degree of any divisor
+representing it, hence equals \(\deg\phi^*H\).
+\end{solution}
+
+\begin{exercise}[Hurwitz for hyperelliptic curves]\label{ex:hurwitz-hyperelliptic}
+Let \(f:X\to\PP^1_k\) be a separable degree-two morphism from a smooth
+projective curve of genus \(g\).  Show that
+\[
+    \deg R_f=2g+2.
+\]
+\end{exercise}
+
+\begin{solution}
+Apply Hurwitz with \(Y=\PP^1\), \(g_Y=0\), and \(n=2\):
+\[
+    2g-2=2(2\cdot0-2)+\deg R_f=-4+\deg R_f.
+\]
+Thus \(\deg R_f=2g+2\).
+\end{solution}
+
+\begin{exercise}[Plane cubic genus]\label{ex:plane-cubic-genus}
+Let \(X\subset\PP^2_k\) be a smooth plane cubic.  Show that \(X\) has genus
+\(1\).
+\end{exercise}
+
+\begin{solution}
+For a smooth plane curve of degree \(d\), the adjunction formula gives
+\[
+    \omega_X\simeq \OO_X(d-3).
+\]
+For \(d=3\), this gives \(\omega_X\simeq\OO_X\).  Hence
+\[
+    h^0(X,\omega_X)=h^0(X,\OO_X)=1.
+\]
+By Serre duality, \(h^0(X,\omega_X)=h^1(X,\OO_X)=g\).  Thus \(g=1\).
+\end{solution}
+
+\section{Clifford's Theorem}
+
+\begin{definition}
+A divisor \(D\) on a smooth projective curve is \emph{special} if
+\[
+    h^1(X,\OO_X(D))>0,
+\]
+equivalently \(\ell(K-D)>0\).
+\end{definition}
+
+\begin{theorem}[Clifford]
+Let \(X\) be a smooth projective curve and let \(D\) be a divisor such that
+both \(D\) and \(K-D\) are linearly equivalent to effective divisors.  Then
+\[
+    \ell(D)\le \frac{\deg D}{2}+1.
+\]
+Equality, apart from \(D\sim0\) and \(D\sim K\), characterizes the
+hyperelliptic pencil on a hyperelliptic curve.
+\end{theorem}
+
+\begin{proof}
+We prove the inequality.  Induct on \(\deg D\).  If \(|D|\) has a base point
+P, then \(\ell(D)=\ell(D-P)\), and the induction hypothesis applied to \(D-P\)
+gives the result.  Thus assume \(|D|\) is base-point free.  Since \(K-D\) is
+effective, choose a non-zero section of \(\OO_X(K-D)\).  Multiplication gives
+an injective map
+\[
+    H^0(X,\OO_X(D))\to H^0(X,\omega_X).
+\]
+Choose two independent sections of \(\OO_X(D)\) with no common zero; they
+define a pencil.  The base-point-free pencil trick gives an exact sequence
+\[
+    0\to H^0(X,\OO_X(K-2D))\to
+    H^0(X,\OO_X(D))\tensor H^0(X,\OO_X(K-D))
+    \to H^0(X,\omega_X).
+\]
+Taking dimensions and using Riemann--Roch for \(D\) and \(K-D\) gives
+\[
+    2(\ell(D)-1)\le \deg D.
+\]
+This is the desired inequality.  The equality statement follows by tracing
+where equality can occur in the pencil trick: the pencil must have degree two,
+unless \(D\) is trivial or canonical.
+\end{proof}
+
+\section{Singular Curves and Normalization}
+
+\begin{definition}
+A \emph{projective curve} over \(k\) in this section means a projective
+one-dimensional \(k\)-scheme, not necessarily smooth.  Its \emph{arithmetic
+genus} is
+\[
+    p_a(X)=1-\chi(X,\OO_X).
+\]
+\end{definition}
+
+\begin{proposition}
+If \(X\) is smooth and geometrically integral, then
+\[
+    p_a(X)=h^1(X,\OO_X)=g.
+\]
+\end{proposition}
+
+\begin{proof}
+For such a curve, \(H^0(X,\OO_X)=k\).  Therefore
+\[
+    \chi(X,\OO_X)=1-h^1(X,\OO_X)=1-g,
+\]
+so \(p_a(X)=1-\chi(X,\OO_X)=g\).
+\end{proof}
+
+\begin{proposition}
+Let \(X\) be an integral projective curve over \(k\), and let
+\(\nu:X^\nu\to X\) be its normalization.  Then there is an exact sequence
+\[
+    0\to\OO_X\to\nu_*\OO_{X^\nu}\to \mathcal Q\to0,
+\]
+where \(\mathcal Q\) is a skyscraper sheaf supported at the singular points of
+\(X\).  Consequently
+\[
+    p_a(X)=g(X^\nu)+\length_k H^0(X,\mathcal Q).
+\]
+\end{proposition}
+
+\begin{proof}
+The normalization is finite for curves of finite type over a field, so
+\(\nu_*\OO_{X^\nu}\) is coherent.  Since \(X\) is integral, regular functions
+on \(X\) inject into regular functions on the normalization.  At a smooth point
+of \(X\), the local ring is already normal, so the quotient stalk is zero.
+Thus the quotient \(\mathcal Q\) is supported at the non-normal, hence
+singular, points; there are finitely many, so it is a skyscraper sheaf.
+
+Taking Euler characteristics in the exact sequence gives
+\[
+    \chi(\OO_X)=\chi(\nu_*\OO_{X^\nu})-\chi(\mathcal Q).
+\]
+Finite morphisms are affine, so cohomology of \(\nu_*\OO_{X^\nu}\) on \(X\) is
+the cohomology of \(\OO_{X^\nu}\) on \(X^\nu\).  Hence
+\[
+    1-p_a(X)=1-g(X^\nu)-\length_k H^0(X,\mathcal Q),
+\]
+which rearranges to the displayed formula.
+\end{proof}
+
+\begin{example}
+A nodal plane cubic has normalization \(\PP^1\) and one singularity with
+\(\delta=\length \mathcal Q=1\).  Hence its arithmetic genus is \(1\), while
+the genus of its normalization is \(0\).
+\end{example}
+
+\begin{exercise}[Arithmetic genus of a plane curve]\label{ex:plane-curve-pa}
+Let \(C\subset\PP^2_k\) be a plane curve of degree \(d\) cut out by one
+homogeneous polynomial.  Assuming \(C\) is integral, show that
+\[
+    p_a(C)=\frac{(d-1)(d-2)}{2}.
+\]
+\end{exercise}
+
+\begin{solution}
+There is an exact sequence
+\[
+    0\to\OO_{\PP^2}(-d)\to\OO_{\PP^2}\to\OO_C\to0.
+\]
+Taking Euler characteristics gives
+\[
+    \chi(\OO_C)=\chi(\OO_{\PP^2})-\chi(\OO_{\PP^2}(-d)).
+\]
+Using the Hilbert polynomial of \(\OO_{\PP^2}(m)\),
+\[
+    \chi(\OO_{\PP^2}(m))=\binom{m+2}{2},
+\]
+valid for all integers \(m\), we obtain
+\[
+    \chi(\OO_C)=1-\binom{2-d}{2}.
+\]
+Therefore
+\[
+    p_a(C)=1-\chi(\OO_C)=\binom{d-1}{2}
+    =\frac{(d-1)(d-2)}{2}.
+\]
+\end{solution}

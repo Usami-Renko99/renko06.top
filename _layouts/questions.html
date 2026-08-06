@@ -1,0 +1,44 @@
+---
+layout: default
+---
+<article class="questions-page">
+  <header class="questions-hero">
+    <p class="questions-kicker">Guestbook · Mathematics Q&amp;A</p>
+    <h1>{{ page.title }}</h1>
+    <p class="questions-intro">
+      欢迎在这里留言，也欢迎讨论数学问题。数论、表示论、代数几何，或学习过程中遇到的其他问题都可以提出。
+    </p>
+  </header>
+
+  <section class="questions-guide" aria-labelledby="questions-guide-title">
+    <div class="questions-guide-heading">
+      <span class="questions-guide-mark" aria-hidden="true">Q</span>
+      <div>
+        <p class="questions-guide-label">Before posting</p>
+        <h2 id="questions-guide-title">提问说明</h2>
+      </div>
+    </div>
+    <ul>
+      <li>提出新问题时，请发布一条新的一级评论；补充问题或继续讨论时，请回复原评论。</li>
+      <li>请尽量写清楚题目、已知条件，以及你已经尝试过的思路。</li>
+      <li>支持 GitHub Markdown；公式可以使用 <code>$...$</code>（行内）或 <code>$$...$$</code>（独立公式）。</li>
+      <li>留言会公开保存于 GitHub Discussions，发布前需要登录 GitHub。</li>
+    </ul>
+  </section>
+
+  <section class="questions-discussion" aria-labelledby="questions-discussion-title">
+    <div class="questions-section-heading">
+      <div>
+        <p class="questions-guide-label">One shared discussion</p>
+        <h2 id="questions-discussion-title">开始留言或提问</h2>
+      </div>
+      {% if site.giscus.discussion_url and site.giscus.discussion_url != "" %}
+        <a class="button ghost" href="{{ site.giscus.discussion_url }}" target="_blank" rel="noopener noreferrer">
+          在 GitHub 中查看
+        </a>
+      {% endif %}
+    </div>
+
+    {% include giscus.html %}
+  </section>
+</article>

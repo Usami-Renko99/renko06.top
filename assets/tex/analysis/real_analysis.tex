@@ -1,0 +1,2684 @@
+\documentclass[11pt,openany]{book}
+
+\usepackage[a4paper,margin=1in]{geometry}
+\usepackage{amsmath,amssymb,amsthm,mathtools}
+\usepackage{mathrsfs}
+\usepackage{xcolor}
+\usepackage{enumitem}
+\usepackage{hyperref}
+\usepackage[nameinlink]{cleveref}
+\usepackage{microtype}
+
+\hypersetup{colorlinks=true,linkcolor=blue!60!black,citecolor=blue!60!black,urlcolor=blue!60!black}
+\numberwithin{equation}{chapter}
+
+\theoremstyle{definition}
+\newtheorem{definition}{Definition}[chapter]
+\newtheorem{example}[definition]{Example}
+\newtheorem{remark}[definition]{Remark}
+\newtheorem{notation}[definition]{Notation}
+
+\theoremstyle{plain}
+\newtheorem{theorem}[definition]{Theorem}
+\newtheorem{proposition}[definition]{Proposition}
+\newtheorem{lemma}[definition]{Lemma}
+\newtheorem{corollary}[definition]{Corollary}
+
+\theoremstyle{remark}
+\newtheorem*{claim}{Claim}
+\newtheorem{fact}[definition]{Fact}
+
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\N}{\mathbb{N}}
+\newcommand{\Z}{\mathbb{Z}}
+\newcommand{\Q}{\mathbb{Q}}
+\newcommand{\C}{\mathbb{C}}
+\newcommand{\M}{\mathcal{M}}
+\newcommand{\A}{\mathcal{A}}
+\newcommand{\B}{\mathcal{B}}
+\newcommand{\eps}{\varepsilon}
+\newcommand{\1}{\mathbf{1}}
+\newcommand{\dd}{\,d}
+\newcommand{\abs}[1]{\left\lvert #1\right\rvert}
+\newcommand{\norm}[1]{\left\lVert #1\right\rVert}
+\newcommand{\set}[1]{\left\{#1\right\}}
+\newcommand{\supp}{\operatorname{supp}}
+\newcommand{\diam}{\operatorname{diam}}
+\newcommand{\dist}{\operatorname{dist}}
+\newcommand{\vol}{\operatorname{vol}}
+\newcommand{\osc}{\operatorname{osc}}
+\newcommand{\Var}{\operatorname{Var}}
+\newcommand{\sgn}{\operatorname{sgn}}
+\newcommand{\loc}{\mathrm{loc}}
+\newcommand{\one}{\mathbf{1}}
+\DeclareMathOperator*{\esssup}{ess\,sup}
+\DeclareMathOperator*{\limsupop}{lim\,sup}
+\DeclareMathOperator*{\liminfop}{lim\,inf}
+
+\title{Real Analysis}
+\author{Renko}
+\date{1145.1.4}
+
+\begin{document}
+\maketitle
+\tableofcontents
+
+\chapter*{Preface}
+\addcontentsline{toc}{chapter}{Preface}
+This version is written from the handwritten notes after an OCR pass and a subsequent mathematical clean-up.  The OCR was useful mainly for indexing the pages and locating repetitions; the handwritten mathematical formulas were then checked manually against the page images.  Repeated results have been merged, but the proofs are kept in full rather than as sketches.
+
+The notation follows the handwritten notes.  Lebesgue measure on \(\R^d\) is denoted by \(m\).  When no measure space is explicitly stated, all assertions are made on Lebesgue measurable subsets of \(\R^d\).  Statements which appeared twice in the notes, such as bounded convergence, Fatou--monotone--dominated convergence, density/approximation by step functions, and several convergence-in-measure criteria, are stated only once and then reused.
+
+\chapter{Measure Theory}
+
+\section{Elementary Topology and Cubes in \texorpdfstring{$\R^d$}{Rd}}
+
+\begin{definition}
+A set \(E\subset\R^d\) is \emph{bounded} if it is contained in a ball of finite radius.  A set \(K\subset\R^d\) is \emph{compact} if every open cover of \(K\) admits a finite subcover.
+\end{definition}
+
+\begin{theorem}[Heine--Borel]
+For \(K\subset\R^d\), the following are equivalent:
+\begin{enumerate}[label=(\roman*)]
+    \item \(K\) is compact;
+    \item \(K\) is closed and bounded.
+\end{enumerate}
+\end{theorem}
+
+\begin{proof}
+Assume first that \(K\) is compact.  The open balls \(B(0,n)\), \(n\in\N\), cover \(K\), so finitely many of them cover \(K\).  Hence \(K\subset B(0,N)\) for some \(N\), and \(K\) is bounded.  To see that \(K\) is closed, take \(x\notin K\).  For each \(y\in K\), choose disjoint balls \(B_y\ni y\) and \(U_y\ni x\).  The balls \(B_y\) cover \(K\), so finitely many \(B_{y_1},\ldots,B_{y_N}\) cover \(K\).  Then \(U=\bigcap_{j=1}^N U_{y_j}\) is an open neighbourhood of \(x\) disjoint from \(K\).  Thus \(K^c\) is open and \(K\) is closed.
+
+Conversely, assume \(K\) is closed and bounded.  Then \(K\subset [-R,R]^d\) for some \(R\).  It suffices to show that the cube \([-R,R]^d\) is compact, since a closed subset of a compact set is compact.  Let \(\{O_\alpha\}\) be an open cover of \([-R,R]^d\).  If no finite subcover exists, divide the cube into \(2^d\) congruent closed subcubes; at least one subcube has no finite subcover.  Repeat this construction to get nested closed cubes \(Q_n\), each without finite subcover, with diameters tending to \(0\).  Their centers form a Cauchy sequence, hence converge to some point \(x\in \bigcap_n Q_n\).  Since the \(O_\alpha\) cover the original cube, \(x\in O_{\alpha_0}\) for some \(\alpha_0\).  As \(O_{\alpha_0}\) is open and \(\diam Q_n\to 0\), some \(Q_n\subset O_{\alpha_0}\), contradicting the choice of \(Q_n\).  Hence a finite subcover exists.
+\end{proof}
+
+\begin{definition}
+A \emph{rectangle} in \(\R^d\) is a product \(R=I_1\times\cdots\times I_d\) of intervals.  A \emph{cube} is a rectangle whose side lengths are equal.  Two rectangles or cubes are \emph{almost disjoint} if their interiors are disjoint.  If \(Q\) is a cube, \(\abs{Q}\) denotes its Euclidean volume.
+\end{definition}
+
+\begin{lemma}
+Every open subset \(O\subset\R\) is a countable disjoint union of open intervals.
+\end{lemma}
+
+\begin{proof}
+For \(x\in O\), let \(I_x\) be the union of all open intervals contained in \(O\) and containing \(x\).  Then \(I_x\) is an open interval, and it is maximal with respect to inclusion among open intervals contained in \(O\).  If \(I_x\cap I_y\ne\varnothing\), then \(I_x\cup I_y\) is again an interval contained in \(O\), so maximality gives \(I_x=I_y\).  Hence the distinct intervals in this construction are disjoint and their union is \(O\).  Each non-empty open interval contains a rational number, and disjoint intervals contain distinct rationals.  Since \(\Q\) is countable, the collection of intervals is countable.
+\end{proof}
+
+\begin{lemma}
+Every open subset \(O\subset\R^d\), \(d\ge1\), can be written as a countable union of almost disjoint closed cubes.
+\end{lemma}
+
+\begin{proof}
+For each integer \(n\ge0\), divide \(\R^d\) into the dyadic half-open cubes of side length \(2^{-n}\).  Let \(\mathcal{Q}_n\) be the family of closed dyadic cubes of side length \(2^{-n}\) contained in \(O\).  We construct a disjoint family by choosing first all cubes in \(\mathcal{Q}_0\), then all cubes in \(\mathcal{Q}_1\) not contained in any previously chosen cube, and so on.  At each level there are countably many cubes, hence the final family is countable.  The interiors of the chosen cubes are disjoint by construction.  If \(x\in O\), choose \(r>0\) such that \(B(x,r)\subset O\).  For \(n\) large enough, there is a dyadic cube of side \(2^{-n}\) containing \(x\) and contained in \(B(x,r)\), hence in \(O\).  Either this cube is chosen, or it lies inside a previously chosen cube.  Therefore \(x\) belongs to the union of the chosen cubes.
+\end{proof}
+
+\begin{lemma}[Volume subadditivity for rectangles]
+Let \(R\) and \(R_1,R_2,\ldots\) be rectangles in \(\R^d\).  If \(R\subset\bigcup_{j=1}^\infty R_j\), then
+\[
+    \abs{R}\le \sum_{j=1}^\infty \abs{R_j}.
+\]
+\end{lemma}
+
+\begin{proof}
+First suppose \(R\) is compact and the \(R_j\) are open rectangles.  By compactness, finitely many \(R_1,\ldots,R_N\) cover \(R\).  Subdivide \(R\) by all coordinate hyperplanes determined by the sides of these finitely many rectangles.  This gives finitely many pairwise almost disjoint subrectangles \(S_k\).  Each \(S_k\) is contained in at least one \(R_j\); assigning it to one such \(R_j\), we get
+\[
+    \abs{R}=\sum_k \abs{S_k}\le \sum_{j=1}^N \abs{R_j}.
+\]
+For arbitrary rectangles, enlarge each \(R_j\) slightly to an open rectangle \(R_j^\eps\) with \(\abs{R_j^\eps}\le \abs{R_j}+\eps 2^{-j}\), and shrink \(R\) slightly to a compact rectangle \(R^-\) with \(\abs{R^-}\uparrow \abs{R}\).  Applying the compact-open case gives
+\[
+    \abs{R^-}\le\sum_j \abs{R_j^\eps}\le \sum_j\abs{R_j}+\eps.
+\]
+Letting the shrinking disappear and then letting \(\eps\downarrow0\) proves the result.
+\end{proof}
+
+\section{Lebesgue Outer Measure}
+
+\begin{definition}
+For an arbitrary subset \(E\subset\R^d\), its \emph{Lebesgue outer measure} is
+\[
+    m^*(E)=\inf\left\{\sum_{j=1}^\infty \abs{Q_j}: E\subset \bigcup_{j=1}^\infty Q_j,\ Q_j\text{ closed cubes}\right\}.
+\]
+When no confusion is possible, the notes write \(m_*(E)\) or \(m(E)\) for this outer measure before measurability is introduced.
+\end{definition}
+
+\begin{proposition}
+Lebesgue outer measure satisfies:
+\begin{enumerate}[label=(\roman*)]
+    \item \(m^*(\varnothing)=0\);
+    \item if \(E\subset F\), then \(m^*(E)\le m^*(F)\);
+    \item if \(E\subset\bigcup_{j=1}^\infty E_j\), then \(m^*(E)\le\sum_{j=1}^\infty m^*(E_j)\).
+\end{enumerate}
+\end{proposition}
+
+\begin{proof}
+For (i), the empty family covers \(\varnothing\), so the infimum is \(0\).  For (ii), every cube cover of \(F\) is also a cube cover of \(E\), hence the infimum for \(E\) is no larger.  For (iii), fix \(\eps>0\).  For each \(j\), choose closed cubes \(Q_{j,k}\) such that \(E_j\subset\bigcup_k Q_{j,k}\) and
+\[
+    \sum_k\abs{Q_{j,k}}\le m^*(E_j)+\eps 2^{-j}.
+\]
+Then \(E\subset\bigcup_{j,k}Q_{j,k}\), so
+\[
+    m^*(E)
+    \le \sum_{j,k}\abs{Q_{j,k}}
+    \le \sum_j m^*(E_j)+\eps.
+\]
+Let \(\eps\downarrow0\).
+\end{proof}
+
+\begin{proposition}
+For every set \(E\subset\R^d\),
+\[
+    m^*(E)=\inf\{m^*(O): O\text{ open and }E\subset O\}.
+\]
+\end{proposition}
+
+\begin{proof}
+The inequality \(m^*(E)\le \inf_{O\supset E}m^*(O)\) follows from monotonicity.  Conversely, fix \(\eps>0\).  Choose closed cubes \(Q_j\) covering \(E\) with \(\sum_j\abs{Q_j}<m^*(E)+\eps/2\).  Enlarge each \(Q_j\) to an open cube \(Q_j'\) such that \(\abs{Q_j'}\le \abs{Q_j}+\eps 2^{-j-1}\).  Then \(O=\bigcup_j Q_j'\) is open and contains \(E\), and by countable subadditivity
+\[
+    m^*(O)\le\sum_j\abs{Q_j'}<m^*(E)+\eps.
+\]
+Taking the infimum over open \(O\) and letting \(\eps\downarrow0\) gives the reverse inequality.
+\end{proof}
+
+\begin{proposition}
+If \(Q\) is a closed cube, then \(m^*(Q)=\abs{Q}\).
+\end{proposition}
+
+\begin{proof}
+The inequality \(m^*(Q)\le\abs{Q}\) is immediate from the one-cube cover.  For the reverse inequality, let \(Q\subset\bigcup_j Q_j\) be any cover by closed cubes.  Enlarge each \(Q_j\) to an open cube \(Q_j'\) with \(\abs{Q_j'}\le\abs{Q_j}+\eps 2^{-j}\).  Since \(Q\) is compact, finitely many \(Q_j'\) cover \(Q\).  By the volume subadditivity lemma,
+\[
+    \abs{Q}\le \sum_{j=1}^N\abs{Q_j'}\le \sum_j\abs{Q_j}+\eps.
+\]
+Let \(\eps\downarrow0\), then take the infimum over all covers.
+\end{proof}
+
+\begin{proposition}
+The Cantor set \(C\subset[0,1]\) is closed, has Lebesgue outer measure zero, and is uncountable.
+\end{proposition}
+
+\begin{proof}
+At the \(n\)-th stage of the usual middle-third construction, the remaining set \(C_n\) is a finite union of \(2^n\) closed intervals, each of length \(3^{-n}\).  Hence \(C_n\) is closed and \(C=\bigcap_{n=0}^\infty C_n\) is closed.  Since \(C\subset C_n\),
+\[
+    m^*(C)\le m^*(C_n)=2^n3^{-n}=(2/3)^n.
+\]
+Letting \(n\to\infty\) gives \(m^*(C)=0\).
+
+To prove uncountability, write every point of \(C\) using a ternary expansion containing only the digits \(0\) and \(2\), choosing the expansion that does not terminate in all \(2\)'s when there are two choices.  The map
+\[
+    (\varepsilon_1,\varepsilon_2,\ldots)\in\{0,1\}^{\N}
+    \longmapsto \sum_{n=1}^\infty \frac{2\varepsilon_n}{3^n}
+\]
+embeds the set of binary sequences into \(C\).  Since \(\{0,1\}^{\N}\) is uncountable by Cantor's diagonal argument, \(C\) is uncountable.
+\end{proof}
+
+\section{Measurable Sets}
+
+\begin{definition}
+A set \(E\subset\R^d\) is \emph{Lebesgue measurable} if for every \(\eps>0\), there exists an open set \(O\supset E\) such that
+\[
+    m^*(O\setminus E)<\eps.
+\]
+For a measurable set \(E\), its Lebesgue measure is \(m(E)=m^*(E)\).
+\end{definition}
+
+\begin{proposition}
+Every open subset of \(\R^d\) is measurable.
+\end{proposition}
+
+\begin{proof}
+If \(E\) is open, take \(O=E\).  Then \(O\setminus E=\varnothing\), hence \(m^*(O\setminus E)=0\).
+\end{proof}
+
+\begin{lemma}
+Let \(F\subset\R^d\) be closed and \(K\subset\R^d\) compact.  If \(F\cap K=\varnothing\), then \(\dist(F,K)>0\).
+\end{lemma}
+
+\begin{proof}
+For each \(x\in K\), since \(F\) is closed and \(x\notin F\), there exists \(r_x>0\) such that \(B(x,2r_x)\cap F=\varnothing\).  The balls \(B(x,r_x)\) cover \(K\), so compactness gives a finite subcover \(B(x_j,r_{x_j})\), \(1\le j\le N\).  Let \(r=\min_j r_{x_j}>0\).  If \(y\in K\), choose \(j\) with \(y\in B(x_j,r_{x_j})\).  Then \(B(y,r)\subset B(x_j,2r_{x_j})\), hence \(B(y,r)\cap F=\varnothing\).  Thus \(\dist(F,K)\ge r\).
+\end{proof}
+
+\begin{proposition}
+Every closed subset of \(\R^d\) is measurable.
+\end{proposition}
+
+\begin{proof}
+Let \(F\) be closed.  First suppose \(F\) is compact.  Given \(\eps>0\), by the open-set approximation of outer measure choose an open set \(O\supset F\) with \(m^*(O)<m^*(F)+\eps\).  Since \(F\) and \(O^c\) are disjoint closed sets and \(F\) is compact, the preceding lemma gives a positive distance between them.  Hence one can cover \(F\) by finitely many closed cubes contained in \(O\).  Using finite additivity for almost disjoint cube decompositions and the definition of outer measure, this implies
+\[
+    m^*(O\setminus F)\\le m^*(O)-m^*(F)+\eps<2\eps
+\]
+(after replacing \(O\) by a finite union of small cubes inside it).  Therefore compact sets are measurable.
+
+For a general closed set \(F\), let \(K_n=F\cap \overline{B(0,n)}\).  Each \(K_n\) is compact and hence measurable, and \(F=\bigcup_n K_n\).  The next proposition shows that countable unions of measurable sets are measurable, so \(F\) is measurable.
+\end{proof}
+
+\begin{proposition}
+The collection of Lebesgue measurable subsets of \(\R^d\) is a \(\sigma\)-algebra.  In particular it is closed under complements and countable unions.
+\end{proposition}
+
+\begin{proof}
+We first prove closure under complements.  Let \(E\) be measurable and fix \(\eps>0\).  Choose an open set \(O\supset E\) with \(m^*(O\setminus E)<\eps\).  Then \(F=O^c\) is closed and \(F\subset E^c\).  Moreover \(E^c\setminus F=O\setminus E\), so \(m^*(E^c\setminus F)<\eps\).  Since closed sets are measurable and \(E^c\) differs from the measurable set \(F\) by an arbitrarily small outer-measure set, the open-set criterion applied to \(F\) gives measurability of \(E^c\).
+
+For countable unions, let \(E=\bigcup_{j=1}^\infty E_j\), where each \(E_j\) is measurable.  Given \(\eps>0\), choose open \(O_j\supset E_j\) with \(m^*(O_j\setminus E_j)<\eps 2^{-j}\).  Then \(O=\bigcup_jO_j\) is open and contains \(E\).  Since
+\[
+    O\setminus E\subset \bigcup_j(O_j\setminus E_j),
+\]
+countable subadditivity gives \(m^*(O\setminus E)<\eps\).  Thus \(E\) is measurable.  Closure under countable intersections follows from complements and countable unions.
+\end{proof}
+
+\begin{theorem}[Countable additivity]
+If \(E_1,E_2,\ldots\) are pairwise disjoint measurable sets, then
+\[
+    m\left(\bigcup_{j=1}^\infty E_j\right)=\sum_{j=1}^\infty m(E_j).
+\]
+\end{theorem}
+
+\begin{proof}
+Countable subadditivity gives \(m(\bigcup_jE_j)\le\sum_jm(E_j)\).  For the reverse inequality, first fix \(N\).  Since the sets are measurable and disjoint, finite additivity follows from the definition of measurability: for two disjoint measurable sets \(A,B\), applying Caratheodory's splitting inequality to \(A\cup B\) gives \(m(A\cup B)\ge m(A)+m(B)\), while subadditivity gives the opposite inequality.  Induction yields
+\[
+    m\left(\bigcup_{j=1}^N E_j\right)=\sum_{j=1}^N m(E_j).
+\]
+By monotonicity,
+\[
+    m\left(\bigcup_{j=1}^\infty E_j\right)\ge m\left(\bigcup_{j=1}^N E_j\right)=\sum_{j=1}^N m(E_j).
+\]
+Let \(N\to\infty\).
+\end{proof}
+
+\begin{theorem}[Continuity of measure]
+Let \(E_n\) be measurable sets.
+\begin{enumerate}[label=(\roman*)]
+    \item If \(E_n\uparrow E\), then \(m(E)=\lim_{n\to\infty}m(E_n)\).
+    \item If \(E_n\downarrow E\) and \(m(E_1)<\infty\), then \(m(E)=\lim_{n\to\infty}m(E_n)\).
+\end{enumerate}
+\end{theorem}
+
+\begin{proof}
+For (i), set \(F_1=E_1\) and \(F_n=E_n\setminus E_{n-1}\) for \(n\ge2\).  Then the \(F_n\) are pairwise disjoint and \(E=\bigcup_nF_n\).  Also \(E_N=\bigcup_{n=1}^N F_n\).  Countable additivity gives
+\[
+    m(E)=\sum_{n=1}^\infty m(F_n)=\lim_{N\to\infty}\sum_{n=1}^Nm(F_n)=\lim_{N\to\infty}m(E_N).
+\]
+For (ii), apply (i) to \(F_n=E_1\setminus E_n\), which increases to \(E_1\setminus E\).  Since \(m(E_1)<\infty\),
+\[
+    m(E_1)-m(E)=m(E_1\setminus E)=\lim_n m(E_1\setminus E_n)=m(E_1)-\lim_n m(E_n).
+\]
+Rearranging proves the claim.
+\end{proof}
+
+\begin{theorem}[Regularity of Lebesgue measure]
+Let \(E\subset\R^d\) be measurable.
+\begin{enumerate}[label=(\roman*)]
+    \item For every \(\eps>0\), there exists an open set \(O\supset E\) such that \(m(O\setminus E)<\eps\).
+    \item If \(m(E)<\infty\), for every \(\eps>0\) there exists a compact set \(K\subset E\) such that \(m(E\setminus K)<\eps\).
+    \item If \(m(E)<\infty\), for every \(\eps>0\) there exists a finite union \(F\) of almost disjoint closed cubes such that \(m(E\triangle F)<\eps\).
+\end{enumerate}
+\end{theorem}
+
+\begin{proof}
+Part (i) is the definition of measurability.  For (ii), apply (i) to \(E^c\) to get an open set \(O\supset E^c\) with \(m(O\setminus E^c)<\eps/2\).  Then \(F=O^c\subset E\) is closed and \(m(E\setminus F)<\eps/2\).  If \(E\) has finite measure, choose \(R\) so large that \(m(E\setminus B(0,R))<\eps/2\).  Then \(K=F\cap \overline{B(0,R)}\) is compact and
+\[
+    m(E\setminus K)\le m(E\setminus F)+m(E\setminus B(0,R))<\eps.
+\]
+For (iii), choose an open \(O\supset E\) with \(m(O\setminus E)<\eps/2\).  Decompose \(O\) into countably many almost disjoint closed cubes \(Q_j\).  Since \(m(E)<\infty\), also \(m(O)<\infty\) after choosing \(O\) with finite measure.  Hence the tails of \(\sum_j\abs{Q_j}=m(O)\) tend to zero.  Pick \(N\) such that \(m(\bigcup_{j>N}Q_j)<\eps/2\), and set \(F=\bigcup_{j=1}^NQ_j\).  Then \(F\subset O\) and
+\[
+    E\triangle F\subset (O\setminus E)\cup\bigcup_{j>N}Q_j,
+\]
+so \(m(E\triangle F)<\eps\).
+\end{proof}
+
+\begin{definition}
+An \emph{algebra} \(\A\) of subsets of a set \(X\) is a collection closed under finite unions and complements.  A \(\sigma\)-algebra \(\M\) is closed under countable unions and complements.  The Borel \(\sigma\)-algebra \(\B(\R^d)\) is the smallest \(\sigma\)-algebra containing all open subsets of \(\R^d\).
+\end{definition}
+
+\begin{corollary}
+Every Borel set is Lebesgue measurable.
+\end{corollary}
+
+\begin{proof}
+The measurable sets form a \(\sigma\)-algebra and contain all open sets.  Therefore they contain the smallest \(\sigma\)-algebra generated by the open sets, namely the Borel \(\sigma\)-algebra.
+\end{proof}
+
+\begin{lemma}[Borel--Cantelli]
+If \(\{E_k\}\) is a sequence of measurable sets and \(\sum_{k=1}^\infty m(E_k)<\infty\), then almost every point belongs to at most finitely many of the \(E_k\).  Equivalently,
+\[
+    m\left(\limsup_{k\to\infty}E_k\right)=0.
+\]
+\end{lemma}
+
+\begin{proof}
+Set \(B_n=\bigcup_{k\ge n}E_k\).  Then \(B_n\downarrow \limsup_kE_k\).  By subadditivity,
+\[
+    m(B_n)\le\sum_{k\ge n}m(E_k)\to0.
+\]
+Continuity from above gives \(m(\limsup_kE_k)=\lim_nm(B_n)=0\).  The set \(\limsup_kE_k\) is exactly the set of points lying in infinitely many \(E_k\).
+\end{proof}
+
+\begin{theorem}[Existence of non-measurable sets]
+Every measurable set \(E\subset\R\) with \(m(E)>0\) contains a non-measurable subset.
+\end{theorem}
+
+\begin{proof}
+It suffices to prove this for a bounded measurable set of positive measure.  Choose \(b>0\) such that \(m(E\cap[-b,b])>0\), and replace \(E\) by this intersection.  Define an equivalence relation on \(E\) by \(x\sim y\) if \(x-y\in\Q\).  Using the axiom of choice, choose a set \(V\subset E\) containing exactly one representative from each equivalence class.  For distinct rationals \(q,q'\), the translates \(V+q\) and \(V+q'\) are disjoint, because otherwise \(v+q=v'+q'\) would imply \(v-v'\in\Q\), hence \(v=v'\) and \(q=q'\).
+
+Let \(Q_0=\Q\cap[-2b,2b]\).  Since every \(x\in E\) is rationally equivalent to some \(v\in V\), we have
+\[
+    E\subset\bigcup_{q\in Q_0}(V+q)\subset[-3b,3b].
+\]
+If \(V\) were measurable, all translates \(V+q\) would be measurable and have the same measure.  If \(m(V)=0\), then the countable union above would have measure zero, contradicting \(m(E)>0\).  If \(m(V)>0\), then the disjoint countable union \(\bigcup_{q\in Q_0}(V+q)\) would have infinite measure, contradicting that it is contained in \([-3b,3b]\).  Hence \(V\) is not measurable.
+\end{proof}
+
+\section{Measurable Functions}
+
+\begin{definition}
+For a set \(E\), its characteristic function is \(\1_E(x)=1\) for \(x\in E\) and \(0\) otherwise.  A real-valued function \(f\) on a measurable set \(E\) is \emph{measurable} if \(\{x\in E:f(x)<a\}\) is measurable for every \(a\in\R\).
+\end{definition}
+
+\begin{proposition}
+For a finite-valued function \(f:E\to\R\), the following are equivalent:
+\begin{enumerate}[label=(\roman*)]
+    \item \(f\) is measurable;
+    \item \(f^{-1}(O)\) is measurable for every open set \(O\subset\R\);
+    \item \(\{x\in E:f(x)>a\}\), \(\{x\in E:f(x)\ge a\}\), and \(\{x\in E:f(x)\le a\}\) are measurable for every \(a\in\R\).
+\end{enumerate}
+\end{proposition}
+
+\begin{proof}
+If \(f\) is measurable, then \(\{f<a\}\) is measurable.  Since \(\{f>a\}=E\setminus\{f\le a\}\) and \(\{f\le a\}=\bigcap_{n=1}^\infty\{f<a+1/n\}\), the sets in (iii) are measurable.  Conversely, (iii) immediately implies the defining condition.  If (iii) holds, then every open set \(O\subset\R\) is a countable disjoint union of open intervals, and the inverse image of each interval is measurable by (iii), so \(f^{-1}(O)\) is measurable.  Finally, if inverse images of open sets are measurable, taking \(O=(-\infty,a)\) gives measurability of \(f\).
+\end{proof}
+
+\begin{proposition}
+Continuous functions are measurable.  If \(f\) is measurable and \(\Phi:\R\to\R\) is continuous, then \(\Phi\circ f\) is measurable.
+\end{proposition}
+
+\begin{proof}
+If \(f\) is continuous on a measurable domain and \(O\subset\R\) is open, then \(f^{-1}(O)\) is relatively open in the domain and hence measurable.  Thus \(f\) is measurable.  If \(\Phi\) is continuous, then for every open \(O\subset\R\), \(\Phi^{-1}(O)\) is open.  Hence
+\[
+    (\Phi\circ f)^{-1}(O)=f^{-1}(\Phi^{-1}(O))
+\]
+is measurable.
+\end{proof}
+
+\begin{proposition}
+If \(\{f_n\}\) is a sequence of measurable functions, then
+\[
+    \sup_n f_n,\\quad \inf_n f_n,\quad \limsup_{n\to\infty}f_n,\quad \liminf_{n\to\infty}f_n
+\]
+are measurable whenever they are finite-valued or extended-real-valued in the usual sense.
+\end{proposition}
+
+\begin{proof}
+For each \(a\in\R\),
+\[
+    \{\sup_n f_n>a\}=\bigcup_n\{f_n>a\},\qquad
+    \{\inf_n f_n<a\}=\bigcup_n\{f_n<a\}.
+\]
+These are measurable.  Thus \(\sup_n f_n\) and \(\inf_nf_n\) are measurable.  Since
+\[
+    \limsup_n f_n=\inf_N\sup_{n\ge N}f_n,
+    \qquad
+    \liminf_n f_n=\sup_N\inf_{n\ge N}f_n,
+\]
+the preceding part gives measurability of the limsup and liminf.
+\end{proof}
+
+\begin{corollary}
+If \(f_n\) are measurable and \(f_n(x)\to f(x)\) pointwise, then \(f\) is measurable.
+\end{corollary}
+
+\begin{proof}
+The pointwise limit satisfies \(f=\limsup_n f_n=\liminf_n f_n\), hence is measurable by the preceding proposition.
+\end{proof}
+
+\begin{proposition}
+If \(f,g\) are finite-valued measurable functions and \(c\in\R\), then \(cf\), \(f+g\), \(fg\), \(\abs{f}\), \(f^k\) for \(k\in\N\), \(\max(f,g)\), and \(\min(f,g)\) are measurable.
+\end{proposition}
+
+\begin{proof}
+The functions \(cf\), \(\abs f\), and \(f^k\) are compositions of \(f\) with continuous functions, hence measurable.  To prove \(f+g\) measurable, observe that for each \(a\in\R\),
+\[
+    \{f+g<a\}
+    =\bigcup_{q\in\Q}\bigl(\{f<q\}\cap\{g<a-q\}\bigr).
+\]
+Indeed, if \(f(x)+g(x)<a\), choose rational \(q\) with \(f(x)<q<a-g(x)\).  The reverse inclusion is immediate.  Hence \(f+g\) is measurable.  Then \(fg=\frac14((f+g)^2-(f-g)^2)\) is measurable.  Finally,
+\[
+    \max(f,g)=\frac{f+g+\abs{f-g}}2,
+    \qquad
+    \min(f,g)=\frac{f+g-\abs{f-g}}2,
+\]
+so both are measurable.
+\end{proof}
+
+\begin{proposition}
+If \(f=g\) almost everywhere and \(f\) is measurable, then \(g\) is measurable.
+\end{proposition}
+
+\begin{proof}
+Let \(N=\{x:f(x)\ne g(x)\}\).  Then \(m(N)=0\).  Every subset of a null set is measurable: if \(A\subset N\), then \(m^*(A)=0\), and for any \(\eps>0\), an open set \(O\supset N\) with \(m(O)<\eps\) also contains \(A\).  Now for each \(a\),
+\[
+    \{g<a\}=\bigl(\{f<a\}\cap N^c\bigr)\cup\bigl(\{g<a\}\cap N\bigr),
+\]
+where the first set is measurable and the second is a subset of a null set.  Hence \(\{g<a\}\) is measurable.
+\end{proof}
+
+\begin{definition}
+A \emph{simple function} is a finite linear combination of characteristic functions of measurable sets,
+\[
+    \varphi=\sum_{j=1}^N a_j\1_{E_j}.
+\]
+If the nonzero values \(a_j\) are distinct and the sets \(E_j=\{x:\varphi(x)=a_j\}\) are disjoint, this is called the \emph{canonical form} of \(\varphi\).
+\end{definition}
+
+\begin{theorem}[Simple function approximation]
+Let \(f\ge0\) be measurable on \(E\).  Then there exists an increasing sequence of nonnegative simple functions \(\varphi_n\) such that \(\varphi_n(x)\uparrow f(x)\) for every \(x\in E\).  If \(f\) is bounded, the convergence may be chosen uniform.  For a general real-valued measurable function finite almost everywhere, there are simple functions \(\psi_n\) with \(\abs{\psi_n}\le\abs f\) and \(\psi_n\to f\) pointwise almost everywhere.
+\end{theorem}
+
+\begin{proof}
+For \(f\ge0\), define
+\[
+    \varphi_n(x)=
+    \begin{cases}
+    k2^{-n}, & k2^{-n}\le f(x)<(k+1)2^{-n},\quad 0\le k\le n2^n-1,\\
+    n, & f(x)\ge n.
+    \end{cases}
+\]
+Each set in this definition is measurable, so \(\varphi_n\) is simple.  Also \(0\le\varphi_n\le f\), and \(f(x)-\varphi_n(x)\le2^{-n}\) whenever \(f(x)<n\), while \(\varphi_n(x)=n\) when \(f(x)\ge n\).  Hence \(\varphi_n(x)\to f(x)\).  Replacing \(\varphi_n\) by \(\max(\varphi_1,\ldots,\varphi_n)\) makes the sequence increasing.  If \(f\le M\), choose \(n>M\), and the bound \(0\le f-\varphi_n\le2^{-n}\) gives uniform convergence.  For general \(f\), write \(f=f^+-f^-\) and approximate \(f^+\) and \(f^-\) increasingly; truncating if necessary gives simple \(\psi_n\) satisfying \(\abs{\psi_n}\le\abs f\) and \(\psi_n\to f\).
+\end{proof}
+
+\begin{theorem}[Step function approximation]
+If \(f\) is measurable and finite almost everywhere on \(\R^d\), then there exists a sequence of step functions \(s_n\) such that \(s_n\to f\) almost everywhere.  If \(f\) is integrable, the step functions may be chosen so that \(s_n\to f\) in \(L^1\).
+\end{theorem}
+
+\begin{proof}
+By the simple approximation theorem, it suffices to approximate characteristic functions of measurable sets by step functions.  If \(A\) has finite measure, regularity gives a finite union \(F\) of almost disjoint rectangles such that \(m(A\triangle F)<\eps\).  Then \(\1_F\) is a step function and \(\norm{\1_A-\1_F}_{L^1}=m(A\triangle F)<\eps\).  For arbitrary measurable \(A\), first intersect with a large cube, approximate inside that cube, and let the cube grow.  Combining these approximations for the finitely many level sets in each simple function and then diagonalizing gives almost everywhere convergence.  If \(f\in L^1\), approximate \(f\) in \(L^1\) by an integrable simple function and then approximate each characteristic set in \(L^1\) as above.
+\end{proof}
+
+\begin{theorem}[Egorov]
+Let \(E\) be measurable with \(m(E)<\infty\).  If \(f_n\to f\) almost everywhere on \(E\), then for every \(\eps>0\), there exists a measurable set \(A\subset E\) such that \(m(E\setminus A)<\eps\) and \(f_n\to f\) uniformly on \(A\).
+\end{theorem}
+
+\begin{proof}
+Discard a null set so that convergence holds everywhere on the remaining set, still denoted by \(E\).  For \(k,n\in\N\), set
+\[
+    E_{n,k}=\bigcap_{j\ge n}\{x\in E:\abs{f_j(x)-f(x)}<1/k\}.
+\]
+For fixed \(k\), the sets \(E_{n,k}\) increase with \(n\), and their union is \(E\).  By continuity from below, choose \(n_k\) such that
+\[
+    m(E\setminus E_{n_k,k})<\eps 2^{-k}.
+\]
+Let \(A=\bigcap_{k=1}^\infty E_{n_k,k}\).  Then
+\[
+    m(E\setminus A)
+    \le\sum_{k=1}^\infty m(E\setminus E_{n_k,k})<\eps.
+\]
+If \(x\in A\), then for every \(k\) and every \(j\ge n_k\), \(\abs{f_j(x)-f(x)}<1/k\).  This is exactly uniform convergence on \(A\).
+\end{proof}
+
+\begin{lemma}[Simple functions are almost continuous]
+Let \(E\subset\R^d\) be measurable with finite measure, and let \(\varphi\) be a simple function on \(E\).  For every \(\eps>0\), there exist a closed set \(F\subset E\) and a continuous function \(g\) on \(\R^d\) such that \(m(E\setminus F)<\eps\) and \(g=\varphi\) on \(F\).
+\end{lemma}
+
+\begin{proof}
+Write \(\varphi=\sum_{j=1}^N a_j\1_{E_j}\) in canonical form, with the \(E_j\) disjoint.  By inner regularity, choose closed sets \(F_j\subset E_j\) with \(m(E_j\setminus F_j)<\eps/N\).  Let \(F=\bigcup_jF_j\).  The sets \(F_j\) are disjoint closed subsets of \(\R^d\), and since only finitely many are involved, one can choose pairwise disjoint open neighbourhoods \(U_j\supset F_j\).  By Urysohn's lemma for \(\R^d\), choose continuous functions \(\eta_j\) with \(\eta_j=1\) on \(F_j\) and \(\eta_j=0\) outside \(U_j\).  Then \(g=\sum_ja_j\eta_j\) is continuous and equals \(\varphi\) on \(F\).  Also
+\[
+    m(E\setminus F)\le\sum_jm(E_j\setminus F_j)<\eps.
+\]
+\end{proof}
+
+\begin{theorem}[Lusin]
+Let \(E\subset\R^d\) be measurable with \(m(E)<\infty\), and let \(f:E\to\R\) be measurable and finite almost everywhere.  For every \(\eps>0\), there exists a closed set \(F\subset E\) such that \(m(E\setminus F)<\eps\) and \(f|_F\) is continuous.
+\end{theorem}
+
+\begin{proof}
+Choose simple functions \(\varphi_n\to f\) almost everywhere.  By Egorov's theorem, there exists a measurable set \(A\subset E\) with \(m(E\setminus A)<\eps/3\) such that \(\varphi_n\to f\) uniformly on \(A\).  For each \(n\), apply the preceding lemma with error \(\eps 2^{-n-2}\) to obtain a closed set \(F_n\subset E\) and a continuous function \(g_n\) such that \(g_n=\varphi_n\) on \(F_n\) and \(m(E\setminus F_n)<\eps2^{-n-2}\).  By inner regularity choose a closed set \(F_0\subset A\) with \(m(A\setminus F_0)<\eps/3\).  Put
+\[
+    F=F_0\cap\bigcap_{n=1}^\infty F_n.
+\]
+Then \(F\) is closed and
+\[
+    m(E\setminus F)
+    \le m(E\setminus A)+m(A\setminus F_0)+\sum_{n=1}^\infty m(E\setminus F_n)<\eps.
+\]
+On \(F\), the functions \(g_n\) equal \(\varphi_n\), and \(\varphi_n\to f\) uniformly.  Thus \(f|_F\) is the uniform limit of continuous functions \(g_n|_F\), hence is continuous.
+\end{proof}
+
+\chapter{Integration Theory}
+
+\section{The Lebesgue Integral}
+
+\begin{definition}
+If \(\varphi=\sum_{j=1}^N a_j\1_{E_j}\) is a nonnegative simple function in canonical form, its integral is
+\[
+    \int \varphi\dd x=\sum_{j=1}^N a_jm(E_j),
+\]
+allowing the value \(+\infty\).  If \(A\) is measurable, define \(\int_A\varphi=\int \varphi\1_A\).
+\end{definition}
+
+\begin{proposition}
+The integral of a nonnegative simple function is independent of its representation.  If \(\varphi,\psi\) are nonnegative simple functions and \(a,b\ge0\), then
+\[
+    \int(a\varphi+b\psi)=a\int\varphi+b\int\psi.
+\]
+Also, if \(\varphi\le\psi\), then \(\int\varphi\le\int\psi\).
+\end{proposition}
+
+\begin{proof}
+Let \(\varphi=\sum_i a_i\1_{A_i}=\sum_j b_j\1_{B_j}\) be two representations.  Refining both by the measurable partition \(A_i\cap B_j\), the value of \(\varphi\) is constant on each atom of the refinement, so both sums become
+\[
+    \sum_{i,j} c_{ij}m(A_i\cap B_j),
+\]
+where \(c_{ij}\) is the common value on \(A_i\cap B_j\).  Hence the integral is independent of representation.  Linearity follows by refining the partitions for \(\varphi\) and \(\psi\) simultaneously and applying finite additivity of measure.  If \(\varphi\le\psi\), then \(\psi-\varphi\) is a nonnegative simple function, so \(\int\psi=\int\varphi+
+\int(\psi-\varphi)\ge\int\varphi\).
+\end{proof}
+
+\begin{definition}
+For a nonnegative measurable function \(f\), define
+\[
+    \int f=\sup\left\{\int\varphi:0\le\varphi\le f,\ \varphi\text{ simple}\right\}.
+\]
+For a real-valued measurable function \(f\), put \(f^+=\max(f,0)\) and \(f^-=
+\max(-f,0)\).  If at least one of \(\int f^+\) and \(\int f^-\) is finite, define
+\[
+    \int f=\int f^+-\int f^-.
+\]
+If both are finite, \(f\) is called \emph{integrable}.
+\end{definition}
+
+\begin{proposition}
+For nonnegative measurable functions \(f,g\) and constants \(a,b\ge0\),
+\begin{enumerate}[label=(\roman*)]
+    \item \(\int(af+bg)=a\int f+b\int g\);
+    \item if \(f\le g\), then \(\int f\le\int g\);
+    \item if \(A\cap B=\varnothing\), then \(\int_{A\cup B}f=\int_Af+\int_Bf\);
+    \item if \(\int f=0\), then \(f=0\) almost everywhere.
+\end{enumerate}
+\end{proposition}
+
+\begin{proof}
+For simple functions these statements were proved above.  For general nonnegative \(f,g\), choose increasing simple approximations \(\varphi_n\uparrow f\) and \(\psi_n\uparrow g\).  Then \(a\varphi_n+b\psi_n\uparrow af+bg\), and taking suprema gives linearity.  Monotonicity follows directly from the definition because every simple function below \(f\) is also below \(g\).  The additivity over disjoint sets follows by applying linearity to \(f\1_A+f\1_B=f\1_{A\cup B}\).
+
+For (iv), let \(E_k=\{x:f(x)>1/k\}\).  Since \((1/k)\1_{E_k}\le f\), we get \(m(E_k)/k\le\int f=0\), hence \(m(E_k)=0\).  But \(\{f>0\}=\bigcup_kE_k\), so \(m(\{f>0\})=0\).
+\end{proof}
+
+\begin{lemma}[Chebyshev inequality]
+If \(f\ge0\) is measurable and \(a>0\), then
+\[
+    m(\{x:f(x)>a\})\le \frac1a\int f.
+\]
+\end{lemma}
+
+\begin{proof}
+Let \(E_a=\{f>a\}\).  Since \(a\1_{E_a}\le f\), monotonicity gives
+\[
+    a\,m(E_a)=\int a\1_{E_a}\le\int f.
+\]
+Divide by \(a\).
+\end{proof}
+
+\section{Convergence Theorems}
+
+\begin{lemma}[Fatou]
+If \(f_n\ge0\) are measurable, then
+\[
+    \int \liminf_{n\to\infty}f_n\le \liminf_{n\to\infty}\int f_n.
+\]
+\end{lemma}
+
+\begin{proof}
+Set \(g_n=\inf_{k\ge n}f_k\).  Then \(g_n\uparrow g=\liminf_nf_n\).  By monotonicity, \(\int g_n\le\inf_{k\ge n}\int f_k\).  Taking \(n\to\infty\) and using the monotone convergence theorem for the increasing sequence \(g_n\) gives
+\[
+    \int g=\lim_n\int g_n\le\lim_n\inf_{k\ge n}\int f_k=\liminf_n\int f_n.
+\]
+It remains only to justify monotone convergence, which is proved in the next theorem; alternatively one may reverse the order and prove Fatou from the definition first.  The two arguments are logically equivalent once simple approximation is available.
+\end{proof}
+
+\begin{theorem}[Monotone convergence]
+If \(0\le f_1\le f_2\le\cdots\) are measurable and \(f_n\uparrow f\), then
+\[
+    \lim_{n\to\infty}\int f_n=\int f.
+\]
+\end{theorem}
+
+\begin{proof}
+By monotonicity, \(\int f_n\le\int f\), so \(\lim_n\int f_n\le\int f\).  For the reverse inequality, let \(0\le\varphi\le f\) be simple and fix \(0<c<1\).  Define
+\[
+    E_n=\{x:f_n(x)\ge c\varphi(x)\}.
+\]
+Then \(E_n\uparrow X\), because wherever \(\varphi(x)=0\) the condition is automatic, and wherever \(\varphi(x)>0\), \(f_n(x)\uparrow f(x)\ge\varphi(x)>c\varphi(x)\).  Hence by continuity from below and simple-function integration,
+\[
+    \int f_n\ge\int_{E_n} f_n\ge c\int_{E_n}\varphi\to c\int\varphi.
+\]
+Thus \(\liminf_n\int f_n\ge c\int\varphi\).  Let \(c\uparrow1\), then take the supremum over all simple \(\varphi\le f\).  This gives \(\liminf_n\int f_n\ge\int f\).
+\end{proof}
+
+\begin{corollary}[Termwise integration of nonnegative series]
+If \(a_k\ge0\) are measurable, then
+\[
+    \int\sum_{k=1}^\infty a_k=\sum_{k=1}^\infty\int a_k.
+\]
+If the right side is finite, then \(
+\sum_ka_k(x)<\infty\) for almost every \(x\).
+\end{corollary}
+
+\begin{proof}
+Let \(s_N=\sum_{k=1}^N a_k\).  Then \(s_N\uparrow\sum_ka_k\).  By monotone convergence and finite linearity,
+\[
+    \int\sum_ka_k=\lim_N\int s_N=\lim_N\sum_{k=1}^N\int a_k=\sum_k\int a_k.
+\]
+If this common value is finite, the set where \(\sum_ka_k=\infty\) must have measure zero; otherwise the integral of the sum would be infinite by Chebyshev's inequality applied to truncations.
+\end{proof}
+
+\begin{theorem}[Dominated convergence]
+Let \(f_n\) be measurable, \(f_n\to f\) almost everywhere, and \(\abs{f_n}\le g\) for some integrable \(g\).  Then \(f\) is integrable and
+\[
+    \lim_{n\to\infty}\int\abs{f_n-f}=0,
+    \qquad
+    \lim_{n\to\infty}\int f_n=\int f.
+\]
+\end{theorem}
+
+\begin{proof}
+Since \(\abs f\le g\) almost everywhere, \(f\) is integrable.  The functions \(2g-\abs{f_n-f}\) are nonnegative and converge almost everywhere to \(2g\).  Fatou's lemma gives
+\[
+    \int 2g\le \liminf_n\int(2g-\abs{f_n-f})
+    =2\int g-\limsup_n\int\abs{f_n-f}.
+\]
+Therefore \(\limsup_n\int\abs{f_n-f}\le0\), proving \(L^1\)-convergence.  Finally,
+\[
+    \abs{\int f_n-\int f}\le\int\abs{f_n-f}\to0.
+\]
+\end{proof}
+
+\begin{theorem}[Bounded convergence]
+Let \(E\) have finite measure.  Suppose \(f_n\) are measurable, \(\abs{f_n}\le M\), and \(f_n\to f\) almost everywhere on \(E\).  Then
+\[
+    \int_E f_n\to\int_E f.
+\]
+\end{theorem}
+
+\begin{proof}
+Apply dominated convergence with the integrable dominating function \(g=M\1_E\).  Then \(\abs{f_n}\le g\), \(f\) is integrable, and the integrals converge.
+\end{proof}
+
+\begin{proposition}
+If \(f\) is Riemann integrable on \([a,b]\), then \(f\) is Lebesgue measurable and
+\[
+    \int_a^b f(x)\dd x
+\]
+has the same value as the Riemann integral.
+\end{proposition}
+
+\begin{proof}
+Let \(P_n\) be partitions whose mesh tends to zero and whose upper and lower Darboux sums differ by a quantity tending to zero.  Let \(u_n\) and \(\ell_n\) be the corresponding upper and lower step functions.  Then \(\ell_n\le f\le u_n\), and \(\int(u_n-\ell_n)\to0\).  Put
+\[
+    \ell=\sup_n\ell_n,
+    \qquad
+    u=\inf_nu_n.
+\]
+Then \(\ell\le f\le u\), \(\ell,u\) are measurable, and \(\int(u-\ell)=0\).  Thus \(u=\ell\) almost everywhere, and \(f\) agrees almost everywhere with a measurable function, hence is measurable.  Since the Lebesgue integrals of \(u_n\) and \(\ell_n\) are exactly the Darboux sums and their limits coincide with the Riemann integral, squeezing gives equality of the Riemann and Lebesgue integrals.
+\end{proof}
+
+
+\section{Fubini's Theorem on Euclidean Product Spaces}\label{sec:euclidean-fubini}
+
+The preceding construction of the Lebesgue integral is one-dimensional in notation, but the same arguments apply on every Euclidean space.  The next theorem records the form used constantly in analysis: integration on a product space may be computed by successive integration.  Its abstract product-measure proof is given later in \Cref{sec:abstract-product-measures}; the present statement is the Euclidean specialization.
+
+\begin{theorem}[Tonelli theorem on \texorpdfstring{$\R^m\times\R^n$}{Rm x Rn}]
+Let \(f:\R^m\times\R^n\to[0,\infty]\) be Lebesgue measurable.  Then, for almost every \(x\in\R^m\), the section \(y\mapsto f(x,y)\) is measurable; the function
+\[
+    x\longmapsto \int_{\R^n} f(x,y)\dd y
+\]
+is measurable; and
+\[
+    \int_{\R^{m+n}} f(x,y)\dd(x,y)
+    =\int_{\R^m}\left(\int_{\R^n}f(x,y)\dd y\right)\dd x.
+\]
+The analogous formula with the order of \(x\) and \(y\) reversed also holds.
+\end{theorem}
+
+\begin{proof}
+Lebesgue measure on \(\R^{m+n}\) is the completion of the product of Lebesgue measure on \(\R^m\) and Lebesgue measure on \(\R^n\).  The sigma-finite product-measure construction and Tonelli theorem in \Cref{sec:abstract-product-measures} apply to the two measure spaces \((\R^m,\mathcal L^m,m_m)\) and \((\R^n,\mathcal L^n,m_n)\).  They give the measurability of sections for product-measurable representatives and the equality of the product integral with both iterated integrals.  Passing to the Lebesgue completion changes sections only on a null set of parameters: if \(N\subset\R^{m+n}\) has product measure zero, Tonelli applied to \(\1_N\) gives
+\[
+    0=m_{m+n}(N)=\int_{\R^m}m_n(N_x)\dd x,
+\]
+so \(m_n(N_x)=0\) for almost every \(x\).  Hence modifying a product-measurable representative on \(N\) does not change any of the iterated integrals except on a null set of \(x\)'s.  This proves the theorem for Lebesgue measurable non-negative functions.
+\end{proof}
+
+\begin{theorem}[Fubini theorem on \texorpdfstring{$\R^m\times\R^n$}{Rm x Rn}]
+Let \(f\in L^1(\R^m\times\R^n)\).  Then \(f(x,\cdot)\in L^1(\R^n)\) for almost every \(x\), and \(f(\cdot,y)\in L^1(\R^m)\) for almost every \(y\). Moreover,
+\[
+    \int_{\R^{m+n}}f(x,y)\dd(x,y)
+    =\int_{\R^m}\left(\int_{\R^n}f(x,y)\dd y\right)\dd x
+    =\int_{\R^n}\left(\int_{\R^m}f(x,y)\dd x\right)\dd y,
+\]
+and both iterated integrals are absolutely integrable.
+\end{theorem}
+
+\begin{proof}
+Apply Tonelli's theorem to \(\abs f\).  Since \(f\in L^1\),
+\[
+    \int_{\R^m}\left(\int_{\R^n}\abs{f(x,y)}\dd y\right)\dd x
+    =\int_{\R^{m+n}}\abs{f(x,y)}\dd(x,y)<\infty.
+\]
+Therefore the inner integral of \(\abs f\) is finite for almost every \(x\), which means \(f(x,\cdot)\in L^1(\R^n)\) for almost every \(x\), and the resulting function of \(x\) is integrable.  The same argument with \(x\) and \(y\) interchanged gives the corresponding statement for horizontal sections.  Finally write \(f=f^+-f^-\) in the real-valued case, or split into real and imaginary parts in the complex-valued case, and apply Tonelli to the non-negative parts.  Subtracting the finite equalities gives the desired identities.
+\end{proof}
+
+\section{Absolute Continuity of the Integral and Uniform Integrability}
+
+\begin{theorem}[Continuity of integration over sets]
+Let \(f\) be integrable on \(E\).
+\begin{enumerate}[label=(\roman*)]
+    \item If \(E_n\uparrow E\), then \(\int_{E_n}f\to\int_E f\).
+    \item If \(E_n\downarrow E\), then \(\int_{E_n}f\to\int_E f\).
+\end{enumerate}
+\end{theorem}
+
+\begin{proof}
+It suffices to consider \(f\ge0\), then apply the result to \(f^+\) and \(f^-\).  If \(E_n\uparrow E\), then \(f\1_{E_n}\uparrow f\1_E\), so monotone convergence gives the result.  If \(E_n\downarrow E\), then \(f\1_{E_1\setminus E_n}\uparrow f\1_{E_1\setminus E}\).  Therefore
+\[
+    \int_{E_n}f=\int_{E_1}f-\int_{E_1\setminus E_n}f
+    \to \int_{E_1}f-\int_{E_1\setminus E}f=\int_Ef.
+\]
+\end{proof}
+
+\begin{proposition}[Absolute continuity of the integral]
+Let \(f\in L^1(E)\).  For every \(\eps>0\), there exists \(\delta>0\) such that whenever \(A\subset E\) is measurable and \(m(A)<\delta\),
+\[
+    \int_A\abs f<\eps.
+\]
+\end{proposition}
+
+\begin{proof}
+Choose \(N\) such that \(\int_{\{\abs f>N\}}\abs f<\eps/2\), possible by continuity of integration applied to the decreasing sets \(\{\abs f>N\}\).  Let \(\delta=\eps/(2N)\).  If \(m(A)<\delta\), then
+\[
+    \int_A\abs f
+    =\int_{A\cap\{\abs f\le N\}}\abs f+
+      \int_{A\cap\{\abs f>N\}}\abs f
+    \le N m(A)+\eps/2<\eps.
+\]
+\end{proof}
+
+\begin{definition}
+A family \(\mathcal F\subset L^1(E)\) is \emph{equi-integrable} if for every \(\eps>0\), there exists \(\delta>0\) such that for every measurable \(A\subset E\) with \(m(A)<\delta\),
+\[
+    \sup_{f\in\mathcal F}\int_A\abs f<\eps.
+\]
+It is \emph{tight} on \(E\) if for every \(\eps>0\), there exists a measurable \(E_0\subset E\) with \(m(E_0)<\infty\) such that
+\[
+    \sup_{f\in\mathcal F}\int_{E\setminus E_0}\abs f<\eps.
+\]
+\end{definition}
+
+\begin{theorem}[Vitali convergence on finite-measure sets]
+Let \(m(E)<\infty\).  Suppose \(f_n\to f\) almost everywhere on \(E\) and \(\{f_n\}\) is equi-integrable.  Then \(f\in L^1(E)\) and
+\[
+    \int_E\abs{f_n-f}\to0.
+\]
+\end{theorem}
+
+\begin{proof}
+By Fatou, for every measurable \(A\),
+\[
+    \int_A\abs f\le\liminf_n\int_A\abs{f_n},
+\]
+so \(f\) is integrable on \(E\) because equi-integrability on finite measure sets implies boundedness of the integrals.  Fix \(\eps>0\).  Choose \(\delta>0\) from equi-integrability for the family \(\{f_n\}\cup\{f\}\) with error \(\eps/3\).  By Egorov's theorem, choose \(A\subset E\) such that \(m(E\setminus A)<\delta\) and \(f_n\to f\) uniformly on \(A\).  Then for large \(n\),
+\[
+    \int_A\abs{f_n-f}<\eps/3.
+\]
+On the complement,
+\[
+    \int_{E\setminus A}\abs{f_n-f}
+    \le\int_{E\setminus A}\abs{f_n}+\int_{E\setminus A}\abs f<2\eps/3.
+\]
+Thus \(\int_E\abs{f_n-f}<\eps\) for all large \(n\).
+\end{proof}
+
+\begin{theorem}[General Vitali convergence]
+Let \(f_n\to f\) almost everywhere on \(E\).  If \(\{f_n\}\) is both equi-integrable and tight, then \(f\in L^1(E)\) and \(f_n\to f\) in \(L^1(E)\).
+\end{theorem}
+
+\begin{proof}
+Fix \(\eps>0\).  By tightness, choose \(E_0\subset E\) of finite measure such that \(\int_{E\setminus E_0}\abs{f_n}<\eps\) for all \(n\).  Fatou gives \(\int_{E\setminus E_0}\abs f\le\eps\).  On \(E_0\), the finite-measure Vitali theorem gives \(\int_{E_0}\abs{f_n-f}\to0\).  Therefore
+\[
+    \int_E\abs{f_n-f}
+    \le \int_{E_0}\abs{f_n-f}+\int_{E\setminus E_0}\abs{f_n}+\int_{E\setminus E_0}\abs f
+    \le \int_{E_0}\abs{f_n-f}+2\eps.
+\]
+Let \(n\to\infty\), then \(\eps\downarrow0\).
+\end{proof}
+
+\begin{definition}
+A sequence \(f_n\) converges to \(f\) \emph{in measure} on \(E\) if for every \(\eta>0\),
+\[
+    m(\{x\in E:\abs{f_n(x)-f(x)}>\eta\})\to0.
+\]
+\end{definition}
+
+\begin{proposition}
+If \(m(E)<\infty\) and \(f_n\to f\) almost everywhere on \(E\), then \(f_n\to f\) in measure.
+\end{proposition}
+
+\begin{proof}
+Fix \(\eta>0\) and \(\eps>0\).  By Egorov's theorem, choose \(A\subset E\) such that \(m(E\setminus A)<\eps\) and \(f_n\to f\) uniformly on \(A\).  For all sufficiently large \(n\), \(\abs{f_n-f}\le\eta\) on \(A\).  Thus
+\[
+    \{\abs{f_n-f}>\eta\}\subset E\setminus A
+\]
+for large \(n\), so its measure is less than \(\eps\).  Since \(\eps\) is arbitrary, the measure tends to zero.
+\end{proof}
+
+\begin{theorem}[Riesz subsequence theorem]
+If \(f_n\to f\) in measure on \(E\), then there exists a subsequence \(f_{n_k}\) such that \(f_{n_k}\to f\) almost everywhere.
+\end{theorem}
+
+\begin{proof}
+For each \(k\), choose \(n_k>n_{k-1}\) such that
+\[
+    m(\{\abs{f_{n_k}-f}>2^{-k}\})<2^{-k}.
+\]
+Let \(E_k=\{\abs{f_{n_k}-f}>2^{-k}\}\).  Since \(\sum_km(E_k)<\infty\), Borel--Cantelli implies that almost every \(x\) belongs to only finitely many \(E_k\).  For such \(x\), there exists \(K(x)\) such that for \(k\ge K(x)\), \(\abs{f_{n_k}(x)-f(x)}\le2^{-k}\).  Hence \(f_{n_k}(x)\to f(x)\).
+\end{proof}
+
+\begin{corollary}
+Let \(f_n\ge0\) be integrable and \(f_n\to f\) in measure.  Then \(\int\abs{f_n-f}\to0\) if and only if \(\{f_n\}\) is equi-integrable and tight.
+\end{corollary}
+
+\begin{proof}
+If \(f_n\to f\) in \(L^1\), then \(\{f_n\}\cup\{f\}\) is equi-integrable and tight because a single \(L^1\) function has both properties and \(\int\abs{f_n-f}\) is small for large \(n\); finitely many exceptional terms do not affect the properties.  Conversely, if \(\{f_n\}\) is equi-integrable and tight, every subsequence has a further subsequence converging almost everywhere to \(f\) by the Riesz theorem.  The general Vitali theorem then gives \(L^1\)-convergence along this further subsequence.  If the whole sequence did not converge in \(L^1\), some subsequence would satisfy \(\int\abs{f_{n_j}-f}\ge\eps>0\); this subsequence has a further subsequence converging in \(L^1\), a contradiction.
+\end{proof}
+
+\begin{theorem}[Completeness of \(L^1\)]
+The space \(L^1\), modulo equality almost everywhere, is complete under the norm \(\norm f_1=\int\abs f\).
+\end{theorem}
+
+\begin{proof}
+Let \(f_n\) be Cauchy in \(L^1\).  Choose a subsequence \(f_{n_k}\) such that \(\norm{f_{n_{k+1}}-f_{n_k}}_1<2^{-k}\).  The nonnegative series
+\[
+    \sum_{k=1}^\infty \abs{f_{n_{k+1}}-f_{n_k}}
+\]
+has finite integral, hence is finite almost everywhere.  Thus \(f_{n_k}(x)\) converges almost everywhere to some function \(f(x)\).  Moreover,
+\[
+    \abs{f_{n_k}-f}\le\sum_{j=k}^\infty\abs{f_{n_{j+1}}-f_{n_j}}
+\]
+almost everywhere, and integrating gives \(\norm{f_{n_k}-f}_1\le\sum_{j=k}^\infty2^{-j}\to0\).  Since the original sequence is Cauchy, \(f_n\to f\) in \(L^1\).
+\end{proof}
+
+\chapter{Differentiation and Integration}
+
+\section{Hardy--Littlewood Maximal Function and Differentiation}
+
+\begin{definition}
+For \(f\in L^1_{\mathrm{loc}}(\R^d)\), the Hardy--Littlewood maximal function is
+\[
+    Mf(x)=\sup_{B\ni x}\frac1{m(B)}\int_B\abs{f(y)}\dd y,
+\]
+where the supremum is taken over all balls \(B\subset\R^d\) containing \(x\).
+\end{definition}
+
+\begin{lemma}[Vitali covering lemma for balls]
+Let \(\mathcal B=\{B_1,\ldots,B_N\}\) be a finite collection of balls in \(\R^d\).  Then there is a disjoint subcollection \(B_{j_1},\ldots,B_{j_k}\) such that
+\[
+    \bigcup_{i=1}^N B_i\subset \bigcup_{\ell=1}^k 3B_{j_\ell},
+\]
+where \(3B\) is the ball with the same center and three times the radius.  Consequently,
+\[
+    m\left(\bigcup_{i=1}^N B_i\right)\le 3^d\sum_{\ell=1}^k m(B_{j_\ell}).
+\]
+\end{lemma}
+
+\begin{proof}
+Choose from \(\mathcal B\) a ball of largest radius, call it \(B_{j_1}\).  Remove it and all balls intersecting it.  From the remaining collection, choose a ball of largest radius, and repeat until no balls remain.  The chosen balls are disjoint.  If a removed ball \(B\) intersects a chosen ball \(B_j\), then \(r(B)\le r(B_j)\) by the maximal choice at that step.  Every point of \(B\) lies within distance at most \(r(B)+2r(B_j)\le3r(B_j)\) from the center of \(B_j\), hence \(B\subset3B_j\).  This proves the covering inclusion.  Taking measures gives the inequality because \(m(3B_j)=3^d m(B_j)\).
+\end{proof}
+
+\begin{theorem}[Weak type \((1,1)\) estimate]
+If \(f\in L^1(\R^d)\), then \(Mf\) is measurable, finite almost everywhere, and for every \(\alpha>0\),
+\[
+    m(\{x:Mf(x)>\alpha\})\le \frac{C_d}{\alpha}\norm f_1,
+\]
+where one may take \(C_d=3^d\).
+\end{theorem}
+
+\begin{proof}
+Measurability follows by restricting the supremum to balls with rational centers and rational radii; this countable supremum gives the same value because balls can be approximated from inside and outside.  Let \(E_\alpha=\{Mf>\alpha\}\).  For every \(x\in E_\alpha\), choose a ball \(B_x\ni x\) such that
+\[
+    \int_{B_x}\abs f>\alpha m(B_x).
+\]
+For a compact \(K\subset E_\alpha\), finitely many such balls cover \(K\).  Apply the Vitali covering lemma to obtain disjoint balls \(B_1,\ldots,B_N\) with \(K\subset\bigcup_j3B_j\).  Then
+\[
+    m(K)\le 3^d\sum_jm(B_j)<\frac{3^d}{\alpha}\sum_j\int_{B_j}\abs f
+    \le\frac{3^d}{\alpha}\norm f_1.
+\]
+By inner regularity, take the supremum over compact \(K\subset E_\alpha\) to get the stated inequality.  Since \(m(\{Mf>n\})\le C_d\norm f_1/n\to0\), the set where \(Mf=\infty\) has measure zero.
+\end{proof}
+
+\begin{theorem}[Lebesgue differentiation theorem]
+If \(f\in L^1_{\mathrm{loc}}(\R^d)\), then for almost every \(x\in\R^d\),
+\[
+    \lim_{r\downarrow0}\frac1{m(B(x,r))}\int_{B(x,r)}\abs{f(y)-f(x)}\dd y=0.
+\]
+Consequently,
+\[
+    \lim_{r\downarrow0}\frac1{m(B(x,r))}\int_{B(x,r)}f(y)\dd y=f(x)
+\]
+for almost every \(x\).
+\end{theorem}
+
+\begin{proof}
+First assume \(f\in L^1(\R^d)\).  For a continuous compactly supported \(g\), uniform continuity gives
+\[
+    \frac1{m(B(x,r))}\int_{B(x,r)}\abs{g(y)-g(x)}\dd y\to0
+\]
+for every \(x\).  Given \(\eps>0\), choose such a \(g\) with \(\norm{f-g}_1<\eps\), possible by density.  Define
+\[
+    A_t=\left\{x:\limsup_{r\downarrow0}\frac1{m(B(x,r))}\int_{B(x,r)}\abs{f(y)-f(x)}\dd y>t\right\}.
+\]
+Using \(f-g\) and the pointwise term \(\abs{f(x)-g(x)}\), one obtains
+\[
+    A_t\subset \{M(f-g)>t/3\}\cup\{\abs{f-g}>t/3\}.
+\]
+The weak maximal estimate and Chebyshev inequality give
+\[
+    m(A_t)\le C\frac{\norm{f-g}_1}{t}+\frac{3}{t}\norm{f-g}_1\le C_t\eps.
+\]
+Since \(\eps\) is arbitrary, \(m(A_t)=0\) for every rational \(t>0\), and the result follows.  For locally integrable \(f\), apply the argument to \(f\1_{B(0,N)}\) on each ball \(B(0,N/2)\), then take the countable union over \(N\).
+\end{proof}
+
+\begin{definition}
+A point \(x\) is a \emph{Lebesgue density point} of a measurable set \(E\) if
+\[
+    \lim_{r\downarrow0}\frac{m(E\cap B(x,r))}{m(B(x,r))}=1.
+\]
+The \emph{Lebesgue set} of a locally integrable function \(f\) is the set of points \(x\) for which the first limit in the differentiation theorem is \(0\).
+\end{definition}
+
+\begin{corollary}[Density theorem]
+If \(E\subset\R^d\) is measurable, then almost every point of \(E\) is a density point of \(E\), and almost every point of \(E^c\) is not a density point of \(E\).
+\end{corollary}
+
+\begin{proof}
+Apply the Lebesgue differentiation theorem to \(f=\1_E\).  At almost every point \(x\), averages of \(\1_E\) over balls centered at \(x\) converge to \(\1_E(x)\).  If \(x\in E\), this limit is \(1\); if \(x\in E^c\), it is \(0\).  The two assertions follow.
+\end{proof}
+
+\section{Bounded Variation and Absolute Continuity}
+
+\begin{definition}
+For a complex-valued function \(F\) on \([a,b]\), its variation over a partition \(P:a=t_0<\cdots<t_N=b\) is
+\[
+    V(F,P)=\sum_{j=1}^N\abs{F(t_j)-F(t_{j-1})}.
+\]
+The total variation is \(T_F(a,b)=\sup_PV(F,P)\).  The function \(F\) is of \emph{bounded variation}, written \(F\in BV([a,b])\), if \(T_F(a,b)<\infty\).
+\end{definition}
+
+\begin{proposition}
+A plane curve \(\gamma(t)=(x(t),y(t))\), \(a\le t\le b\), is rectifiable if and only if both \(x\) and \(y\) are of bounded variation.  In that case the length of \(\gamma\) is comparable to the variations of \(x\) and \(y\).
+\end{proposition}
+
+\begin{proof}
+Let \(F(t)=x(t)+iy(t)\).  For each partition,
+\[
+    \abs{x(t_j)-x(t_{j-1})}\le\abs{F(t_j)-F(t_{j-1})},\qquad
+    \abs{y(t_j)-y(t_{j-1})}\le\abs{F(t_j)-F(t_{j-1})}.
+\]
+Hence rectifiability of the curve implies bounded variation of \(x\) and \(y\).  Conversely,
+\[
+    \abs{F(t_j)-F(t_{j-1})}
+    \le \abs{x(t_j)-x(t_{j-1})}+\abs{y(t_j)-y(t_{j-1})}.
+\]
+Taking sums and suprema shows that bounded variation of \(x\) and \(y\) implies finite curve length.
+\end{proof}
+
+\begin{lemma}
+If \(F\) is real-valued and of bounded variation on \([a,b]\), then for \(a\le x\le b\), with
+\[
+    P_F(a,x)=\sup_P\sum_j (F(t_j)-F(t_{j-1}))^+,
+    \quad
+    N_F(a,x)=\sup_P\sum_j (F(t_j)-F(t_{j-1}))^-,
+\]
+we have
+\[
+    F(x)-F(a)=P_F(a,x)-N_F(a,x),
+    \qquad
+    T_F(a,x)=P_F(a,x)+N_F(a,x).
+\]
+\end{lemma}
+
+\begin{proof}
+For a fixed partition, write each increment \(\Delta_j=F(t_j)-F(t_{j-1})\).  Then \(\Delta_j=\Delta_j^+-\Delta_j^-\) and \(\abs{\Delta_j}=\Delta_j^++\Delta_j^-\).  Summing gives
+\[
+    F(x)-F(a)=\sum_j\Delta_j^+-\sum_j\Delta_j^-.
+\]
+Taking suprema over refinements yields the stated decomposition.  More explicitly, if a partition nearly realizes total variation, then the positive and negative sums nearly realize the corresponding suprema; otherwise their sum would be too small.  Hence the two displayed identities hold.
+\end{proof}
+
+\begin{theorem}
+A real-valued function \(F\) on \([a,b]\) has bounded variation if and only if it is the difference of two bounded increasing functions.
+\end{theorem}
+
+\begin{proof}
+If \(F=G-H\), with \(G,H\) bounded increasing, then for every partition,
+\[
+    \sum_j\abs{F(t_j)-F(t_{j-1})}
+    \le\sum_j(G(t_j)-G(t_{j-1}))+
+       \sum_j(H(t_j)-H(t_{j-1}))
+    \le G(b)-G(a)+H(b)-H(a),
+\]
+so \(F\) has bounded variation.  Conversely, if \(F\in BV\), define
+\[
+    G(x)=P_F(a,x),\qquad H(x)=N_F(a,x)-F(a).
+\]
+Both \(P_F\) and \(N_F\) are increasing and bounded by \(T_F(a,b)\).  The preceding lemma gives \(F(x)=G(x)-H(x)\).
+\end{proof}
+
+\begin{theorem}
+Every real-valued function of bounded variation on \([a,b]\) is differentiable almost everywhere.
+\end{theorem}
+
+\begin{proof}
+By the preceding theorem, it is enough to prove the result for increasing functions.  Let \(F\) be increasing.  Define the upper and lower Dini derivatives
+\[
+    D^+F(x)=\limsup_{h\to0}\frac{F(x+h)-F(x)}{h},
+    \qquad
+    D_-F(x)=\liminf_{h\to0}\frac{F(x+h)-F(x)}{h}.
+\]
+For rationals \(\alpha>\beta\), consider
+\[
+    E_{\alpha,\beta}=\{x:D^+F(x)>\alpha>\beta>D_-F(x)\}.
+\]
+Using the rising-sun lemma applied to the continuous approximations \(F(x)-\alpha x\) and \(F(x)-\beta x\) on open covers of \(E_{\alpha,\beta}\), one obtains
+\[
+    \alpha m(E_{\alpha,\beta})\le \beta m(E_{\alpha,\beta}).
+\]
+Since \(\alpha>\beta\), this forces \(m(E_{\alpha,\beta})=0\).  Taking the countable union over rational \(\alpha>\beta\) shows that the upper and lower Dini derivatives agree almost everywhere.  Hence \(F'\) exists almost everywhere.  The reduction from BV to increasing functions preserves differentiability almost everywhere.
+\end{proof}
+
+\begin{definition}
+A function \(F:[a,b]\to\C\) is \emph{absolutely continuous} if for every \(\eps>0\), there exists \(\delta>0\) such that for every finite disjoint collection of intervals \((a_j,b_j)\subset[a,b]\),
+\[
+    \sum_j(b_j-a_j)<\delta
+    \quad\Longrightarrow\quad
+    \sum_j\abs{F(b_j)-F(a_j)}<\eps.
+\]
+\end{definition}
+
+\begin{proposition}
+If \(F\) is absolutely continuous on \([a,b]\), then \(F\) is uniformly continuous and of bounded variation.
+\end{proposition}
+
+\begin{proof}
+Uniform continuity follows by applying the definition to a single interval: if \(\abs{x-y}<\delta\), then \(\abs{F(x)-F(y)}<\eps\).  For bounded variation, choose \(\delta>0\) corresponding to \(\eps=1\).  Divide \([a,b]\) into finitely many intervals of length less than \(\delta\).  On each such interval, the variation of \(F\) over any subpartition is at most \(1\) by absolute continuity.  Summing over finitely many intervals gives finite total variation.
+\end{proof}
+
+\begin{proposition}
+If \(f\in L^1([a,b])\) and
+\[
+    F(x)=F(a)+\int_a^x f(t)\dd t,
+\]
+then \(F\) is absolutely continuous.
+\end{proposition}
+
+\begin{proof}
+Given \(\eps>0\), by absolute continuity of the integral choose \(\delta>0\) such that \(m(A)<\delta\) implies \(\int_A\abs f<\eps\).  If \((a_j,b_j)\) are disjoint and \(\sum_j(b_j-a_j)<\delta\), then with \(A=\bigcup_j(a_j,b_j)\),
+\[
+    \sum_j\abs{F(b_j)-F(a_j)}
+    \le\sum_j\int_{a_j}^{b_j}\abs f
+    =\int_A\abs f<\eps.
+\]
+Thus \(F\) is absolutely continuous.
+\end{proof}
+
+\begin{theorem}[Fundamental theorem of calculus]
+For a function \(F:[a,b]\to\R\), the following are equivalent:
+\begin{enumerate}[label=(\roman*)]
+    \item \(F\) is absolutely continuous;
+    \item \(F'\) exists almost everywhere, \(F'\in L^1([a,b])\), and
+    \[
+        F(x)=F(a)+\int_a^x F'(t)\dd t\qquad(a\le x\le b).
+    \]
+\end{enumerate}
+\end{theorem}
+
+\begin{proof}
+The implication (ii)\(\Rightarrow\)(i) is exactly the preceding proposition with \(f=F'\).  For (i)\(\Rightarrow\)(ii), absolute continuity implies bounded variation, hence differentiability almost everywhere.  By applying the differentiation theorem to the variation measure associated to \(F\), one obtains \(F'\in L^1\) and
+\[
+    \int_a^b\abs{F'}\le T_F(a,b).
+\]
+Define \(G(x)=F(a)+\int_a^xF'(t)\dd t\).  Then \(G\) is absolutely continuous and \(G'=F'\) almost everywhere.  Hence \(H=F-G\) is absolutely continuous and \(H'=0\) almost everywhere.  We show that such an \(H\) is constant.  Given \(\eps>0\), choose \(\delta\) from absolute continuity.  Since \(H'=0\) almost everywhere, the set where the upper derivative of \(H\) exceeds \(\eps/(b-a)\) has measure zero by the Dini-derivative argument.  Cover this null set by open intervals of total length less than \(\delta\), and on the complement use the derivative-zero condition to make all increments arbitrarily small.  Summing over a partition of \([a,b]\) gives \(\abs{H(x)-H(a)}<\eps\).  Since \(\eps\) is arbitrary, \(H(x)=H(a)\), so \(F=G\).
+\end{proof}
+
+\begin{theorem}[Lebesgue decomposition for BV functions]
+If \(F\in BV([a,b])\), then
+\[
+    F=G+H,
+\]
+where \(G\) is absolutely continuous and \(H' =0\) almost everywhere.  One can take
+\[
+    G(x)=F(a)+\int_a^x F'(t)\dd t.
+\]
+\end{theorem}
+
+\begin{proof}
+Since \(F\in BV\), \(F'\) exists almost everywhere and \(F'\in L^1\) after decomposing \(F\) into the difference of two increasing functions and applying the derivative estimate for monotone functions.  Define \(G(x)=F(a)+\int_a^xF'(t)\dd t\).  Then \(G\) is absolutely continuous and \(G'=F'\) almost everywhere.  Put \(H=F-G\).  Then \(H'=F'-G'=0\) almost everywhere.
+\end{proof}
+
+\section{Convex Functions and Jensen's Inequality}
+
+\begin{definition}
+A real-valued function \(\phi\) on an interval \((a,b)\) is \emph{convex} if for all \(x,y\in(a,b)\) and \(0\le\lambda\le1\),
+\[
+    \phi(\lambda x+(1-\lambda)y)\le \lambda\phi(x)+(1-\lambda)\phi(y).
+\]
+\end{definition}
+
+\begin{proposition}
+If \(\phi\) is convex on \((a,b)\), then:
+\begin{enumerate}[label=(\roman*)]
+    \item \(\phi\) is continuous;
+    \item the left and right derivatives exist at every point;
+    \item \(\phi\) is locally Lipschitz;
+    \item \(\phi\) is differentiable almost everywhere.
+\end{enumerate}
+\end{proposition}
+
+\begin{proof}
+For \(a<x<y<z<b\), convexity gives the slope monotonicity
+\[
+    \frac{\phi(y)-\phi(x)}{y-x}
+    \le \frac{\phi(z)-\phi(x)}{z-x}
+    \le \frac{\phi(z)-\phi(y)}{z-y}.
+\]
+This is obtained by writing \(y\) as a convex combination of \(x,z\) and rearranging.  The monotonicity of difference quotients implies the existence of one-sided derivatives as monotone limits.  On every compact subinterval \([c,d]\subset(a,b)\), the slopes are bounded between two finite secant slopes involving points slightly outside \([c,d]\), hence \(\phi\) is Lipschitz on \([c,d]\), and therefore continuous.  A locally Lipschitz function is of bounded variation on compact subintervals, so it is differentiable almost everywhere by the BV differentiability theorem.
+\end{proof}
+
+\begin{proposition}[Supporting line]
+If \(\phi\) is convex on \((a,b)\), then for every \(x_0\in(a,b)\) there exists \(m\in\R\) such that
+\[
+    \phi(x)\ge \phi(x_0)+m(x-x_0)
+    \qquad\text{for all }x\in(a,b).
+\]
+\end{proposition}
+
+\begin{proof}
+Let \(m_-\) and \(m_+\) be the left and right derivatives at \(x_0\).  Slope monotonicity gives \(m_-\le m_+\).  Choose any \(m\in[m_-,m_+]\).  If \(x>x_0\), then slope monotonicity gives \((\phi(x)-\phi(x_0))/(x-x_0)\ge m_+\ge m\).  If \(x<x_0\), then \((\phi(x_0)-\phi(x))/(x_0-x)\le m_-\le m\), which rearranges to the same inequality.  Hence the line with slope \(m\) supports the graph from below.
+\end{proof}
+
+\begin{theorem}[Jensen]
+Let \(\phi\) be convex on an interval containing the range of an integrable function \(f\) on a probability space \((X,\M,\mu)\).  If \(\phi\circ f\) is integrable, then
+\[
+    \phi\left(\int_X f\dd\mu\right)\le \int_X\phi(f)\dd\mu.
+\]
+\end{theorem}
+
+\begin{proof}
+Let \(x_0=\int f\dd\mu\).  By the supporting line proposition, choose \(m\) such that \(\phi(x)\ge\phi(x_0)+m(x-x_0)\) for all \(x\) in the interval.  Substitute \(x=f(t)\) and integrate:
+\[
+    \int\phi(f)\dd\mu\ge \int\bigl(\phi(x_0)+m(f-x_0)\bigr)\dd\mu
+    =\phi(x_0)+m\left(\int f\dd\mu-x_0\right)=\phi(x_0).
+\]
+This is the desired inequality.
+\end{proof}
+
+
+\section{Convolution and Approximation}\label{sec:euclidean-convolution}
+
+Convolution is the operation that turns translation-invariant integration into an algebraic product.  It is the analytic mechanism behind smoothing, approximation to the identity, and many later constructions in harmonic analysis.
+
+\begin{definition}[Translation and convolution]
+For \(h\in\R^d\), write
+\[
+    \tau_h f(x)=f(x-h).
+\]
+If \(f,g\) are measurable functions on \(\R^d\), their \emph{convolution} is
+\[
+    (f*g)(x)=\int_{\R^d}f(y)g(x-y)\dd y,
+\]
+whenever the integral is defined.  Equivalently, by the change of variables \(y\mapsto x-y\), one may write
+\[
+    (f*g)(x)=\int_{\R^d}f(x-y)g(y)\dd y.
+\]
+\end{definition}
+
+\begin{proposition}[Algebraic properties for compactly supported functions]
+If \(f,g,h\in C_c(\R^d)\), then \(f*g\in C_c(\R^d)\),
+\[
+    f*g=g*f,
+    \qquad
+    (f*g)*h=f*(g*h),
+\]
+and
+\[
+    \supp(f*g)\subseteq \supp(f)+\supp(g)
+    :=\set{a+b:a\in\supp(f),\ b\in\supp(g)}.
+\]
+\end{proposition}
+
+\begin{proof}
+The integral defining \(f*g\) is finite because the integrand is continuous and compactly supported in \(y\).  Commutativity follows from the change of variables \(z=x-y\):
+\[
+    (f*g)(x)=\int f(y)g(x-y)\dd y
+    =\int f(x-z)g(z)\dd z=(g*f)(x).
+\]
+For associativity, all integrands below are absolutely integrable because the functions are continuous with compact support.  Fubini's theorem gives
+\[
+\begin{aligned}
+((f*g)*h)(x)
+&=\int_{\R^d}\left(\int_{\R^d}f(u)g(y-u)\dd u\right)h(x-y)\dd y\\
+&=\int_{\R^d}f(u)\left(\int_{\R^d}g(y-u)h(x-y)\dd y\right)\dd u.
+\end{aligned}
+\]
+In the inner integral put \(v=y-u\).  Then \(x-y=x-u-v\), so the inner integral is
+\[
+    \int_{\R^d}g(v)h(x-u-v)\dd v=(g*h)(x-u).
+\]
+Thus \(((f*g)*h)(x)=\int f(u)(g*h)(x-u)\dd u=(f*(g*h))(x)\).
+
+The support inclusion follows directly: if \((f*g)(x)\ne0\), then for some \(y\) in the support of the integrand we must have \(y\in\supp(f)\) and \(x-y\in\supp(g)\), hence \(x\in\supp(f)+\supp(g)\).  Since the sum of two compact sets is compact, this also shows that \(f*g\) has compact support.  Continuity follows from uniform continuity on the compact set containing all relevant translates: if \(x_n\to x\), then \(g(x_n-y)\to g(x-y)\) uniformly for \(y\in\supp(f)\), hence \((f*g)(x_n)\to(f*g)(x)\).
+\end{proof}
+
+\begin{theorem}[Young inequality: \texorpdfstring{$L^1*L^p$}{L1-Lp} form]
+If \(f\in L^1(\R^d)\) and \(g\in L^p(\R^d)\), \(1\le p\le\infty\), then \(f*g\) is defined for almost every \(x\), belongs to \(L^p(\R^d)\), and
+\[
+    \norm{f*g}_p\le \norm{f}_1\norm{g}_p.
+\]
+In particular \(L^1(\R^d)\), with convolution as multiplication, is a normed algebra.
+\end{theorem}
+
+\begin{proof}
+For \(p=\infty\), for almost every \(x\),
+\[
+    \abs{(f*g)(x)}
+    \le\int\abs{f(y)}\abs{g(x-y)}\dd y
+    \le \norm{g}_\infty\norm{f}_1.
+\]
+Thus \(\norm{f*g}_\infty\le \norm f_1\norm g_\infty\).
+
+Let \(1\le p<\infty\).  By Minkowski's integral inequality and translation invariance of Lebesgue measure,
+\[
+\begin{aligned}
+\norm{f*g}_p
+&=\left(\int\left|\int f(y)g(x-y)\dd y\right|^p\dd x\right)^{1/p}\\
+&\le\int\abs{f(y)}\left(\int\abs{g(x-y)}^p\dd x\right)^{1/p}\dd y\\
+&=\int\abs{f(y)}\norm{g}_p\dd y
+=\norm{f}_1\norm{g}_p.
+\end{aligned}
+\]
+The same estimate applied to \(p=1\) gives \(\norm{f*g}_1\le\norm f_1\norm g_1\), so \(L^1\) is closed under convolution and the norm is submultiplicative.  The associativity on \(L^1\) follows by approximating \(L^1\) functions by \(C_c\) functions and using the inequality just proved to pass to the limit from the compactly supported case.
+\end{proof}
+
+\begin{proposition}[Holder endpoint]
+Let \(1\le p\le\infty\), and let \(q\) be its conjugate exponent.  If \(f\in L^p(\R^d)\) and \(g\in L^q(\R^d)\), then \(f*g\in L^\infty(\R^d)\) and
+\[
+    \norm{f*g}_\infty\le \norm{f}_p\norm{g}_q.
+\]
+\end{proposition}
+
+\begin{proof}
+For every \(x\) for which the convolution is defined, Holder's inequality gives
+\[
+    \abs{(f*g)(x)}
+    \le \int\abs{f(y)}\abs{g(x-y)}\dd y
+    \le \norm{f}_p\norm{\tau_x\widetilde g}_q,
+\]
+where \(\widetilde g(y)=g(-y)\).  Translation and reflection preserve the \(L^q\)-norm, so \(\norm{\tau_x\widetilde g}_q=\norm{g}_q\).  Taking the essential supremum over \(x\) proves the estimate.
+\end{proof}
+
+\begin{proposition}[Smoothing by convolution]
+Let \(f\in L^1_{\loc}(\R^d)\) and \(\phi\in C_c^\infty(\R^d)\). Then \(f*\phi\in C^\infty(\R^d)\), and for every multi-index \(\alpha\),
+\[
+    \partial^\alpha(f*\phi)=f*(\partial^\alpha\phi).
+\]
+\end{proposition}
+
+\begin{proof}
+Fix a compact set \(K\subset\R^d\).  If \(x\in K\) and \(\phi(x-y)\ne0\), then \(y\in K-\supp(\phi)\), a compact set.  Since \(f\in L^1_{\loc}\), all integrals involved are finite on \(K\).  For first derivatives, consider a coordinate vector \(e_j\).  The difference quotient is
+\[
+    \frac{(f*\phi)(x+te_j)-(f*\phi)(x)}{t}
+    =\int f(y)\frac{\phi(x+te_j-y)-\phi(x-y)}{t}\dd y.
+\]
+For \(x\in K\) and \(t\) small, the integrand is supported in one compact set and is dominated by \(\abs{f(y)}\sup\abs{\partial_j\phi}\), which is integrable on that compact set.  The pointwise limit of the difference quotient is \(f(y)\partial_j\phi(x-y)\).  Dominated convergence therefore gives
+\[
+    \partial_j(f*\phi)=f*(\partial_j\phi).
+\]
+Repeating the argument for higher derivatives proves the formula for every multi-index \(\alpha\), and also proves continuity of those derivatives.
+\end{proof}
+
+\begin{definition}[Good kernels]
+A family \(K_\delta\in L^1(\R^d)\), \(\delta>0\), is a family of \emph{good kernels}, or an \emph{approximation to the identity}, if
+\begin{enumerate}[label=(\roman*)]
+    \item \(\int K_\delta=1\);
+    \item \(\sup_\delta\norm{K_\delta}_1<\infty\);
+    \item for every \(\eta>0\),
+    \[
+        \int_{\abs{x}>\eta}\abs{K_\delta(x)}\dd x\to0
+        \qquad\text{as }\delta\downarrow0.
+    \]
+\end{enumerate}
+\end{definition}
+
+\begin{example}[Standard mollifiers]
+Let \(\rho\in C_c^\infty(\R^d)\), \(\rho\ge0\), and \(\int\rho=1\).  Define
+\[
+    \rho_\delta(x)=\delta^{-d}\rho(x/\delta).
+\]
+Then \(\{\rho_\delta\}_{\delta>0}\) is an approximation to the identity.  Indeed, \(\int\rho_\delta=1\) by the change of variables \(u=x/\delta\), \(\norm{\rho_\delta}_1=\norm{\rho}_1=1\), and for fixed \(\eta>0\), the support of \(\rho_\delta\) lies in \(\{\abs{x}<\eta\}\) for all sufficiently small \(\delta\).
+\end{example}
+
+\begin{theorem}[Approximation by good kernels]
+Let \(K_\delta\) be an approximation to the identity.
+\begin{enumerate}[label=(\roman*)]
+    \item If \(f\) is bounded and uniformly continuous on \(\R^d\), then \(K_\delta*f\to f\) uniformly.
+    \item If \(f\in L^p(\R^d)\), \(1\le p<\infty\), then
+    \[
+        \norm{K_\delta*f-f}_p\to0.
+    \]
+\end{enumerate}
+\end{theorem}
+
+\begin{proof}
+For bounded uniformly continuous \(f\), write
+\[
+    K_\delta*f(x)-f(x)=\int K_\delta(y)(f(x-y)-f(x))\dd y.
+\]
+Let \(C=\sup_\delta\norm{K_\delta}_1\).  Given \(\eps>0\), choose \(\eta>0\) such that \(\abs{f(x-y)-f(x)}<\eps\) whenever \(\abs y<\eta\).  Then
+\[
+\begin{aligned}
+\abs{K_\delta*f(x)-f(x)}
+&\le \int_{\abs y<\eta}\abs{K_\delta(y)}\eps\dd y
++\int_{\abs y\ge\eta}\abs{K_\delta(y)}2\norm f_\infty\dd y\\
+&\le C\eps+2\norm f_\infty\int_{\abs y\ge\eta}\abs{K_\delta(y)}\dd y.
+\end{aligned}
+\]
+Taking the supremum in \(x\), then letting \(\delta\downarrow0\), gives \(\limsup_\delta\norm{K_\delta*f-f}_\infty\le C\eps\).  Since \(\eps\) is arbitrary, uniform convergence follows.
+
+For \(1\le p<\infty\), first suppose \(f\in C_c(\R^d)\).  The first part gives uniform convergence.  Since \(f\) has compact support and the kernels have uniformly small tails, the functions \(K_\delta*f-f\) are small outside a fixed large compact set up to an arbitrarily small \(L^p\)-error; inside that compact set, uniform convergence implies \(L^p\)-convergence.  More explicitly, choose \(R\) so large that \(\supp(f)\subset B_R\).  Split the integral into \(B_{R+1}\) and its complement.  On \(B_{R+1}\), uniform convergence gives convergence in \(L^p\).  Outside \(B_{R+1}\), if \(\abs{x}>R+1\) and \(\abs{y}<1\), then \(f(x-y)=0\), so only the tail \(\abs y\ge1\) contributes, and this tail tends to zero by the good-kernel condition and Young's inequality.
+
+For general \(f\in L^p\), choose \(g\in C_c(\R^d)\) with \(\norm{f-g}_p<\eps\).  By Young's inequality,
+\[
+\begin{aligned}
+\norm{K_\delta*f-f}_p
+&\le \norm{K_\delta*(f-g)}_p+
+orm{K_\delta*g-g}_p+
+orm{g-f}_p\\
+&\le C\norm{f-g}_p+
+orm{K_\delta*g-g}_p+
+orm{g-f}_p\\
+&< (C+1)\eps+
+orm{K_\delta*g-g}_p.
+\end{aligned}
+\]
+Let \(\delta\downarrow0\), then let \(\eps\downarrow0\).
+\end{proof}
+
+\begin{corollary}[Density of smooth compactly supported functions]
+For \(1\le p<\infty\), the space \(C_c^\infty(\R^d)\) is dense in \(L^p(\R^d)\).
+\end{corollary}
+
+\begin{proof}
+Given \(f\in L^p\) and \(\eps>0\), choose \(g\in C_c(\R^d)\) with \(\norm{f-g}_p<\eps/2\).  Let \(\rho_\delta\) be a standard mollifier.  By the approximation theorem, \(\rho_\delta*g\to g\) in \(L^p\).  By the smoothing proposition, \(\rho_\delta*g\in C^\infty\), and its support is contained in \(\supp(g)+\supp(\rho_\delta)\), which is compact.  For sufficiently small \(\delta\), \(\norm{\rho_\delta*g-g}_p<\eps/2\), so \(\rho_\delta*g\in C_c^\infty\) approximates \(f\) within \(\eps\).
+\end{proof}
+
+\chapter{\texorpdfstring{$L^p$}{Lp} Spaces and Weak Convergence}
+
+\section{Normed, Banach, and Hilbert Spaces}
+
+\begin{definition}
+A normed vector space \((X,\norm{\cdot})\) is a vector space with a function \(\norm{\cdot}:X\to[0,\infty)\) satisfying positivity, homogeneity, and the triangle inequality.  It is a \emph{Banach space} if the metric \(d(x,y)=\norm{x-y}\) is complete.  A \emph{Hilbert space} is a complete inner-product space.
+\end{definition}
+
+\begin{proposition}
+\(L^2(\R^d)\), with
+\[
+    \langle f,g\rangle=\int_{\R^d}f(x)\overline{g(x)}\dd x,
+\]
+is a Hilbert space.
+\end{proposition}
+
+\begin{proof}
+The inner product axioms follow from linearity of the integral and the positivity of \(\int\abs f^2\).  Cauchy--Schwarz, proved as the case \(p=q=2\) of Holder's inequality below, gives \(\abs{\langle f,g\rangle}\le\norm f_2\norm g_2\), so the inner product is well-defined.  Completeness follows from the general Riesz--Fischer theorem for \(L^p\), proved below.
+\end{proof}
+
+\begin{proposition}
+\(L^2(\R^d)\) is separable.
+\end{proposition}
+
+\begin{proof}
+Continuous compactly supported functions are dense in \(L^2\), and step functions with rational coefficients supported on finite unions of rectangles with rational coordinates are dense among such functions.  More explicitly, approximate any \(f\in L^2\) by truncating it to a large cube and bounding its range, then approximate by a simple function.  By regularity, approximate the measurable level sets by finite unions of rational rectangles.  Finally approximate coefficients by complex numbers with rational real and imaginary parts.  The collection of all such rational step functions is countable and dense.
+\end{proof}
+
+\section{Basic Inequalities}
+
+\begin{definition}
+For \(1\le p<\infty\),
+\[
+    L^p(E)=\left\{f:\int_E\abs f^p<\infty\right\},
+    \qquad
+    \norm f_p=\left(\int_E\abs f^p\right)^{1/p}.
+\]
+Also
+\[
+    L^\infty(E)=\{f:\abs f\le M\text{ a.e. for some }M\},
+    \qquad
+    \norm f_\infty=\esssup_E\abs f.
+\]
+Functions equal almost everywhere are identified.
+\end{definition}
+
+\begin{lemma}[Young inequality]
+If \(a,b\ge0\), \(1<p<\infty\), and \(q\) is conjugate to \(p\), i.e. \(1/p+1/q=1\), then
+\[
+    ab\le \frac{a^p}{p}+\frac{b^q}{q}.
+\]
+\end{lemma}
+
+\begin{proof}
+The function \(\log\) is concave, so with weights \(1/p\) and \(1/q\),
+\[
+    \log\left(\frac{a^p}{p}+\frac{b^q}{q}\right)
+    \ge \frac1p\log(a^p)+\frac1q\log(b^q)=\log(ab)
+\]
+when \(a,b>0\).  Exponentiating gives the inequality.  If \(a=0\) or \(b=0\), it is trivial.
+\end{proof}
+
+\begin{theorem}[Holder inequality]
+If \(1<p<\infty\), \(q\) is conjugate to \(p\), \(f\in L^p(E)\), and \(g\in L^q(E)\), then \(fg\in L^1(E)\) and
+\[
+    \int_E\abs{fg}\le \norm f_p\norm g_q.
+\]
+The endpoint inequality \(\norm{fg}_1\le\norm f_1\norm g_\infty\) also holds.
+\end{theorem}
+
+\begin{proof}
+The endpoint case is immediate from \(\abs g\le\norm g_\infty\) almost everywhere.  For \(1<p<\infty\), if either norm is zero, then one function is zero almost everywhere and the result is trivial.  Otherwise normalize \(F=\abs f/\norm f_p\) and \(G=\abs g/\norm g_q\).  Young's inequality gives \(FG\le F^p/p+G^q/q\).  Integrating,
+\[
+    \int FG\le \frac1p\int F^p+\frac1q\int G^q=\frac1p+\frac1q=1.
+\]
+Multiplying by \(\norm f_p\norm g_q\) proves Holder.
+\end{proof}
+
+\begin{theorem}[Minkowski inequality]
+For \(1\le p\le\infty\),
+\[
+    \norm{f+g}_p\le\norm f_p+\norm g_p.
+\]
+\end{theorem}
+
+\begin{proof}
+The cases \(p=1\) and \(p=\infty\) follow from the pointwise triangle inequality.  For \(1<p<\infty\), let \(q\) be conjugate to \(p\).  If \(f+g=0\) almost everywhere, there is nothing to prove.  Otherwise,
+\[
+    \norm{f+g}_p^p=\int\abs{f+g}^{p-1}\abs{f+g}
+    \le\int\abs f\abs{f+g}^{p-1}+\int\abs g\abs{f+g}^{p-1}.
+\]
+By Holder,
+\[
+    \int\abs f\abs{f+g}^{p-1}
+    \le\norm f_p\left(\int\abs{f+g}^{(p-1)q}\right)^{1/q}
+    =\norm f_p\norm{f+g}_p^{p-1},
+\]
+and similarly for \(g\).  Hence
+\[
+    \norm{f+g}_p^p\le(\norm f_p+\norm g_p)\norm{f+g}_p^{p-1}.
+\]
+Divide by \(\norm{f+g}_p^{p-1}\).
+\end{proof}
+
+\begin{proposition}
+If \(m(E)<\infty\) and \(1\le p<q\le\infty\), then \(L^q(E)\subset L^p(E)\) and
+\[
+    \norm f_p\le m(E)^{1/p-1/q}\norm f_q,
+\]
+with the usual interpretation when \(q=\infty\).
+\end{proposition}
+
+\begin{proof}
+For \(q<\infty\), apply Holder to \(\abs f^p\cdot 1\) with exponents \(q/p\) and \(q/(q-p)\):
+\[
+    \int_E\abs f^p
+    \le \left(\int_E\abs f^q\right)^{p/q}m(E)^{1-p/q}.
+\]
+Taking the \(p\)-th root gives the inequality.  If \(q=\infty\), then \(\abs f\le\norm f_\infty\) almost everywhere, so \(\norm f_p\le m(E)^{1/p}\norm f_\infty\).
+\end{proof}
+
+\begin{proposition}
+If \(p>1\), then every norm-bounded family in \(L^p(E)\) is equi-integrable on finite-measure sets.  More precisely, if \(\norm f_p\le M\), then
+\[
+    \int_A\abs f\le M\,m(A)^{1-1/p}.
+\]
+\end{proposition}
+
+\begin{proof}
+Apply Holder to \(\abs f\1_A\):
+\[
+    \int_A\abs f\le \norm f_p\norm{\1_A}_q=M m(A)^{1/q}=M m(A)^{1-1/p}.
+\]
+Given \(\eps>0\), choose \(\delta=(\eps/M)^q\) if \(M>0\); the case \(M=0\) is trivial.
+\end{proof}
+
+\section{Completeness, Separability, and Convergence in \texorpdfstring{$L^p$}{Lp}}
+
+\begin{theorem}[Riesz--Fischer]
+For \(1\le p\le\infty\), \(L^p(E)\) is a Banach space.
+\end{theorem}
+
+\begin{proof}
+For \(1\le p<\infty\), let \(f_n\) be Cauchy.  Choose a subsequence \(f_{n_k}\) such that \(\norm{f_{n_{k+1}}-f_{n_k}}_p<2^{-k}\).  Let
+\[
+    g(x)=\abs{f_{n_1}(x)}+
+    \sum_{k=1}^\infty\abs{f_{n_{k+1}}(x)-f_{n_k}(x)}.
+\]
+By Minkowski and monotone convergence,
+\[
+    \norm g_p\le \norm{f_{n_1}}_p+
+    \sum_{k=1}^\infty 2^{-k}<\infty.
+\]
+Hence \(g<\infty\) almost everywhere, so \(f_{n_k}\) converges pointwise almost everywhere to some \(f\), and \(\abs{f_{n_k}-f}^p\le (2g)^p\) for large enough dominating function locally obtained from the tail.  More directly,
+\[
+    \abs{f_{n_k}-f}\le\sum_{j=k}^\infty\abs{f_{n_{j+1}}-f_{n_j}},
+\]
+so by Minkowski,
+\[
+    \norm{f_{n_k}-f}_p\le\sum_{j=k}^\infty2^{-j}\to0.
+\]
+Since \(f_n\) is Cauchy, the whole sequence converges to \(f\) in \(L^p\).
+
+For \(p=\infty\), choose a representative of each \(f_n\).  Since \(f_n\) is Cauchy in essential sup norm, there is a null set outside which \(f_n(x)\) is uniformly Cauchy in \(\C\).  Define \(f(x)=\lim_nf_n(x)\) outside this null set and \(0\) on it.  Then \(\norm{f_n-f}_\infty\to0\).
+\end{proof}
+
+\begin{theorem}
+For \(1\le p<\infty\), \(L^p(\R^d)\) is separable.
+\end{theorem}
+
+\begin{proof}
+Simple functions with finite-measure support are dense in \(L^p\): approximate \(f\) by truncating its support and values, then use simple approximation and dominated convergence.  Characteristic functions of finite-measure measurable sets can be approximated in \(L^p\) by characteristic functions of finite unions of rectangles, since \(\norm{\1_A-\1_F}_p=m(A\triangle F)^{1/p}\).  Rectangles can be approximated by rectangles with rational endpoints, and coefficients can be approximated by rational numbers.  Thus the countable set of step functions with rational coefficients and rational rectangles is dense.
+\end{proof}
+
+\begin{theorem}
+Let \(1\le p<\infty\), and suppose \(f_n\to f\) almost everywhere with \(f_n,f\in L^p(E)\).  Then the following are equivalent:
+\begin{enumerate}[label=(\roman*)]
+    \item \(\norm{f_n-f}_p\to0\);
+    \item \(\norm{f_n}_p\to\norm f_p\);
+    \item \(\{\abs{f_n-f}^p\}\) is equi-integrable and tight.
+\end{enumerate}
+\end{theorem}
+
+\begin{proof}
+(i) implies (ii) by the reverse triangle inequality:
+\[
+    \abs{\norm{f_n}_p-\norm f_p}\le\norm{f_n-f}_p.
+\]
+Assume (ii).  Since \(f_n\to f\) a.e., the Brezis--Lieb type identity in this elementary setting follows from the inequality
+\[
+    \bigl|\abs{a}^p-\abs{a-b}^p\bigr|\le C_p(\abs b\abs a^{p-1}+\abs b^p)
+\]
+and dominated truncation; equivalently apply Fatou to \(\abs{f_n-f}^p\) and use convergence of norms to get \(\norm{f_n-f}_p\to0\).  Thus (ii) implies (i).  Finally, (i) is equivalent to \(\abs{f_n-f}^p\to0\) in \(L^1\).  By the \(L^1\) Vitali criterion, this is equivalent to equi-integrability and tightness of \(\{\abs{f_n-f}^p\}\), proving equivalence with (iii).
+\end{proof}
+
+\section{Duality and Weak Convergence}
+
+\begin{definition}
+Let \(X\) be a normed space.  A linear functional \(T:X\to\C\) is \emph{bounded} if there exists \(M\) such that \(\abs{T(x)}\le M\norm x\) for all \(x\in X\).  The dual space \(X^*\) is the space of bounded linear functionals with norm
+\[
+    \norm T=\sup_{\norm x\le1}\abs{T(x)}.
+\]
+\end{definition}
+
+\begin{proposition}
+A linear functional is bounded if and only if it is continuous.  Moreover,
+\[
+    \norm T=\sup_{\norm x=1}\abs{T(x)}.
+\]
+\end{proposition}
+
+\begin{proof}
+If \(T\) is bounded, then \(\abs{T(x)-T(y)}\le\norm T\norm{x-y}\), so \(T\) is continuous.  If \(T\) is continuous at \(0\), there is \(\delta>0\) such that \(\norm x<\delta\) implies \(\abs{T(x)}<1\).  For \(x\ne0\), applying this to \(\delta x/(2\norm x)\) gives \(\abs{T(x)}\le 2\norm x/\delta\), so \(T\) is bounded.  The equality of the two suprema follows by scaling nonzero vectors to norm one.
+\end{proof}
+
+\begin{theorem}[Dual of \(L^p\)]
+Let \(1<p<\infty\) and let \(q\) be conjugate to \(p\).  For every \(g\in L^q(E)\),
+\[
+    T_g(f)=\int_E f g
+\]
+defines a bounded linear functional on \(L^p(E)\), with \(\norm{T_g}=\norm g_q\).  Conversely, every bounded linear functional on \(L^p(E)\) has this form for a unique \(g\in L^q(E)\).
+\end{theorem}
+
+\begin{proof}
+Holder's inequality gives \(\abs{T_g(f)}\le\norm f_p\norm g_q\), hence \(\norm{T_g}\le\norm g_q\).  If \(g\ne0\), take
+\[
+    f=\frac{\sgn(\overline g)\abs g^{q-1}}{\norm g_q^{q-1}},
+\]
+so that \(\norm f_p=1\) and \(T_g(f)=\norm g_q\).  Thus \(\norm{T_g}=\norm g_q\).
+
+Conversely, first suppose \(E\) has finite measure.  For a bounded functional \(T\), define a set function \(\nu(A)=T(\1_A)\).  If \(A_j\) are disjoint, then \(\1_{\cup_{j=1}^N A_j}=\sum_{j=1}^N\1_{A_j}\), and continuity of \(T\) plus \(\norm{\1_{\cup_{j>N}A_j}}_p=m(\cup_{j>N}A_j)^{1/p}\to0\) gives countable additivity.  Also \(\nu\ll m\), since \(m(A)=0\) implies \(\1_A=0\) in \(L^p\).  By the Radon--Nikodym theorem, \(\nu(A)=\int_Ag\) for some \(g\in L^1\).  For simple functions \(s\), \(T(s)=\int sg\), and by density for all \(f\in L^p\).  The estimate
+\[
+    \sup_{\norm f_p\le1}\abs{\int fg}<\infty
+\]
+implies \(g\in L^q\) by testing against truncated versions of \(\sgn(\overline g)\abs g^{q-1}\).  For \(\sigma\)-finite general \(E\), apply the finite-measure argument on an increasing exhaustion \(E_n\) of finite measure and patch the resulting functions; uniqueness follows because \(
+\int_A(g-h)=0\) for all finite-measure \(A\) implies \(g=h\) almost everywhere.
+\end{proof}
+
+\begin{definition}
+A sequence \(x_n\) in a normed space \(X\) converges \emph{weakly} to \(x\), written \(x_n\rightharpoonup x\), if \(T(x_n)\to T(x)\) for every \(T\in X^*\).  It converges \emph{strongly} if \(\norm{x_n-x}\to0\).
+\end{definition}
+
+\begin{proposition}
+Strong convergence implies weak convergence.  In \(L^p(E)\), \(1<p<\infty\), one has \(f_n\rightharpoonup f\) if and only if
+\[
+    \int_E f_n g\to\int_E f g
+\]
+for every \(g\in L^q(E)\), where \(q\) is conjugate to \(p\).
+\end{proposition}
+
+\begin{proof}
+If \(x_n\to x\) in norm and \(T\in X^*\), then \(\abs{T(x_n)-T(x)}\le\norm T\norm{x_n-x}\to0\).  The characterization in \(L^p\) is exactly the duality theorem: every functional is integration against some \(g\in L^q\), and every \(g\in L^q\) gives such a functional.
+\end{proof}
+
+\begin{proposition}
+A weak limit in \(L^p(E)\), \(1<p<\infty\), is unique.
+\end{proposition}
+
+\begin{proof}
+Suppose \(f_n\rightharpoonup f\) and \(f_n\rightharpoonup h\).  Then \(\int(f-h)g=0\) for all \(g\in L^q\).  Taking \(g=\sgn(\overline{f-h})\abs{f-h}^{p-1}\) on the finite-measure truncations where this is in \(L^q\), and then letting the truncations increase, gives \(\int\abs{f-h}^p=0\).  Hence \(f=h\) almost everywhere.
+\end{proof}
+
+\begin{theorem}[Weak convergence tests]
+Let \(1<p<\infty\) and let \(q\) be conjugate to \(p\).
+\begin{enumerate}[label=(\roman*)]
+    \item If \(\{f_n\}\) is bounded in \(L^p(E)\), then \(f_n\rightharpoonup f\) if and only if \(\int_A f_n\to\int_A f\) for every measurable \(A\subset E\) with finite measure.
+    \item If \(E=[a,b]\), then \(f_n\rightharpoonup f\) in \(L^p([a,b])\) if and only if \(\int_a^b f_n(t)\phi(t)\dd t\to\int_a^b f(t)\phi(t)\dd t\) for every step function, equivalently for every continuous \(\phi\).
+\end{enumerate}
+\end{theorem}
+
+\begin{proof}
+For (i), weak convergence clearly implies convergence against \(\1_A\in L^q\) whenever \(m(A)<\infty\).  Conversely, finite linear combinations of such characteristic functions are dense in \(L^q(E)\).  If \(g\in L^q\), choose simple \(s\) with \(\norm{g-s}_q<\eps\).  Since \(\{f_n\}\) is bounded in \(L^p\), say \(\norm{f_n}_p\le M\), Holder gives
+\[
+    \abs{\int(f_n-f)(g-s)}\le (M+\norm f_p)\eps.
+\]
+The integral against \(s\) converges by assumption.  Let \(\eps\downarrow0\).  Part (ii) is the same argument using the density of step functions, and the density of continuous functions, in \(L^q([a,b])\).
+\end{proof}
+
+\begin{theorem}[Helly selection principle in a separable normed space]
+Let \(X\) be separable and let \(T_n\in X^*\) be a bounded sequence: \(\sup_n\norm{T_n}<\infty\).  Then there is a subsequence \(T_{n_k}\) and a bounded linear functional \(T\in X^*\) such that \(T_{n_k}(x)\to T(x)\) for every \(x\in X\).
+\end{theorem}
+
+\begin{proof}
+Let \(\{x_j\}\) be a countable dense subset of \(X\).  Since \(\abs{T_n(x_1)}\le M\norm{x_1}\), the scalar sequence \(T_n(x_1)\) has a convergent subsequence.  From that subsequence choose a further subsequence on which \(T_n(x_2)\) converges, and continue.  The diagonal subsequence \(T_{n_k}\) has the property that \(T_{n_k}(x_j)\) converges for every \(j\).  For arbitrary \(x\in X\), choose \(x_j\) close to \(x\).  Then
+\[
+    \abs{T_{n_k}(x)-T_{n_\ell}(x)}
+    \le 2M\norm{x-x_j}+\abs{T_{n_k}(x_j)-T_{n_\ell}(x_j)}.
+\]
+First choose \(j\) so the first term is small, then \(k,\ell\) so the second term is small.  Hence \(T_{n_k}(x)\) converges for each \(x\).  Define \(T(x)=\lim_kT_{n_k}(x)\).  Linearity follows by passing to the limit, and \(\abs{T(x)}\le M\norm x\), so \(T\in X^*\).
+\end{proof}
+
+\begin{corollary}
+For \(1<p<\infty\), every bounded sequence in \(L^p(E)\) has a weakly convergent subsequence, provided \(E\) is such that \(L^q(E)\) is separable, for instance \(E\subset\R^d\) with Lebesgue measure and \(\sigma\)-finite.
+\end{corollary}
+
+\begin{proof}
+A bounded sequence \(f_n\in L^p\) defines bounded functionals \(T_n\) on \(L^q\) by \(T_n(g)=\int f_ng\).  Since \(L^q\) is separable, Helly's theorem gives a subsequence \(T_{n_k}\) converging pointwise to some bounded functional \(T\in(L^q)^*\).  By the duality theorem, \(T(g)=\int fg\) for some \(f\in L^p\).  Therefore \(\int f_{n_k}g\to\int fg\) for all \(g\in L^q\), which is exactly weak convergence.
+\end{proof}
+
+\chapter{Abstract Measure and Integration Spaces}
+
+\section{Measure spaces and elementary consequences}
+
+\begin{definition}[Sigma-algebra and measure]
+Let \(X\) be a set. A \emph{sigma-algebra} on \(X\) is a non-empty collection \(\M\subseteq \mathcal P(X)\) such that
+\begin{enumerate}[label=\textup{(\roman*)}]
+  \item if \(E\in\M\), then \(X\setminus E\in\M\);
+  \item if \(E_1,E_2,\ldots\in\M\), then \(\bigcup_{n=1}^{\infty}E_n\in\M\).
+\end{enumerate}
+A \emph{measure} on \((X,\M)\) is a function \(\mu:\M\to[0,\infty]\) such that \(\mu(\varnothing)=0\) and, for every disjoint sequence \(E_1,E_2,\ldots\in\M\),
+\[
+  \mu\left(\bigcup_{n=1}^{\infty}E_n\right)=\sum_{n=1}^{\infty}\mu(E_n).
+\]
+The triple \((X,\M,\mu)\) is called a \emph{measure space}. It is \emph{finite} if \(\mu(X)<\infty\), and \emph{sigma-finite} if there are sets \(X_n\in\M\) such that \(X=\bigcup_{n=1}^{\infty}X_n\) and \(\mu(X_n)<\infty\) for all \(n\).
+\end{definition}
+
+\begin{example}[Counting measure]
+If \(X\) is any set and \(\M=\mathcal P(X)\), the counting measure is
+\[
+  \#(E)=\begin{cases}
+  \text{the number of elements of }E, & E\text{ finite},\\
+  \infty, & E\text{ infinite}.
+  \end{cases}
+\]
+If \(X=\N\), integration with respect to counting measure is summation.
+\end{example}
+
+\begin{example}[Weighted measure]
+Let \((X,
+\M,\mu)\) be a measure space and let \(w:X\to[0,\infty]\) be measurable. Then
+\[
+  \nu(E)=\int_E w\dd\mu
+\]
+defines another measure on \((X,\M)\). This construction will later be recognized as the model case of absolute continuity.
+\end{example}
+
+\begin{proposition}[Elementary monotonicity and subadditivity]
+Let \((X,\M,\mu)\) be a measure space.
+\begin{enumerate}[label=\textup{(\roman*)}]
+  \item If \(E,F\in\M\) and \(E\subseteq F\), then \(\mu(E)\leq \mu(F)\).
+  \item If \(E_1,E_2,\ldots\in\M\), then
+  \[
+    \mu\left(\bigcup_{n=1}^{\infty}E_n\right)\leq \sum_{n=1}^{\infty}\mu(E_n).
+  \]
+  \item If \(E\subseteq F\) and \(\mu(E)<\infty\), then \(\mu(F\setminus E)=\mu(F)-\mu(E)\), with the convention that the right side is allowed to be \(\infty\).
+\end{enumerate}
+\end{proposition}
+
+\begin{proof}
+For (i), write \(F=E\sqcup(F\setminus E)\). Countable additivity gives
+\[
+  \mu(F)=\mu(E)+\mu(F\setminus E)\geq \mu(E).
+\]
+For (ii), define disjoint sets
+\[
+  F_1=E_1,\qquad F_n=E_n\setminus\bigcup_{k=1}^{n-1}E_k\quad(n\geq2).
+\]
+Then \(F_n\subseteq E_n\), the sets \(F_n\) are disjoint, and \(\bigcup_nF_n=\bigcup_nE_n\). Hence by additivity and part (i),
+\[
+  \mu\left(\bigcup_nE_n\right)=\sum_n\mu(F_n)\leq\sum_n\mu(E_n).
+\]
+For (iii), again use \(F=E\sqcup(F\setminus E)\). Since \(\mu(E)<\infty\), subtraction is legitimate in the extended real line and gives the desired identity.
+\end{proof}
+
+\begin{proposition}[Continuity of measure]
+Let \((X,\M,\mu)\) be a measure space.
+\begin{enumerate}[label=\textup{(\roman*)}]
+  \item If \(E_1\subseteq E_2\subseteq\cdots\) and \(E=\bigcup_{n=1}^{\infty}E_n\), then
+  \[
+    \mu(E)=\lim_{n\to\infty}\mu(E_n).
+  \]
+  \item If \(E_1\supseteq E_2\supseteq\cdots\), \(E=\bigcap_{n=1}^{\infty}E_n\), and \(\mu(E_1)<\infty\), then
+  \[
+    \mu(E)=\lim_{n\to\infty}\mu(E_n).
+  \]
+\end{enumerate}
+\end{proposition}
+
+\begin{proof}
+For (i), set \(F_1=E_1\) and \(F_n=E_n\setminus E_{n-1}\) for \(n\geq2\). Then \(E=\bigsqcup_{n=1}^{\infty}F_n\), and for every \(N\), \(E_N=\bigsqcup_{n=1}^NF_n\). Therefore
+\[
+  \mu(E)=\sum_{n=1}^{\infty}\mu(F_n)=\lim_{N\to\infty}\sum_{n=1}^N\mu(F_n)=\lim_{N\to\infty}\mu(E_N).
+\]
+For (ii), apply (i) to the increasing sequence \(F_n=E_1\setminus E_n\). Since \(\bigcup_nF_n=E_1\setminus E\), we get
+\[
+  \mu(E_1\setminus E)=\lim_{n\to\infty}\mu(E_1\setminus E_n).
+\]
+Because \(\mu(E_1)<\infty\), this is
+\[
+  \mu(E_1)-\mu(E)=\lim_{n\to\infty}\bigl(\mu(E_1)-\mu(E_n)\bigr),
+\]
+and the conclusion follows.
+\end{proof}
+
+\begin{definition}[Null set and complete measure space]
+A set \(N\in\M\) is \emph{null} if \(\mu(N)=0\). The measure space \((X,\M,\mu)\) is \emph{complete} if every subset of every null measurable set is measurable.
+\end{definition}
+
+\begin{proposition}[Completion of a measure space]
+Let \((X,\M,\mu)\) be a measure space. Define
+\[
+  \overline{\M}=\set{A\subseteq X: \text{there exist }E,F\in\M\text{ with }E\subseteq A\subseteq F\text{ and }\mu(F\setminus E)=0}.
+\]
+For \(A\in\overline{\M}\), choose such an \(E\) and set \(\overline\mu(A)=\mu(E)\). Then \(\overline{\M}\) is a sigma-algebra, \(\overline\mu\) is a complete measure on it, and \(\overline\mu|_{\M}=\mu\).
+\end{proposition}
+
+\begin{proof}
+First we prove that \(\overline\mu\) is well-defined. Suppose
+\[
+  E_1\subseteq A\subseteq F_1,
+  \qquad E_2\subseteq A\subseteq F_2,
+  \qquad \mu(F_i\setminus E_i)=0.
+\]
+Since \(E_1\setminus E_2\subseteq F_2\setminus E_2\), we have \(\mu(E_1\setminus E_2)=0\). Similarly \(\mu(E_2\setminus E_1)=0\). Hence \(E_1\triangle E_2\) is null, and therefore \(\mu(E_1)=\mu(E_2)\). Thus the definition of \(\overline\mu(A)\) is independent of the choice of \(E\).
+
+We next show that \(\overline{\M}\) is a sigma-algebra. Clearly \(\varnothing\in\overline{\M}\). If \(A\in\overline{\M}\), choose \(E\subseteq A\subseteq F\) with \(E,F\in\M\) and \(\mu(F\setminus E)=0\). Then
+\[
+  X\setminus F\subseteq X\setminus A\subseteq X\setminus E,
+\]
+and \((X\setminus E)\setminus(X\setminus F)=F\setminus E\) is null. Hence \(X\setminus A\in\overline{\M}\). If \(A_n\in\overline{\M}\), choose \(E_n,F_n\in\M\) with \(E_n\subseteq A_n\subseteq F_n\) and \(\mu(F_n\setminus E_n)=0\). Then
+\[
+  \bigcup_nE_n\subseteq \bigcup_nA_n\subseteq \bigcup_nF_n,
+\]
+and
+\[
+  \left(\bigcup_nF_n\right)\setminus\left(\bigcup_nE_n\right)
+  \subseteq \bigcup_n(F_n\setminus E_n),
+\]
+which has measure zero by countable subadditivity. Thus \(\bigcup_nA_n\in\overline{\M}\).
+
+To prove countable additivity, let \(A_1,A_2,\ldots\in\overline{\M}\) be disjoint. Choose \(E_n,F_n\in\M\) as above. Then \(\overline\mu(A_n)=\mu(E_n)=\mu(F_n)\), since \(F_n\setminus E_n\) is null. The sets \(E_n\) are disjoint, and \(\bigcup_nE_n\subseteq\bigcup_nA_n\subseteq\bigcup_nF_n\), with the two measurable bounds differing by a null set. Therefore
+\[
+  \overline\mu\left(\bigcup_nA_n\right)
+  =\mu\left(\bigcup_nE_n\right)
+  =\sum_n\mu(E_n)
+  =\sum_n\overline\mu(A_n).
+\]
+Finally, if \(A\subseteq N\in\overline{\M}\) and \(\overline\mu(N)=0\), choose \(E\subseteq N\subseteq F\) with \(\mu(F\setminus E)=0\). Then \(\mu(F)=\mu(E)=\overline\mu(N)=0\). Since \(\varnothing\subseteq A\subseteq F\) and \(F\) is null, \(A\in\overline{\M}\). Hence \(\overline\mu\) is complete.
+\end{proof}
+
+\section{Outer measures and Caratheodory's theorem}
+
+\begin{definition}[Outer measure]
+Let \(X\) be a set. An \emph{outer measure} on \(X\) is a function \(\mu^*:\mathcal P(X)\to[0,\infty]\) satisfying
+\begin{enumerate}[label=\textup{(\roman*)}]
+  \item \(\mu^*(\varnothing)=0\);
+  \item if \(A\subseteq B\), then \(\mu^*(A)\leq\mu^*(B)\);
+  \item for every sequence \(A_1,A_2,\ldots\subseteq X\),
+  \[
+    \mu^*\left(\bigcup_{n=1}^{\infty}A_n\right)
+    \leq \sum_{n=1}^{\infty}\mu^*(A_n).
+  \]
+\end{enumerate}
+\end{definition}
+
+\begin{definition}[Caratheodory measurability]
+Let \(\mu^*\) be an outer measure on \(X\). A set \(E\subseteq X\) is called \(\mu^*\)-measurable if for every \(A\subseteq X\),
+\[
+  \mu^*(A)=\mu^*(A\cap E)+\mu^*(A\setminus E).
+\]
+Since the inequality \(\leq\) always follows from subadditivity, the point is the reverse inequality.
+\end{definition}
+
+\begin{theorem}[Caratheodory theorem]
+Let \(\mu^*\) be an outer measure on \(X\), and let \(\M_{\mu^*}\) denote the collection of \(\mu^*\)-measurable sets. Then \(\M_{\mu^*}\) is a sigma-algebra, and \(\mu=\mu^*|_{\M_{\mu^*}}\) is a complete measure.
+\end{theorem}
+
+\begin{proof}
+The empty set is measurable, and measurability is invariant under complements because the defining equality is symmetric in \(E\) and \(X\setminus E\).
+
+First we prove closure under finite unions. Let \(E,F\in\M_{\mu^*}\). For any \(A\subseteq X\), applying measurability of \(E\) and then of \(F\) gives
+\begin{align*}
+\mu^*(A)
+&=\mu^*(A\cap E)+\mu^*(A\setminus E)\\
+&=\mu^*(A\cap E)+\mu^*((A\setminus E)\cap F)+\mu^*((A\setminus E)\setminus F).
+\end{align*}
+The first two terms cover \(A\cap(E\cup F)\), so by subadditivity
+\[
+  \mu^*(A\cap(E\cup F))
+  \leq \mu^*(A\cap E)+\mu^*((A\setminus E)\cap F).
+\]
+Therefore
+\[
+  \mu^*(A)\geq \mu^*(A\cap(E\cup F))+\mu^*(A\setminus(E\cup F)).
+\]
+The opposite inequality is automatic from subadditivity, hence \(E\cup F\) is measurable. Thus \(\M_{\mu^*}\) is an algebra.
+
+Moreover, the same argument shows finite additivity in the following useful form: if \(E_1,\ldots,E_N\) are disjoint measurable sets, then for every \(A\subseteq X\),
+\[
+  \mu^*\left(A\cap\bigcup_{j=1}^NE_j\right)=\sum_{j=1}^N\mu^*(A\cap E_j).
+\]
+This follows by induction from the defining equality.
+
+Now let \(E_1,E_2,\ldots\) be disjoint measurable sets and put \(E=\bigcup_{n=1}^{\infty}E_n\), \(S_N=\bigcup_{n=1}^NE_n\). Since \(S_N\) is measurable, for every \(A\subseteq X\),
+\[
+  \mu^*(A)=\mu^*(A\cap S_N)+\mu^*(A\setminus S_N)
+  \geq \sum_{n=1}^N\mu^*(A\cap E_n)+\mu^*(A\setminus E).
+\]
+Letting \(N\to\infty\),
+\[
+  \mu^*(A)
+  \geq \sum_{n=1}^{\infty}\mu^*(A\cap E_n)+\mu^*(A\setminus E).
+\]
+By subadditivity,
+\[
+  \mu^*(A\cap E)\leq \sum_{n=1}^{\infty}\mu^*(A\cap E_n),
+\]
+so
+\[
+  \mu^*(A)
+  \geq \mu^*(A\cap E)+\mu^*(A\setminus E).
+\]
+Again the reverse inequality is automatic, hence \(E\) is measurable. Since an arbitrary countable union can be written as a disjoint countable union by replacing \(E_n\) with \(E_n\setminus\bigcup_{k<n}E_k\), \(\M_{\mu^*}\) is a sigma-algebra.
+
+Taking \(A=E\) in the previous finite and countable formulas gives countable additivity of \(\mu^*\) on \(\M_{\mu^*}\). Finally, if \(N\subseteq X\) and \(\mu^*(N)=0\), then for every \(A\subseteq X\),
+\[
+  \mu^*(A\cap N)+\mu^*(A\setminus N)
+  \leq 0+\mu^*(A)=\mu^*(A),
+\]
+while the opposite inequality is subadditivity. Hence every outer-null set is measurable, and the resulting measure is complete.
+\end{proof}
+
+\begin{definition}[Algebra and premeasure]
+An \emph{algebra} on \(X\) is a non-empty collection \(\A\subseteq\mathcal P(X)\) closed under complements and finite unions. A \emph{premeasure} on \(\A\) is a function \(\mu_0:\A\to[0,\infty]\) such that \(\mu_0(\varnothing)=0\) and, whenever \(A_1,A_2,\ldots\in\A\) are disjoint and \(\bigcup_nA_n\in\A\),
+\[
+  \mu_0\left(\bigcup_{n=1}^{\infty}A_n\right)=\sum_{n=1}^{\infty}\mu_0(A_n).
+\]
+\end{definition}
+
+\begin{theorem}[Extension from a premeasure]
+Let \(\A\) be an algebra on \(X\), and let \(\mu_0\) be a premeasure on \(\A\). For \(E\subseteq X\), define
+\[
+  \mu^*(E)=\inf\left\{\sum_{n=1}^{\infty}\mu_0(A_n): E\subseteq\bigcup_{n=1}^{\infty}A_n,
+  \ A_n\in\A\right\}.
+\]
+Then \(\mu^*\) is an outer measure, every set in \(\A\) is \(\mu^*\)-measurable, and \(\mu^*|_{\A}=\mu_0\). Consequently \(\mu^*\) restricts to a complete measure on the Caratheodory sigma-algebra containing \(\sigma(\A)\). If \(\mu_0\) is sigma-finite on \(\A\), the extension to \(\sigma(\A)\) is unique.
+\end{theorem}
+
+\begin{proof}
+The empty set is covered by the empty set, so \(\mu^*(\varnothing)=0\). Monotonicity is immediate: a cover of \(B\) is also a cover of any \(A\subseteq B\). For countable subadditivity, let \(E\subseteq\bigcup_jE_j\). If one of \(\mu^*(E_j)\) is infinite there is nothing to prove. Otherwise, for each \(j\) and each \(\eps>0\), choose \(A_{j,k}\in\A\) such that
+\[
+  E_j\subseteq\bigcup_{k=1}^{\infty}A_{j,k},
+  \qquad
+  \sum_{k=1}^{\infty}\mu_0(A_{j,k})\leq\mu^*(E_j)+\frac{\eps}{2^j}.
+\]
+Then the countable family \(A_{j,k}\) covers \(E\), and hence
+\[
+  \mu^*(E)\leq \sum_{j,k}\mu_0(A_{j,k})
+  \leq \sum_j\mu^*(E_j)+\eps.
+\]
+Letting \(\eps\downarrow0\) gives subadditivity.
+
+We next show that \(\mu^*\) extends \(\mu_0\). For \(A\in\A\), the cover \(A\) itself gives \(\mu^*(A)\leq\mu_0(A)\). Conversely, suppose \(A\subseteq\bigcup_nA_n\) with \(A_n\in\A\). Define disjoint sets
+\[
+  B_1=A\cap A_1,
+  \qquad
+  B_n=A\cap A_n\setminus\bigcup_{k=1}^{n-1}A_k\quad(n\geq2).
+\]
+Then \(B_n\in\A\), the \(B_n\) are disjoint, \(\bigcup_nB_n=A\), and \(B_n\subseteq A_n\). Since \(\mu_0\) is a premeasure and is monotone on \(\A\),
+\[
+  \mu_0(A)=\sum_n\mu_0(B_n)\leq\sum_n\mu_0(A_n).
+\]
+Taking the infimum over all covers gives \(\mu_0(A)\leq\mu^*(A)\).
+
+Now fix \(A\in\A\). We prove that \(A\) is Caratheodory measurable. Let \(E\subseteq X\), and choose a cover \(E\subseteq\bigcup_nB_n\) with \(B_n\in\A\). Then \(B_n\cap A\) covers \(E\cap A\), and \(B_n\setminus A\) covers \(E\setminus A\). Hence
+\begin{align*}
+\mu^*(E\cap A)+\mu^*(E\setminus A)
+&\leq\sum_n\mu_0(B_n\cap A)+\sum_n\mu_0(B_n\setminus A)\\
+&=\sum_n\mu_0(B_n).
+\end{align*}
+Taking the infimum over all such covers gives
+\[
+  \mu^*(E\cap A)+\mu^*(E\setminus A)\leq\mu^*(E).
+\]
+The reverse inequality follows from subadditivity, so \(A\) is measurable.
+
+It remains only to prove uniqueness under sigma-finiteness. Suppose \(\nu\) is another measure on \(\sigma(\A)\) extending \(\mu_0\). First assume \(X\in\A\) and \(\mu_0(X)<\infty\). Let
+\[
+  \mathcal D=\set{E\in\sigma(\A): \nu(E)=\mu^*(E)}.
+\]
+Then \(\A\subseteq\mathcal D\). Also \(\mathcal D\) is a Dynkin class: it contains \(X\); if \(E,F\in\mathcal D\) and \(E\subseteq F\), then finite additivity inside the finite-measure space gives \(F\setminus E\in\mathcal D\); and if \(E_n\in\mathcal D\) are disjoint, then countable additivity gives \(\bigcup_nE_n\in\mathcal D\). Since an algebra is a pi-system, Dynkin's pi-lambda theorem gives \(\sigma(\A)\subseteq\mathcal D\).
+
+In the sigma-finite case, choose \(X_n\in\A\) such that \(X_n\uparrow X\) and \(\mu_0(X_n)<\infty\). For each \(n\), the preceding paragraph applied to the finite algebra \(\A_n=\set{A\cap X_n:A\in\A}\) shows that \(\nu(E\cap X_n)=\mu^*(E\cap X_n)\) for every \(E\in\sigma(\A)\). Letting \(n\to\infty\) and using continuity from below for both measures gives \(\nu(E)=\mu^*(E)\).
+\end{proof}
+
+\section{Integration on an abstract measure space}
+
+Throughout this section \((X,\M,\mu)\) is a measure space.
+
+\begin{definition}[Measurable function]
+A function \(f:X\to[-\infty,\infty]\) is \emph{measurable} if \(\set{x:f(x)>a}\in\M\) for every \(a\in\R\). Complex-valued functions are measurable if their real and imaginary parts are measurable.
+\end{definition}
+
+\begin{proposition}[Stability of measurable functions]
+Let \(f,g:X\to\C\) be measurable and let \(c\in\C\). Then \(f+g\), \(cf\), \(fg\), \(\abs{f}\), \(\max(f,g)\), and \(\min(f,g)\) are measurable whenever the expressions are defined. If \(f_n\) is a sequence of measurable real-valued functions, then \(\sup_nf_n\), \(\inf_nf_n\), \(\limsup_nf_n\), and \(\liminf_nf_n\) are measurable.
+\end{proposition}
+
+\begin{proof}
+The inverse image of an open set under a measurable real-valued function is measurable; this follows because open subsets of \(\R\) are countable unions of intervals, and intervals can be described using inequalities \(f>a\). Hence sums and products are measurable as compositions of measurable maps into \(\R^2\) with continuous functions. The absolute value is treated similarly. For suprema,
+\[
+  \set{x:\sup_nf_n(x)>a}=\bigcup_{n=1}^{\infty}\set{x:f_n(x)>a},
+\]
+which is measurable. Infima follow from \(\inf_nf_n=-\sup_n(-f_n)\), and limsup/liminf are obtained from
+\[
+  \limsup_nf_n=\inf_N\sup_{n\geq N}f_n,
+  \qquad
+  \liminf_nf_n=\sup_N\inf_{n\geq N}f_n.
+\]
+\end{proof}
+
+\begin{definition}[Integral of a simple function]
+A non-negative simple function has the form
+\[
+  \varphi=\sum_{j=1}^N a_j\1_{E_j},
+  \qquad a_j\geq0,
+  \quad E_j\in\M.
+\]
+If the sets \(E_j\) are disjoint, define
+\[
+  \int_X\varphi\dd\mu=\sum_{j=1}^Na_j\mu(E_j).
+\]
+This is independent of the chosen disjoint representation. For a non-negative measurable function \(f\), define
+\[
+  \int_X f\dd\mu=\\sup\set{\int_X\varphi\dd\mu: 0\leq\varphi\leq f,\ \varphi\text{ simple}}.
+\]
+For a general measurable complex-valued \(f\), write \(f=f_1-f_2+i(f_3-f_4)\), where each \(f_j\geq0\). We say \(f\in L^1(X,\mu)\) if \(\int\abs{f}\dd\mu<\infty\), and then define \(\int f\dd\mu\) by integrating the positive and negative parts.
+\end{definition}
+
+\begin{theorem}[Monotone convergence theorem]
+Let \(0\leq f_1\leq f_2\leq\cdots\) be measurable functions and let \(f=\lim_{n\to\infty}f_n\). Then
+\[
+  \int_X f\dd\mu=\lim_{n\to\infty}\int_X f_n\dd\mu.
+\]
+\end{theorem}
+
+\begin{proof}
+Since \(f_n\leq f\), monotonicity of the integral gives
+\[
+  \lim_n\int f_n\dd\mu\leq\int f\dd\mu.
+\]
+For the reverse inequality, let \(0<a<1\), and let \(\varphi\) be a simple function with \(0\leq\varphi\leq f\). Put
+\[
+  E_n=\set{x:f_n(x)\geq a\varphi(x)}.
+\]
+Then \(E_n\uparrow X\). Indeed, if \(\varphi(x)=0\), then \(x\in E_n\) for all \(n\); if \(\varphi(x)>0\), then \(f(x)\geq\varphi(x)>a\varphi(x)\), so for large \(n\), \(f_n(x)\geq a\varphi(x)\). On \(E_n\) we have \(f_n\geq a\varphi\), hence
+\[
+  \int f_n\dd\mu\geq a\int_{E_n}\varphi\dd\mu.
+\]
+Since \(\varphi\) is simple and \(E_n\uparrow X\), continuity from below gives \(\int_{E_n}\varphi\dd\mu\to\int\varphi\dd\mu\). Therefore
+\[
+  \lim_n\int f_n\dd\mu\geq a\int\varphi\dd\mu.
+\]
+Letting \(a\uparrow1\), and then taking the supremum over all simple \(\varphi\leq f\), gives the desired reverse inequality.
+\end{proof}
+
+\begin{corollary}[Fatou's lemma]
+If \(f_n\geq0\) are measurable, then
+\[
+  \int_X \liminf_{n\to\infty}f_n\dd\mu
+  \leq \liminf_{n\to\infty}\int_X f_n\dd\mu.
+\]
+\end{corollary}
+
+\begin{proof}
+Set \(g_N=\inf_{n\geq N}f_n\). Then \(g_N\uparrow\liminf_nf_n\). By monotone convergence,
+\[
+  \int\liminf_nf_n\dd\mu=\lim_N\int g_N\dd\mu.
+\]
+For every \(n\geq N\), \(g_N\leq f_n\), so \(\int g_N\dd\mu\leq\inf_{n\geq N}\int f_n\dd\mu\). Letting \(N\to\infty\) gives the result.
+\end{proof}
+
+\begin{corollary}[Dominated convergence theorem]
+Suppose \(f_n\to f\) almost everywhere, and \(\abs{f_n}\leq g\) almost everywhere for some \(g\in L^1(X,\mu)\). Then \(f\in L^1(X,\mu)\), \(f_n\in L^1(X,\mu)\), and
+\[
+  \lim_{n\to\infty}\int_X\abs{f_n-f}\dd\mu=0.
+\]
+In particular, \(\int f_n\dd\mu\to\int f\dd\mu\).
+\end{corollary}
+
+\begin{proof}
+Since \(\abs{f}\leq g\) almost everywhere, \(f\in L^1\). Apply Fatou's lemma to the non-negative functions \(2g-\abs{f_n-f}\). We get
+\[
+  \int 2g\dd\mu
+  =\int \liminf_n(2g-\abs{f_n-f})\dd\mu
+  \leq \liminf_n\int(2g-\abs{f_n-f})\dd\mu.
+\]
+Thus
+\[
+  \limsup_n\int\abs{f_n-f}\dd\mu\leq0.
+\]
+Since the integrals are non-negative, they converge to zero. The convergence of the integrals follows from
+\[
+  \abs{\int f_n\dd\mu-\int f\dd\mu}\leq\int\abs{f_n-f}\dd\mu.
+\]
+\end{proof}
+
+\begin{proposition}[Measures defined by densities]
+Let \(f:X\to[0,\infty]\) be measurable. Define
+\[
+  \nu(E)=\int_E f\dd\mu,\qquad E\in\M.
+\]
+Then \(\nu\) is a measure on \((X,\M)\). Moreover, if \(g\geq0\) is measurable, then
+\[
+  \int_X g\dd\nu=\int_X gf\dd\mu.
+\]
+The same identity holds for all measurable \(g\) for which either side is absolutely integrable.
+\end{proposition}
+
+\begin{proof}
+If \(E_n\) are disjoint measurable sets, then
+\[
+  \1_{\bigcup_nE_n}f=\sum_{n=1}^{\infty}\1_{E_n}f,
+\]
+where the partial sums increase pointwise to the left-hand side. By monotone convergence,
+\[
+  \nu\left(\bigcup_nE_n\right)=\int \1_{\bigcup_nE_n}f\dd\mu
+  =\sum_n\int \1_{E_n}f\dd\mu
+  =\sum_n\nu(E_n).
+\]
+Thus \(\nu\) is a measure.
+
+For \(g=\1_E\), the identity is exactly the definition of \(\nu\). By linearity it holds for non-negative simple functions. If \(g\geq0\) is measurable, choose simple \(g_n\uparrow g\). Applying monotone convergence to both measures gives
+\[
+  \int g\dd\nu=\lim_n\int g_n\dd\nu
+  =\lim_n\int g_nf\dd\mu
+  =\int gf\dd\mu.
+\]
+For general absolutely integrable \(g\), apply the non-negative case to positive and negative parts of real and imaginary parts.
+\end{proof}
+
+\section{Product measures and Fubini--Tonelli}\label{sec:abstract-product-measures}
+
+\begin{definition}[Product sigma-algebra]
+Let \((X,
+\M)\) and \((Y,\mathcal N)\) be measurable spaces. The \emph{product sigma-algebra} \(\M\otimes\mathcal N\) is the sigma-algebra on \(X\times Y\) generated by measurable rectangles \(A\times B\), where \(A\in\M\) and \(B\in\mathcal N\).
+\end{definition}
+
+\begin{theorem}[Existence and uniqueness of product measure]
+Let \((X,\M,\mu)\) and \((Y,\mathcal N,\nu)\) be sigma-finite measure spaces. There exists a unique measure \(\mu\times\nu\) on \((X\times Y,\M\otimes\mathcal N)\) such that
+\[
+  (\mu\times\nu)(A\times B)=\mu(A)\nu(B)
+\]
+for all \(A\in\M\), \(B\in\mathcal N\).
+\end{theorem}
+
+\begin{proof}
+Let \(\A\) be the algebra of finite disjoint unions of measurable rectangles. If
+\[
+  E=\bigsqcup_{j=1}^N(A_j\times B_j),
+\]
+define
+\[
+  \rho_0(E)=\sum_{j=1}^N\mu(A_j)\nu(B_j).
+\]
+This is well-defined: if a set in \(\A\) has two disjoint rectangle decompositions, refine both decompositions by all intersections
+\[
+  (A_i\cap A'_k)\times(B_i\cap B'_k).
+\]
+Finite additivity of \(\mu\) and \(\nu\) shows that the two resulting sums are equal.
+
+The standard monotone-class argument shows that \(\rho_0\) is a premeasure on \(\A\). The point is that countable additivity for a disjoint union whose union still lies in \(\A\) can be checked first on rectangles, then on finite unions of rectangles after refinement, and finally under sigma-finite exhaustion by finite-measure rectangles. Thus the extension theorem applies and gives a measure on \(\sigma(\A)=\M\otimes\mathcal N\). This extension has the required value on rectangles. Uniqueness follows from the sigma-finite uniqueness part of the extension theorem, since finite-measure rectangles exhaust the product space and generate the product sigma-algebra.
+\end{proof}
+
+\begin{lemma}[Measurability of sections]
+Let \(E\in\M\otimes\mathcal N\). For \(x\in X\) and \(y\in Y\), define
+\[
+  E_x=\set{y\in Y:(x,y)\in E},
+  \qquad
+  E^y=\set{x\in X:(x,y)\in E}.
+\]
+Then \(E_x
+\in\mathcal N\) for every \(x\), and \(E^y\in\M\) for every \(y\).
+\end{lemma}
+
+\begin{proof}
+Let \(\mathcal C\) be the collection of all \(E\in\M\otimes\mathcal N\) whose vertical and horizontal sections are measurable. If \(E=A\times B\), then \(E_x=B\) if \(x\in A\) and \(E_x=\varnothing\) otherwise; similarly \(E^y=A\) if \(y\in B\) and \(\varnothing\) otherwise. Thus rectangles belong to \(\mathcal C\). The class \(\mathcal C\) is closed under complements and countable unions because taking sections commutes with these operations. Hence \(\mathcal C\) is a sigma-algebra containing the rectangles, and therefore contains \(\M\otimes\mathcal N\).
+\end{proof}
+
+\begin{theorem}[Tonelli theorem]
+Let \((X,\M,\mu)\) and \((Y,\mathcal N,\nu)\) be sigma-finite measure spaces. If \(f:X\times Y\to[0,\infty]\) is \(\M\otimes\mathcal N\)-measurable, then the functions
+\[
+  x\mapsto\int_Y f(x,y)\dd\nu(y),
+  \qquad
+  y\mapsto\int_X f(x,y)\dd\mu(x)
+\]
+are measurable, and
+\[
+  \int_{X\times Y}f\dd(\mu\times\nu)
+  =\int_X\left(\int_Y f(x,y)\dd\nu(y)\right)\dd\mu(x)
+  =\int_Y\left(\int_X f(x,y)\dd\mu(x)\right)\dd\nu(y).
+\]
+\end{theorem}
+
+\begin{proof}
+We prove the first iterated-integral identity; the second is symmetric. First assume \(\mu(X)<\infty\) and \(\nu(Y)<\infty\). Let \(\mathcal C\) be the collection of all sets \(E\in\M\otimes\mathcal N\) such that \(x\mapsto\nu(E_x)\) is measurable and
+\[
+  (\mu\times\nu)(E)=\int_X\nu(E_x)\dd\mu(x).
+\]
+Rectangles belong to \(\mathcal C\), because if \(E=A\times B\), then \(E_x=B\) for \(x\in A\) and \(E_x=\varnothing\) otherwise. Thus \(\nu(E_x)=\nu(B)\1_A(x)\), and the identity is exactly \((\mu\times\nu)(A\times B)=\mu(A)\nu(B)\).
+
+The class \(\mathcal C\) is a monotone class. If \(E_n\uparrow E\) and each \(E_n\in\mathcal C\), then \((E_n)_x\uparrow E_x\), so \(\nu((E_n)_x)\uparrow\nu(E_x)\); monotone convergence gives both measurability of \(x\mapsto\nu(E_x)\) and the integral identity. If \(E_n\downarrow E\), the finiteness of \(\nu(Y)\) and \((\mu\times\nu)(X\times Y)\) allows us to use continuity from above and the same conclusion follows. By the monotone class theorem, \(\mathcal C=\M\otimes\mathcal N\). Hence the theorem holds for indicators in the finite case, and therefore for non-negative simple functions by linearity. Passing from simple functions \(f_n\uparrow f\) to \(f\) uses the monotone convergence theorem.
+
+In the sigma-finite case, choose \(X_k\uparrow X\) and \(Y_k\uparrow Y\) with finite measure. Apply the finite result to \(f\1_{X_k\times Y_k}\), and let \(k\to\infty\). Monotone convergence gives the desired formula for \(f\).
+\end{proof}
+
+\begin{corollary}[Fubini theorem]
+Let \(f\in L^1(X\times Y,\mu\times\nu)\). Then for almost every \(x\), the function \(y\mapsto f(x,y)\) is integrable on \(Y\), and for almost every \(y\), the function \(x\mapsto f(x,y)\) is integrable on \(X\). Moreover,
+\[
+  \int_{X\times Y}f\dd(\mu\times\nu)
+  =\int_X\left(\int_Y f(x,y)\dd\nu(y)\right)\dd\mu(x)
+  =\int_Y\left(\int_X f(x,y)\dd\mu(x)\right)\dd\nu(y),
+\]
+where the iterated integrals are absolutely integrable.
+\end{corollary}
+
+\begin{proof}
+Apply Tonelli's theorem to \(\abs{f}\). Since \(\int\abs{f}\dd(\mu\times\nu)<\infty\), the iterated integrals of \(\abs{f}\) are finite almost everywhere and integrable. Hence the sections of \(f\) are integrable almost everywhere. Applying Tonelli to \(f^+\), \(f^-\), and the positive and negative parts of the real and imaginary parts proves the formula.
+\end{proof}
+
+\section{Absolute continuity and Radon--Nikodym theorem}
+
+\begin{definition}[Absolute continuity and singularity]
+Let \(\mu\) and \(\nu\) be positive measures on \((X,\M)\). We say that \(\nu\) is \emph{absolutely continuous} with respect to \(\mu\), written \(\nu\ll\mu\), if
+\[
+  \mu(E)=0\quad\Longrightarrow\quad \nu(E)=0.
+\]
+We say that \(\nu\) and \(\mu\) are \emph{mutually singular}, written \(\nu\perp\mu\), if there exists \(A\in\M\) such that \(\mu(A)=0\) and \(\nu(X\setminus A)=0\).
+\end{definition}
+
+\begin{proposition}[Epsilon-delta form in the finite case]
+Let \(\mu\) and \(\nu\) be finite positive measures on \((X,\M)\). Then \(\nu\ll\mu\) if and only if for every \(\eps>0\) there exists \(\delta>0\) such that
+\[
+  \mu(E)<\delta\quad\Longrightarrow\quad \nu(E)<\eps.
+\]
+\end{proposition}
+
+\begin{proof}
+The epsilon-delta condition immediately implies absolute continuity by taking \(\mu(E)=0\). Conversely, suppose the condition fails. Then there exist \(\eps_0>0\) and sets \(E_n\in\M\) such that \(\mu(E_n)<2^{-n}\) but \(\nu(E_n)\geq\eps_0\). Put
+\[
+  F_N=\bigcup_{n\geq N}E_n,
+  \qquad
+  F=\bigcap_{N=1}^{\infty}F_N.
+\]
+Then \(\mu(F_N)\leq\sum_{n\geq N}2^{-n}\to0\), so \(\mu(F)=0\). Since \(F_N\supseteq E_n\) for all \(n\geq N\), \(\nu(F_N)\geq\eps_0\). The sets \(F_N\) decrease, and \(\nu(F_1)<\infty\), so continuity from above gives
+\[
+  \nu(F)=\lim_{N\to\infty}\nu(F_N)\geq\eps_0.
+\]
+This contradicts \(\nu\ll\mu\). Hence the epsilon-delta condition holds.
+\end{proof}
+
+\begin{fact}[Hilbert-space input]
+We shall use the Riesz representation theorem for Hilbert spaces: if \(H\) is a Hilbert space and \(L:H\to\C\) is a bounded linear functional, then there exists a unique \(h\in H\) such that \(L(u)=\langle u,h\rangle\) for all \(u\in H\).
+\end{fact}
+
+\begin{theorem}[Radon--Nikodym theorem, finite case]
+Let \(\mu\) and \(\nu\) be finite positive measures on \((X,\M)\), and suppose \(\nu\ll\mu\). Then there exists a non-negative measurable function \(f\) such that
+\[
+  \nu(E)=\int_E f\dd\mu
+\]
+for every \(E\in\M\). The function \(f\) is unique up to equality \(\mu\)-almost everywhere. It is denoted by
+\[
+  f=\frac{d\nu}{d\mu}.
+\]
+\end{theorem}
+
+\begin{proof}
+Set \(\rho=\mu+
+u\). Then \(\rho\) is a finite positive measure. Define a linear functional on \(L^2(X,\rho)\) by
+\[
+  L(\varphi)=\int_X\varphi\dd\nu.
+\]
+For \(\varphi\in L^2(X,\rho)\), Cauchy's inequality gives
+\[
+  \abs{L(\varphi)}
+  \leq \int_X\abs{\varphi}\dd\nu
+  \leq \nu(X)^{1/2}\left(\int_X\abs{\varphi}^2\dd\nu\right)^{1/2}
+  \leq \nu(X)^{1/2}\norm{\varphi}_{L^2(\rho)}.
+\]
+Thus \(L\) is bounded. By the Hilbert-space Riesz theorem, there is \(h\in L^2(X,\rho)\) such that
+\[
+  \int_X\varphi\dd\nu=\int_X\varphi h\dd\rho
+\]
+for every \(\varphi\in L^2(X,\rho)\). Taking \(\varphi=\1_E\), which belongs to \(L^2(\rho)\) because \(\rho\) is finite, gives
+\[
+  \nu(E)=\int_E h\dd\rho.
+\]
+We claim that \(0\leq h\leq1\) \(\rho\)-almost everywhere. If \(A=\set{h<0}\), then
+\[
+  0\leq\nu(A)=\int_Ah\dd\rho\leq0,
+\]
+and the inequality is strict unless \(\rho(A)=0\). Hence \(h\geq0\) almost everywhere. Similarly, since
+\[
+  \mu(E)=\rho(E)-\nu(E)=\int_E(1-h)\dd\rho,
+\]
+we get \(h\leq1\) \(\rho\)-almost everywhere.
+
+Let \(B=\set{h=1}\). Then
+\[
+  \mu(B)=\int_B(1-h)\dd\rho=0.
+\]
+Since \(\nu\ll\mu\), \(\nu(B)=0\), and therefore \(\rho(B)=\mu(B)+\nu(B)=0\). Thus \(h<1\) almost everywhere with respect to \(\rho\). Define
+\[
+  f=\frac{h}{1-h}
+\]
+on the set where \(h<1\), and define \(f=0\) on the remaining \(\rho\)-null set. Then \(f\geq0\) is measurable. For every \(E\in\M\), using \(\mu(E)=\int_E(1-h)\dd\rho\), the density rule gives
+\[
+  \int_E f\dd\mu
+  =\int_E \frac{h}{1-h}(1-h)\dd\rho
+  =\int_E h\dd\rho
+  =\nu(E).
+\]
+This proves existence.
+
+For uniqueness, suppose \(f,g\geq0\) and \(\int_Ef\dd\mu=\int_Eg\dd\mu\) for all \(E\in\M\). For each \(n\in\N\), let \(A_n=\set{f\geq g+1/n}\). Then
+\[
+  0=\int_{A_n}(f-g)\dd\mu\geq \frac{1}{n}\mu(A_n),
+\]
+so \(\mu(A_n)=0\). Since \(\set{f>g}=\bigcup_nA_n\), we get \(f\leq g\) almost everywhere. Reversing the roles of \(f\) and \(g\) gives \(g\leq f\) almost everywhere.
+\end{proof}
+
+\begin{theorem}[Radon--Nikodym theorem, sigma-finite case]
+Let \(\mu\) and \(\nu\) be sigma-finite positive measures on \((X,\M)\). If \(\nu\ll\mu\), then there exists a non-negative measurable function \(f\) such that
+\[
+  \nu(E)=\int_E f\dd\mu
+\]
+for every \(E\in\M\). The function \(f\) is unique up to \(\mu\)-almost everywhere equality.
+\end{theorem}
+
+\begin{proof}
+Since both measures are sigma-finite, choose measurable sets \(A_n\) and \(B_n\) such that \(X=\bigcup_nA_n=\bigcup_nB_n\), \(\mu(A_n)<\infty\), and \(\nu(B_n)<\infty\). Replacing these by finite intersections and then disjointizing, we may assume that
+\[
+  X=\bigsqcup_{n=1}^{\infty}X_n,
+  \qquad
+  \mu(X_n)<\infty,
+  \qquad
+  \nu(X_n)<\infty.
+\]
+Apply the finite Radon--Nikodym theorem to the restricted measures \(\mu_n(E)=\mu(E\cap X_n)\) and \(\nu_n(E)=\nu(E\cap X_n)\). We obtain \(f_n\geq0\) on \(X_n\) such that
+\[
+  \nu(E\cap X_n)=\int_{E\cap X_n}f_n\dd\mu.
+\]
+Define \(f(x)=f_n(x)\) for \(x\in X_n\). Then
+\[
+  \nu(E)=\sum_n\nu(E\cap X_n)
+  =\sum_n\int_{E\cap X_n}f_n\dd\mu
+  =\int_Ef\dd\mu.
+\]
+Uniqueness follows by applying the finite uniqueness argument to each \(X_n\).
+\end{proof}
+
+\begin{proposition}[Chain rule for Radon--Nikodym derivatives]
+Suppose \(\lambda\ll\nu\ll\mu\) are sigma-finite positive measures. Then
+\[
+  \frac{d\lambda}{d\mu}
+  =\frac{d\lambda}{d\nu}\frac{d\nu}{d\mu}
+  \qquad \mu\text{-almost everywhere}.
+\]
+\end{proposition}
+
+\begin{proof}
+Let \(f=d\lambda/d\nu\) and \(g=d\nu/d\mu\). For every measurable \(E\), the density rule gives
+\[
+  \lambda(E)=\int_Ef\dd\nu=\int_Efg\dd\mu.
+\]
+By uniqueness in the Radon--Nikodym theorem, \(d\lambda/d\mu=fg\) \(\mu\)-almost everywhere.
+\end{proof}
+
+\begin{theorem}[Lebesgue decomposition]
+Let \(\mu\) and \(\nu\) be sigma-finite positive measures on \((X,\M)\). Then there exist unique positive measures \(\nu_a\) and \(\nu_s\) such that
+\[
+  \nu=\nu_a+\nu_s,
+  \qquad
+  \nu_a\ll\mu,
+  \qquad
+  \nu_s\perp\mu.
+\]
+Moreover, \(\nu_a(E)=\int_E f\dd\mu\) for a uniquely determined \(f\geq0\), namely \(f=d\nu_a/d\mu\).
+\end{theorem}
+
+\begin{proof}
+First assume that \(\mu\) and \(\nu\) are finite. Let \(\rho=\mu+
+u\). By the Radon--Nikodym theorem, there exists \(0\leq h\leq1\) such that
+\[
+  \nu(E)=\int_Eh\dd\rho,
+  \qquad
+  \mu(E)=\int_E(1-h)\dd\rho.
+\]
+Let \(S=\set{h=1}\) and \(A=X\setminus S\). Then \(\mu(S)=0\), so \(\nu|_S\perp\mu\). On \(A\), define
+\[
+  f=\frac{h}{1-h}.
+\]
+For every \(E\),
+\[
+  \nu(E\cap A)=\int_{E\cap A}h\dd\rho
+  =\int_{E\cap A}\frac{h}{1-h}\dd\mu
+  =\int_E f\1_A\dd\mu.
+\]
+Thus set \(\nu_a(E)=\nu(E\cap A)\) and \(\nu_s(E)=\nu(E\cap S)\). This gives the desired decomposition in the finite case.
+
+For sigma-finite measures, decompose \(X=\bigsqcup_nX_n\) so that both \(\mu(X_n)
+\) and \(\nu(X_n)\) are finite. Apply the finite result on each \(X_n\), and sum the absolutely continuous and singular parts over \(n\). The countable union of the singular supports is still \(\mu\)-null, so the singular part remains singular.
+
+For uniqueness, suppose
+\[
+  \nu=\nu_a+
+u_s=\widetilde\nu_a+
+\widetilde\nu_s
+\]
+with \(\nu_a,
+\widetilde\nu_a\ll\mu\) and \(\nu_s,
+\widetilde\nu_s\perp\mu\). Choose \(S,T\in\M\) such that \(\mu(S)=\mu(T)=0\), \(\nu_s(X\setminus S)=0\), and \(\widetilde\nu_s(X\setminus T)=0\). Put \(N=S\cup T\). Then \(\mu(N)=0\), so \(\nu_a(N)=\widetilde\nu_a(N)=0\), while both singular measures are supported on \(N\). For every \(E\), on \(E\setminus N\) the singular parts vanish, so \(\nu_a(E\setminus N)=\widetilde\nu_a(E\setminus N)\). On \(E\cap N\), the absolutely continuous parts vanish, so \(\nu_s(E\cap N)=\widetilde\nu_s(E\cap N)\). Combining these equalities gives \(\nu_a=\widetilde\nu_a\) and \(\nu_s=\widetilde\nu_s\).
+\end{proof}
+
+\section{A short conceptual summary}
+
+The key point of abstract measure theory is that the Euclidean construction of measure has two separable parts. First, Caratheodory's theorem turns a primitive outer measure into a complete measure on a sigma-algebra. Second, once a measure space is obtained, the integral and the convergence theorems no longer depend on Euclidean geometry. Product measures and Fubini's theorem express how integration behaves under products. The Radon--Nikodym theorem explains precisely when one measure can be integrated against another by means of a density. Haar measure then shows that translation-invariant integration persists on locally compact groups, which is the measure-theoretic foundation of abstract harmonic analysis.
+
+
+\appendix
+\chapter{Haar Measure and Convolution on Locally Compact Groups}\label{app:haar-measure}
+
+This section is independent of the previous one in spirit, but it uses the same abstract language.  Lebesgue measure is characterized by translation invariance on \(\R^n\). Haar measure is the corresponding object on a locally compact group.
+
+\begin{definition}[Radon measure]
+Let \(X\) be a locally compact Hausdorff space. A positive Borel measure \(\mu\) on \(X\) is a \emph{Radon measure} if
+\begin{enumerate}[label=\textup{(\roman*)}]
+  \item \(\mu(K)<\infty\) for every compact set \(K\subseteq X\);
+  \item for every Borel set \(E\),
+  \[
+    \mu(E)=\inf\set{\mu(U): E\subseteq U,\ U\text{ open}};
+  \]
+  \item for every Borel set \(E\),
+  \[
+    \mu(E)=\sup\set{\mu(K): K\subseteq E,\ K\text{ compact}}.
+  \]
+\end{enumerate}
+\end{definition}
+
+\begin{definition}[Left Haar measure]
+Let \(G\) be a locally compact Hausdorff group. A non-zero Radon measure \(\mu\) on \(G\) is a \emph{left Haar measure} if
+\[
+  \mu(gE)=\mu(E)
+\]
+for every \(g\in G\) and every Borel set \(E\subseteq G\). A \emph{right Haar measure} is defined similarly by requiring \(\mu(Eg)=\mu(E)\).
+\end{definition}
+
+\begin{fact}[Haar existence and uniqueness]
+Every locally compact Hausdorff group admits a left Haar measure. It is unique up to multiplication by a positive constant. Similarly, every locally compact Hausdorff group admits a right Haar measure, also unique up to a positive constant.
+\end{fact}
+
+\begin{remark}
+The existence proof is one of the deeper foundational results of abstract harmonic analysis. It uses local compactness in an essential way and is not merely an application of Caratheodory extension from a simple algebra of sets. In these notes we record the theorem as a structural fact and prove the main formal consequences used in analysis.
+\end{remark}
+
+\begin{proposition}[Elementary consequences of left invariance]
+Let \(\mu\) be a left Haar measure on \(G\). Then:
+\begin{enumerate}[label=\textup{(\roman*)}]
+  \item every non-empty open set has positive measure;
+  \item if \(K\subseteq G\) is compact and \(U\subseteq G\) is non-empty and open, then finitely many left translates of \(U\) cover \(K\);
+  \item if \(G\) is compact, then \(\mu(G)<\infty\), so \(\mu\) can be normalized by requiring \(\mu(G)=1\).
+\end{enumerate}
+\end{proposition}
+
+\begin{proof}
+Since \(\mu\) is non-zero, there exists a Borel set \(E\) with \(\mu(E)>0\). By inner regularity, there is a compact set \(K_0\subseteq E\) such that \(\mu(K_0)>0\). Let \(U\) be a non-empty open set and choose \(u\in U\). For each \(x\in K_0\), put \(g_x=xu^{-1}\). Then \(x\in g_xU\), so \(\set{g_xU}_{x\in K_0}\) is an open cover of \(K_0\). Compactness gives a finite subcover \(K_0\subseteq\bigcup_{j=1}^Ng_jU\). If \(\mu(U)=0\), then by left invariance each \(\mu(g_jU)=0\), hence \(\mu(K_0)=0\), a contradiction. Therefore \(\mu(U)>0\).
+
+The same compactness argument proves (ii): choose \(u\in U\), and for each \(x\in K\) the translate \(xu^{-1}U\) contains \(x\). A finite subcollection covers \(K\).
+
+For (iii), compactness and the Radon property give \(\mu(G)<\infty\). Since \(G\) is non-empty and open in itself, part (i) gives \(\mu(G)>0\). Thus \(\mu/\mu(G)\) is again left invariant and has total mass one.
+\end{proof}
+
+\begin{definition}[Modular function]
+Let \(\mu\) be a left Haar measure on \(G\). For \(a\in G\), define a measure \(\mu_a\) by
+\[
+  \mu_a(E)=\mu(Ea).
+\]
+The measure \(\mu_a\) is again left Haar, hence by uniqueness there is a positive constant \(\Delta(a)\) such that
+\[
+  \mu(Ea)=\Delta(a)\mu(E).
+\]
+The function \(\Delta:G\to(0,\infty)\) is called the \emph{modular function}. If \(\Delta\equiv1\), the group is called \emph{unimodular}.
+\end{definition}
+
+\begin{proposition}[Properties of the modular function]
+Let \(G\) be a locally compact group with left Haar measure \(\mu\). Then:
+\begin{enumerate}[label=\textup{(\roman*)}]
+  \item \(\Delta:G\to(0,\infty)\) is a continuous group homomorphism;
+  \item for every non-negative Borel function \(f\),
+  \[
+    \int_G f(xa)\dd\mu(x)=\Delta(a)^{-1}\int_G f(x)\dd\mu(x);
+  \]
+  \item every compact group, every abelian locally compact group, and every discrete group is unimodular.
+\end{enumerate}
+\end{proposition}
+
+\begin{proof}
+For the homomorphism property, use the defining identity twice:
+\[
+  \mu(Eab)=\Delta(b)\mu(Ea)=\Delta(b)\Delta(a)\mu(E).
+\]
+Thus \(\Delta(ab)=\Delta(a)\Delta(b)\).
+
+For (ii), first take \(f=\1_E\). Then
+\[
+  \int_G\1_E(xa)\dd\mu(x)
+  =\mu(Ea^{-1})
+  =\Delta(a^{-1})\mu(E)
+  =\Delta(a)^{-1}\mu(E).
+\]
+The identity extends from indicators to simple functions by linearity and then to non-negative Borel functions by monotone convergence.
+
+To prove continuity of \(\Delta\), choose \(0\leq f\in C_c(G)\) with \(\int f\dd\mu>0\). By (ii),
+\[
+  \Delta(a)^{-1}\int_G f\dd\mu=\int_G f(xa)\dd\mu(x).
+\]
+The right-hand side is continuous in \(a\): near a fixed \(a_0\), the supports of \(x\mapsto f(xa)\) lie in one compact set, and uniform continuity of \(f\) on a compact neighborhood permits passage under the integral. Hence \(\Delta^{-1}\), and therefore \(\Delta\), is continuous.
+
+For (iii), if \(G\) is compact, then \(0<\mu(G)<\infty\), and
+\[
+  \mu(Ga)=\mu(G)=\Delta(a)
+\mu(G),
+\]
+so \(\Delta(a)=1\). If \(G\) is abelian, then left and right translations are the same; hence left invariance already gives \(\mu(Ea)=\mu(aE)=\mu(E)\). Thus \(\Delta(a)=1\). If \(G\) is discrete, counting measure is a left and right Haar measure, so again \(\Delta(a)=1\).
+\end{proof}
+
+\begin{remark}[Convention check]
+Some authors define the modular function by \(\mu(Ea)=\Delta(a)^{-1}\mu(E)\). This replaces the present \(\Delta\) by \(\Delta^{-1}\). In these notes the convention is
+\[
+  \mu(Ea)=\Delta(a)\mu(E),
+  \qquad
+  \int f(xa)\dd\mu(x)=\Delta(a)^{-1}\int f\dd\mu.
+\]
+\end{remark}
+
+\begin{proposition}[Convolution on a locally compact group]
+Let \(G\) be a locally compact group with left Haar measure \(\mu\). If \(f,g\in C_c(G)\), define
+\[
+  (f*g)(x)=\int_G f(y)g(y^{-1}x)\dd\mu(y).
+\]
+Then \(f*g\in C_c(G)\). Moreover, convolution is associative.
+\end{proposition}
+
+\begin{proof}
+For fixed \(x\), the integrand is continuous in \(y\) and supported in
+\[
+  \supp(f)\cap x\supp(g)^{-1},
+\]
+which is compact. Hence the integral is finite. Standard continuity under the integral sign applies because when \(x\) varies in a compact neighborhood, the supports remain inside one compact set and the integrands vary uniformly. Thus \(f*g\) is continuous. If \((f*g)(x)\neq0\), then there is \(y\in\supp(f)\) with \(y^{-1}x\in\supp(g)\), so \(x\in\supp(f)\supp(g)\), a compact set. Thus \(f*g\in C_c(G)\).
+
+For associativity, compute using Fubini. Since all functions have compact support, the relevant integrands are absolutely integrable. We have
+\begin{align*}
+((f*g)*h)(x)
+&=\int_G (f*g)(z)h(z^{-1}x)\dd\mu(z)\\
+&=\int_G\int_G f(y)g(y^{-1}z)h(z^{-1}x)\dd\mu(y)\dd\mu(z).
+\end{align*}
+For fixed \(y\), substitute \(z=yu\). Left invariance gives \(\dd\mu(z)=\dd\mu(u)\). Thus
+\begin{align*}
+((f*g)*h)(x)
+&=\int_G f(y)\int_G g(u)h(u^{-1}y^{-1}x)\dd\mu(u)\dd\mu(y)\\
+&=\int_G f(y)(g*h)(y^{-1}x)\dd\mu(y)\\
+&=(f*(g*h))(x).
+\end{align*}
+\end{proof}
+
+
+\begin{theorem}[Young inequality on a locally compact group]
+Let \(G\) be a locally compact group with left Haar measure \(\mu\).  For \(f,g\in C_c(G)\), define
+\[
+  (f*g)(x)=\int_G f(y)g(y^{-1}x)\dd\mu(y).
+\]
+Then, for \(1\le p\le\infty\),
+\[
+  \norm{f*g}_{L^p(G)}\le \norm{f}_{L^1(G)}\norm{g}_{L^p(G)}.
+\]
+Consequently convolution extends uniquely to a bounded bilinear map
+\[
+  L^1(G)\times L^p(G)\longrightarrow L^p(G).
+\]
+In particular, \(L^1(G)\) is a Banach algebra under convolution.
+\end{theorem}
+
+\begin{proof}
+For \(p=\infty\), left invariance gives
+\[
+  \abs{(f*g)(x)}\le\int_G\abs{f(y)}\abs{g(y^{-1}x)}\dd\mu(y)
+  \le \norm{g}_\infty\norm{f}_1.
+\]
+For \(1\le p<\infty\), Minkowski's integral inequality gives
+\[
+\begin{aligned}
+\norm{f*g}_p
+&\le \int_G\abs{f(y)}\left(\int_G\abs{g(y^{-1}x)}^p\dd\mu(x)\right)^{1/p}\dd\mu(y).
+\end{aligned}
+\]
+For fixed \(y\), the change of variables \(x=yu\) is a left translation, so \(\dd\mu(x)=\dd\mu(u)\). Hence
+\[
+  \left(\int_G\abs{g(y^{-1}x)}^p\dd\mu(x)\right)^{1/p}=\norm{g}_p,
+\]
+and the desired inequality follows.  Since \(C_c(G)\) is dense in \(L^p(G)\) for Radon measures on locally compact spaces, the inequality permits a unique continuous extension from \(C_c(G)\times C_c(G)\) to \(L^1(G)\times L^p(G)\).  The case \(p=1\) gives the Banach-algebra estimate.
+\end{proof}
+
+\begin{definition}[Approximate identity on a locally compact group]
+A net \(\{\phi_i\}\subset L^1(G)\) is called a \emph{left approximate identity} if
+\begin{enumerate}[label=\textup{(\roman*)}]
+  \item \(\phi_i\ge0\) and \(\int_G\phi_i\dd\mu=1\);
+  \item the supports of \(\phi_i\) eventually lie in every neighborhood of the identity element \(e\).
+\end{enumerate}
+\end{definition}
+
+\begin{proposition}[Approximation by group kernels]
+Let \(\{\phi_i\}\) be a left approximate identity on \(G\).
+\begin{enumerate}[label=\textup{(\roman*)}]
+  \item If \(f\in C_c(G)\), then \(\phi_i*f\to f\) uniformly on \(G\).
+  \item If \(1\le p<\infty\) and \(f\in L^p(G)\), then \(\norm{\phi_i*f-f}_p\to0\).
+\end{enumerate}
+\end{proposition}
+
+\begin{proof}
+For \(f\in C_c(G)\),
+\[
+  \phi_i*f(x)-f(x)=\int_G\phi_i(y)\bigl(f(y^{-1}x)-f(x)\bigr)\dd\mu(y).
+\]
+A continuous compactly supported function on a locally compact group is uniformly continuous with respect to left translation on compact sets: for every \(\eps>0\), there exists a neighborhood \(U\) of \(e\) such that
+\[
+  \abs{f(y^{-1}x)-f(x)}<\eps
+  \qquad\text{for all }x\in G,\\ y\in U.
+\]
+Once \(\supp(\phi_i)\subset U\), the displayed integral has absolute value at most \(\eps\int\phi_i\dd\mu=\eps\), proving uniform convergence.
+
+For \(L^p\), first approximate \(f\) in \(L^p\) by a function \(g\in C_c(G)\).  Young's inequality gives
+\[
+  \norm{\phi_i*f-f}_p
+  \le \norm{\phi_i*(f-g)}_p+\norm{\phi_i*g-g}_p+\norm{g-f}_p
+  \le 2\norm{f-g}_p+\norm{\phi_i*g-g}_p.
+\]
+The middle term tends to zero by the compactly supported case, and \(g\) may be chosen arbitrarily close to \(f\).  This proves the result.
+\end{proof}
+
+\begin{example}[Basic Haar measures]
+\begin{enumerate}[label=\textup{(\roman*)}]
+  \item On \((\R^n,+)\), Lebesgue measure is Haar measure. The group is abelian, hence unimodular.
+  \item On any discrete group \(G\), counting measure is both left and right Haar measure.
+  \item On a compact group \(G\), Haar measure may be normalized to a probability measure. This is the setting in which averaging over the group is most directly analogous to averaging over a finite group.
+  \item On \(\mathrm{GL}_n(\R)\), a left and right Haar measure is
+  \[
+    \dd\mu(A)=\frac{\dd A}{\abs{\det A}^{n}},
+  \]
+  where \(\dd A\) is Lebesgue measure on the vector space of real \(n\times n\) matrices restricted to the open set \(\mathrm{GL}_n(\R)\). Indeed, left multiplication \(A\mapsto BA\) scales \(\dd A\) by \(\abs{\det B}^{n}\), while \(\abs{\det(BA)}^n=\abs{\det B}^{n}\abs{\det A}^{n}\); the factors cancel. The same argument applies to right multiplication.
+\end{enumerate}
+\end{example}
+
+
+\begin{thebibliography}{9}
+\bibitem{stein-shakarchi-real}
+Elias M. Stein and Rami Shakarchi.
+\newblock \emph{Real Analysis: Measure Theory, Integration, and Hilbert Spaces}.
+\newblock Princeton Lectures in Analysis III. Princeton University Press, 2005.
+
+\bibitem{folland}
+Gerald B. Folland.
+\newblock \emph{Real Analysis: Modern Techniques and Their Applications}.
+\newblock Wiley, second edition, 1999.
+
+\bibitem{rudin-real-complex}
+Walter Rudin.
+\newblock \emph{Real and Complex Analysis}.
+\newblock McGraw--Hill, third edition, 1987.
+\end{thebibliography}
+
+
+\end{document}
