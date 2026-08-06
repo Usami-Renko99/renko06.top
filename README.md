@@ -268,7 +268,7 @@ GitHub Actions 会自动：
 2. 检查文章命名、笔记分类、文件格式和发布总体积；
 3. 扫描 `assets/pdf/` 下的 `.pdf`；
 4. 扫描 `assets/tex/` 下同名 `.tex`，如果存在就附加源码链接；
-5. 自动生成 Notes 和 Music 索引；
+5. 自动生成 Notes 索引；
 6. 构建并检查页面与站内链接；
 7. 部署到 GitHub Pages。
 
@@ -278,7 +278,7 @@ GitHub Actions 会自动：
 
 - 单个文件不要超过 95 MB；
 - `assets/` 的发布总量不要超过 200 MB；
-- 音乐使用适合网页播放的压缩版本，不要重新放入无损或超高码率原曲。
+- `assets/music/` 不会被发布，网站也不会加载音乐播放器。
 
 ## 本地预览
 
@@ -286,7 +286,8 @@ GitHub Actions 会自动：
 
 ```bash
 bundle install
-bash scripts/preview.sh
+python3 scripts/generate_notes_data.py
+bundle exec jekyll serve
 ```
 
 然后打开：

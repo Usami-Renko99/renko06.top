@@ -1,0 +1,62 @@
+[
+  {
+    "title": "Linear Algebra",
+    "slug": "Linear_Algebra",
+    "category": "algebra",
+    "category_title": "Linear Algebra",
+    "updated": "2026-06-18",
+    "pdf_url": "/assets/notes/algebra/Linear_Algebra.pdf",
+    "tex_url": null,
+    "pdf_size": "422.2 KB"
+  },
+  {
+    "title": "Real Analysis",
+    "slug": "Real_Analysis",
+    "category": "analysis",
+    "category_title": "Real Analysis",
+    "updated": "2026-06-15",
+    "pdf_url": "/assets/pdf/analysis/Real_Analysis.pdf",
+    "tex_url": "/assets/tex/analysis/real_analysis.tex",
+    "pdf_size": "468.4 KB"
+  },
+  {
+    "title": "Calculus",
+    "slug": "Calculus",
+    "category": "calculus",
+    "category_title": "Calculus",
+    "updated": "2026-08-06",
+    "pdf_url": "/assets/pdf/calculus/Calculus.pdf",
+    "tex_url": null,
+    "pdf_size": "593.0 KB"
+  },
+  {
+    "title": "Commutative Algebra",
+    "slug": "Commutative_Algebra",
+    "category": "commutative-algebra",
+    "category_title": "Commutative Algebra",
+    "updated": "2026-06-15",
+    "pdf_url": "/assets/pdf/commutative-algebra/Commutative_Algebra.pdf",
+    "tex_url": null,
+    "pdf_size": "574.0 KB"
+  },
+  {
+    "title": "Complex Variables",
+    "slug": "Complex_Variables",
+    "category": "complex-analysis",
+    "category_title": "Complex Analysis",
+    "updated": "2026-07-21",
+    "pdf_url": "/assets/notes/complex-analysis/Complex_Variables.pdf",
+    "tex_url": null,
+    "pdf_size": "779.0 KB"
+  },
+  {
+    "title": "Representation Theory For Finite Groups",
+    "slug": "Representation_Theory_for_Finite_Groups",
+    "category": "representation-theory",
+    "category_title": "Representation Theory",
+    "updated": "2026-06-26",
+    "pdf_url": "/assets/pdf/representation-theory/Representation_Theory_for_Finite_Groups.pdf",
+    "tex_url": null,
+    "pdf_size": "350.1 KB"
+  }
+]

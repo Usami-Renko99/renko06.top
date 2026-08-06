@@ -1,0 +1,40 @@
+- key: algebra
+  title: Linear Algebra
+  zh: 线性代数
+  url: /notes/algebra/
+- key: commutative-algebra
+  title: Commutative Algebra
+  zh: 交换代数
+  url: /notes/commutative-algebra/
+- key: algebraic-geometry
+  title: Algebraic Geometry
+  zh: 代数几何
+  url: /notes/algebraic-geometry/
+- key: representation-theory
+  title: Representation Theory
+  zh: 表示论
+  url: /notes/representation-theory/
+- key: homological-algebra
+  title: Homological Algebra
+  zh: 同调代数
+  url: /notes/homological-algebra/
+- key: number-theory
+  title: Number Theory
+  zh: 数论
+  url: /notes/number-theory/
+- key: analysis
+  title: Real Analysis
+  zh: 实分析
+  url: /notes/analysis/
+- key: calculus
+  title: Calculus
+  zh: 微积分
+  url: /notes/calculus/
+- key: complex-analysis
+  title: Complex Analysis
+  zh: 复分析
+  url: /notes/complex-analysis/
+- key: misc
+  title: Miscellaneous
+  zh: 其他
+  url: /notes/misc/

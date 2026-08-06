@@ -1,0 +1,44 @@
+title: "Renko的完美算数教室"
+description: "数学笔记、学习记录、二次元与杂谈"
+lang: zh-CN
+encoding: utf-8
+timezone: Asia/Shanghai
+
+url: "https://renko06.top"
+baseurl: ""
+
+markdown: kramdown
+kramdown:
+  input: GFM
+  math_engine: mathjax
+
+plugins:
+  - jekyll-feed
+
+include:
+  - _pages
+
+exclude:
+  - README.md
+  - Gemfile
+  - Gemfile.lock
+  - scripts
+  - vendor
+  - .github
+  - CANME
+  - assets/music
+  - assets/js/music-player.js
+
+collections:
+  posts:
+    output: true
+
+# Fill these values after enabling Discussions and configuring Giscus for the
+# new repository. Until then, the Q&A page shows setup guidance.
+giscus:
+  repo: "Usami-Renko99/renko06.top"
+  repo_id: ""
+  category: "General"
+  category_id: ""
+  discussion_number: ""
+  discussion_url: ""
