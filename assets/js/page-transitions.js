@@ -9,6 +9,10 @@
     return event.metaKey || event.ctrlKey || event.shiftKey || event.altKey || event.button !== 0;
   }
 
+  function isQuestionsPage(pathname) {
+    return pathname.replace(/\/+$/, "") === "/questions";
+  }
+
   function getPageUrl(link) {
     if (!link || !link.href || link.hasAttribute("download")) {
       return null;
@@ -23,6 +27,10 @@
     var url = new URL(link.href, window.location.href);
 
     if (url.origin !== window.location.origin) {
+      return null;
+    }
+
+    if (isQuestionsPage(url.pathname) || isQuestionsPage(window.location.pathname)) {
       return null;
     }
 
