@@ -1134,6 +1134,10 @@ body {
     border-radius: 14px;
   }
 
+  .footer-inner {
+    text-align: left;
+  }
+
   h1 {
     font-size: 1.85rem;
   }
