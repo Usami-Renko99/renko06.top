@@ -349,23 +349,20 @@ assets/tex/category-theory/yoneda-lemma.tex
 
 ## 留言与问答（Giscus）
 
-网站的 `/questions/` 页面使用 Giscus，将所有留言和数学问题集中到一个固定的 GitHub Discussion。
+网站的 `/questions/` 页面使用 Giscus，并根据页面地址自动关联 GitHub Discussion。
 
 首次设置：
 
 1. 在仓库 `Settings → General → Features` 中启用 Discussions；
-2. 在 `General` 分类中创建一个名为“留言与问答”的 Discussion；
-3. 安装并配置 [Giscus](https://giscus.app/zh-CN)；
-4. 将分类 ID、Discussion 编号和 Discussion 链接写入 `_config.yml`：
+2. 为仓库安装 [Giscus](https://giscus.app/zh-CN)；
+3. 将仓库 ID 和 `Q&A` 分类 ID 写入 `_config.yml`：
 
 ```yml
 giscus:
-  repo: "Usami-Renko99/Usami-Renko99.github.io"
-  repo_id: "R_kgDORd84Yw"
-  category: "General"
+  repo: "Usami-Renko99/renko06.top"
+  repo_id: "R_kgDOTv_0GQ"
+  category: "Q&A"
   category_id: "DIC_kwDO..."
-  discussion_number: "1"
-  discussion_url: "https://github.com/Usami-Renko99/Usami-Renko99.github.io/discussions/1"
 ```
 
-在 `category_id` 和 `discussion_number` 配置完成前，页面会显示一张设置提示卡，不会加载错误的评论框。
+Giscus 会按 `/questions/` 的页面地址自动匹配讨论，不需要手动创建或填写 Discussion 编号。

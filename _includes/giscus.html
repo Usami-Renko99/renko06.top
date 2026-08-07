@@ -1,5 +1,5 @@
 {% assign giscus = site.giscus %}
-{% if giscus.repo and giscus.repo_id and giscus.category_id and giscus.discussion_number %}
+{% if giscus.repo != empty and giscus.repo_id != empty and giscus.category_id != empty %}
   <div class="giscus-shell" data-giscus-container>
     <div class="giscus-lazy" id="giscus-lazy">
       <button class="button" type="button" onclick="loadGiscus()">加载留言区</button>
@@ -19,10 +19,9 @@
           script.src = 'https://giscus.app/client.js';
           script.setAttribute('data-repo', '{{ giscus.repo }}');
           script.setAttribute('data-repo-id', '{{ giscus.repo_id }}');
-          script.setAttribute('data-category', '{{ giscus.category | default: "General" }}');
+          script.setAttribute('data-category', '{{ giscus.category | default: "Q&A" }}');
           script.setAttribute('data-category-id', '{{ giscus.category_id }}');
-          script.setAttribute('data-mapping', 'number');
-          script.setAttribute('data-term', '{{ giscus.discussion_number }}');
+          script.setAttribute('data-mapping', 'pathname');
           script.setAttribute('data-strict', '1');
           script.setAttribute('data-reactions-enabled', '1');
           script.setAttribute('data-emit-metadata', '0');

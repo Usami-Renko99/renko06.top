@@ -37,8 +37,6 @@ collections:
 # new repository. Until then, the Q&A page shows setup guidance.
 giscus:
   repo: "Usami-Renko99/renko06.top"
-  repo_id: ""
-  category: "General"
-  category_id: ""
-  discussion_number: ""
-  discussion_url: ""
+  repo_id: "R_kgDOTv_0GQ"
+  category: "Q&A"
+  category_id: "DIC_kwDOTv_0Gc4DC1j5"
