@@ -145,7 +145,7 @@ main {
 
 .page-content {
   margin-top: 2.2rem;
-  margin-bottom: 3.5rem;
+  margin-bottom: 1.25rem;
   padding-top: 2rem;
   padding-bottom: 2.5rem;
 
@@ -1070,14 +1070,22 @@ mjx-container[display="true"] {
 /* ---------- Footer ---------- */
 
 .site-footer {
-  margin-top: 2rem;
-
-  background: rgba(10, 12, 18, 0.56);
-  border-top: 1px solid var(--glass-border);
+  margin-top: 0;
+  background: transparent;
+  border-top: 0;
   color: var(--muted);
+}
 
-  backdrop-filter: blur(14px);
-  -webkit-backdrop-filter: blur(14px);
+.footer-inner {
+  padding-top: 0.55rem;
+  padding-bottom: 1.4rem;
+  text-align: center;
+}
+
+.site-footer p {
+  margin: 0;
+  font-size: 0.78rem;
+  letter-spacing: 0.04em;
 }
 
 .footer-heading,
@@ -1086,7 +1094,15 @@ mjx-container[display="true"] {
 }
 
 .site-footer a {
-  color: var(--link);
+  color: var(--muted);
+  text-decoration: none;
+  opacity: 0.78;
+}
+
+.site-footer a:hover,
+.site-footer a:focus-visible {
+  color: var(--text-soft);
+  opacity: 1;
 }
 
 /* ---------- Selection ---------- */
