@@ -34,27 +34,33 @@ jobs:
         id: pages
         uses: actions/configure-pages@v5
 
-      - name: Ensure blog post front matter
-        run: python3 scripts/ensure_post_front_matter.py
+      - name: Install blog preparation dependency
+        run: python3 -m pip install PyYAML==6.0.3
 
-      - name: Validate uploaded content
-        run: python3 scripts/validate_content.py
+      - name: Test blog preparation
+        run: python3 -m unittest discover -s scripts -p test_prepare_posts.py
 
       - name: Generate notes index
         run: python3 scripts/generate_notes_data.py
 
+      - name: Prepare blog posts in a build copy
+        run: python3 scripts/ensure_post_front_matter.py --site-output-dir "$RUNNER_TEMP/blog-source"
+
+      - name: Validate uploaded content
+        run: python3 "$RUNNER_TEMP/blog-source/scripts/validate_content.py"
+
       - name: Build with Jekyll
-        run: bundle exec jekyll build --baseurl "${{ steps.pages.outputs.base_path }}"
+        run: bundle exec jekyll build --source "$RUNNER_TEMP/blog-source" --destination "$RUNNER_TEMP/blog-source/_site" --baseurl "${{ steps.pages.outputs.base_path }}"
         env:
           JEKYLL_ENV: production
 
       - name: Verify generated site
-        run: python3 scripts/verify_site.py
+        run: python3 "$RUNNER_TEMP/blog-source/scripts/verify_site.py"
 
       - name: Upload Pages artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          path: _site
+          path: ${{ runner.temp }}/blog-source/_site
 
   deploy:
     environment:

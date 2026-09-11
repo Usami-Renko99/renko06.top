@@ -51,30 +51,29 @@ View PDF | Download | TeX
 
 ## 发布 Blog 文章
 
-Blog 文章放在 `_posts/` 目录里，文件名必须使用 Jekyll 规定的格式：
+Blog 文章放在 `_posts/`，文件名可以直接使用中文、英文或空格，不需要日期前缀。例如 `_posts/关于大模型的思考.md`：
 
-```text
-_posts/YYYY-MM-DD-english-slug.md
+```markdown
+# 关于大模型的思考
+
+这里直接写正文。
 ```
 
-例如：
+部署时会在临时副本中补齐文章配置，并转换成 Jekyll 需要的文件名；仓库中的原文件名和正文不会被自动改写。
 
-```text
-_posts/2026-06-17-math-review-and-outlook.md
-```
+自动规则：
 
-注意：
+- 标题：优先使用 front matter 的 `title`，其次取正文第一个一级标题，最后使用文件名（去掉已有日期前缀）。
+- 日期：优先使用 `date`，其次取文件名的 `YYYY-MM-DD`，否则使用 Git 历史中该文件首次提交的作者时间，转换为北京时间。修改正文或重新部署不会刷新发布日期。
+- 地址：默认根据日期和文件名生成，修改正文或正文标题不会改变地址。重命名文件或修改日期可能改变地址；需要固定地址时可手写 `permalink`。
+- 封面：默认查找 `/assets/images/blog/<文件名去掉日期前缀>.jpg`，没有图片时不显示封面；可通过 `cover` 指定其他图片。
+- 已有文章保留原有日期、地址和封面设置。生成文件名冲突时构建会报错，不会覆盖文章。
+- 手写 front matter 是可选项；需要时必须从第一行开始。未来日期的文章默认不会发布。
 
-- 文件名开头必须是 `YYYY-MM-DD-`，否则 Jekyll 不会把它当作 blog 文章；
-- 建议 slug 使用小写英文和连字符，不要使用空格或中文；
-- 文件开头必须有 front matter，并且 `---` 必须从第一行开始；
-- 如果 `date` 写在未来，GitHub Pages 默认不会显示这篇文章。
-
-最小文章模板：
+可选配置示例：
 
 ```markdown
 ---
-layout: post
 title: "文章标题"
 date: 2026-06-17 20:00:00 +0800
 ---
@@ -82,44 +81,17 @@ date: 2026-06-17 20:00:00 +0800
 这里开始写正文。
 ```
 
-如果你忘了写 front matter，也可以只把文章放进 `_posts/`。部署时 GitHub Actions 会自动运行：
+本地预览同样需要先准备临时副本（输出目录必须尚不存在）：
 
 ```bash
-python3 scripts/ensure_post_front_matter.py
+python3 -m pip install PyYAML==6.0.3
+python3 scripts/ensure_post_front_matter.py --site-output-dir /tmp/blog-preview
+bundle exec jekyll serve --source /tmp/blog-preview
 ```
 
-这个脚本只会处理 `_posts/` 里缺少 front matter 的 `.md` / `.markdown` 文件，已经有 front matter 的文章不会被改动。自动生成的 front matter 形如：
+尚未提交的新文件需要先提交到 Git，或手写 `date`。可以加 `--dry-run` 仅检查，不创建副本。旧的无参数调用仅补全配置并直接写回原文件，不负责自由文件名转换，发布和预览请使用上面的副本模式。
 
-```markdown
----
-layout: post
-title: "文章标题"
-date: "2026-06-17 00:00:00 +0800"
-cover: /assets/images/blog/english-slug.jpg
-cover_alt: "" # 可选的封面说明
-cover_caption: "" # 可选的封面题注
----
-```
-
-自动规则：
-
-- `title` 优先取正文里的第一个一级标题，例如 `# 我的文章`；
-- 如果正文没有一级标题，就从文件名生成标题；
-- `date` 优先取文件名开头的 `YYYY-MM-DD`；
-- `cover` 默认指向 `/assets/images/blog/<slug>.jpg`；
-- 如果这个封面图片不存在，页面不会显示破图；之后把同名图片放进 `assets/images/blog/`，封面就会自动出现。
-
-你也可以在本地手动运行脚本，让 front matter 直接写回文件：
-
-```bash
-python3 scripts/ensure_post_front_matter.py
-```
-
-发布后，Blog 列表会在 `/blog/` 显示文章，文章链接通常形如：
-
-```text
-/YYYY/MM/DD/english-slug.html
-```
+发布后，Blog 列表会在 `/blog/` 显示文章。
 
 ## Blog 封面图
 
@@ -207,7 +179,7 @@ timezone: Asia/Shanghai
 
 1. GitHub Actions 是否构建成功；
 2. 文章是否在 `_posts/` 目录；
-3. 文件名是否是 `YYYY-MM-DD-title.md`；
+3. 文件是否是 `.md` / `.markdown`，且没有生成文件名冲突；
 4. front matter 是否从第一行开始；
 5. `date` 是否不是未来时间；
 6. 浏览器或 GitHub Pages 缓存是否还没刷新。
@@ -253,7 +225,7 @@ characters.pdf
 orthogonality-relations.pdf
 ```
 
-不要使用空格和中文文件名。不是不能用，而是 URL 会变得难看，也更容易出错。
+PDF 笔记建议使用上述命名，便于分享链接；Blog 支持中文和空格文件名。
 
 ## 如何部署到 GitHub Pages
 
@@ -264,7 +236,7 @@ orthogonality-relations.pdf
 
 GitHub Actions 会自动：
 
-1. 补全缺失的 Blog front matter；
+1. 在临时构建副本中补全 Blog 配置并自动转换文件名；
 2. 检查文章命名、笔记分类、文件格式和发布总体积；
 3. 扫描 `assets/pdf/` 下的 `.pdf`；
 4. 扫描 `assets/tex/` 下同名 `.tex`，如果存在就附加源码链接；
