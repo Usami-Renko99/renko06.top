@@ -1,6 +1,8 @@
 ---
 layout: page
 title: About
+display_title: 关于 Renko
+eyebrow: THE PERSON BEHIND THE NOTES
 permalink: /about/
 ---
 

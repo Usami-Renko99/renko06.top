@@ -1,5 +1,14 @@
-<nav class="site-nav" aria-label="Main navigation">
+<nav class="site-nav" aria-label="主导航">
   {% for item in site.data.navigation %}
-    <a href="{{ item.url | relative_url }}">{{ item.title }}</a>
+    {% assign is_current = false %}
+    {% assign section_prefix = page.url | slice: 0, item.url.size %}
+    {% if page.url == item.url %}
+      {% assign is_current = true %}
+    {% elsif item.url != '/' and section_prefix == item.url %}
+      {% assign is_current = true %}
+    {% elsif item.url == '/blog/' and page.layout == 'post' %}
+      {% assign is_current = true %}
+    {% endif %}
+    <a class="page-link" href="{{ item.url | relative_url }}"{% if is_current %} aria-current="page"{% endif %}>{{ item.title }}</a>
   {% endfor %}
 </nav>

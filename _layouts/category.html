@@ -2,9 +2,14 @@
 layout: default
 ---
 <article class="page">
-  <p class="breadcrumb"><a href="{{ '/notes/' | relative_url }}">Notes</a> / {{ page.title }}</p>
-  <h1>{{ page.title }}</h1>
-  {{ content }}
+  {% assign category = site.data.categories | where: "key", page.category | first %}
+  <p class="breadcrumb"><a href="{{ '/notes/' | relative_url }}">&larr; 全部数学手记</a></p>
+  <header class="page-heading">
+    <p class="eyebrow">{{ page.eyebrow | default: category.title | default: 'MATHEMATICS' }}</p>
+    <h1>{{ page.display_title | default: category.zh | default: page.title }}</h1>
+    {% if page.description %}<p class="page-intro">{{ page.description }}</p>{% endif %}
+  </header>
+  <div class="page-body">{{ content }}</div>
 
   {% assign category_notes = site.data.notes | where: "category", page.category %}
   {% if category_notes and category_notes.size > 0 %}
@@ -15,7 +20,7 @@ layout: default
     </div>
   {% else %}
     <div class="empty-state">
-      <p>这个分类下还没有笔记。上传 PDF 到 <code>assets/pdf/{{ page.category }}/</code> 后，这里会自动出现。</p>
+      <p>这个主题的笔记还在整理中。先去看看<a href="{{ '/notes/' | relative_url }}">其他数学手记</a>吧。</p>
     </div>
   {% endif %}
 </article>

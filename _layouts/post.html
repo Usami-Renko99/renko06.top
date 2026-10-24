@@ -2,11 +2,15 @@
 layout: default
 ---
 <article class="post">
-  <h1>{{ page.title }}</h1>
-  <p class="meta">{{ page.date | date: "%Y-%m-%d" }}</p>
-  <nav class="post-actions" aria-label="Post navigation">
-    <a class="button ghost" href="{{ '/blog/' | relative_url }}">&larr; 返回 Blog</a>
+  <nav class="post-actions" aria-label="文章导航">
+    <a class="text-link" href="{{ '/blog/' | relative_url }}">&larr; 返回记录与杂谈</a>
   </nav>
+  <header class="post-header">
+    <p class="eyebrow">JOURNAL</p>
+    <h1>{{ page.title }}</h1>
+    <p class="meta"><time datetime="{{ page.date | date_to_xmlschema }}">{{ page.date | date: "%Y.%m.%d" }}</time></p>
+  </header>
+  {% assign cover_file = nil %}
   {% if page.cover %}
     {% assign cover_file = site.static_files | where: "path", page.cover | first %}
   {% endif %}
@@ -18,8 +22,8 @@ layout: default
       {% endif %}
     </figure>
   {% endif %}
-  {{ content }}
-  <nav class="post-actions post-actions-bottom" aria-label="Post navigation">
-    <a class="button ghost" href="{{ '/blog/' | relative_url }}">&larr; 返回 Blog</a>
+  <div class="post-body">{{ content }}</div>
+  <nav class="post-actions post-actions-bottom" aria-label="文章导航">
+    <a class="text-link" href="{{ '/blog/' | relative_url }}">&larr; 返回记录与杂谈</a>
   </nav>
 </article>

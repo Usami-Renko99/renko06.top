@@ -1,0 +1,65 @@
+---
+layout: default
+---
+<section class="home-hero" aria-labelledby="home-title">
+  <div class="hero-copy">
+    <p class="eyebrow"><span class="tiny-star" aria-hidden="true">✦</span> Mathematics &amp; daydreams</p>
+    <h1 id="home-title"><span class="hero-name">Renko 的</span>完美算数教室<span class="title-period">.</span></h1>
+    <p class="hero-description">这里是 Renko 的个人主页。主要关注数论、表示论与代数几何，收集数学笔记，也写一些学习记录和杂谈。</p>
+    <div class="hero-actions">
+      <a class="button" href="{{ '/notes/' | relative_url }}">翻开数学手记 <span aria-hidden="true">↗</span></a>
+      <a class="text-link" href="{{ '/blog/' | relative_url }}">读一些杂谈 <span aria-hidden="true">→</span></a>
+    </div>
+  </div>
+  <figure class="hero-art">
+    <div class="orbit orbit-one" aria-hidden="true"></div>
+    <div class="orbit orbit-two" aria-hidden="true"></div>
+    <span class="art-star" aria-hidden="true">✦</span>
+    <div class="hero-image-frame">
+      <img src="{{ '/assets/images/background.jpg' | relative_url }}" alt="夕阳下，站在街头回望的宇佐见莲子" width="1200" height="799" fetchpriority="high">
+    </div>
+  </figure>
+</section>
+
+<section class="home-section" aria-labelledby="home-notes-title">
+  <header class="section-heading">
+    <div><p class="eyebrow">01 / The notebooks</p><h2 id="home-notes-title">数学手记</h2></div>
+    <a class="text-link" href="{{ '/notes/' | relative_url }}">全部笔记 <span aria-hidden="true">↗</span></a>
+  </header>
+  <div class="subject-grid">
+    {% for category in site.data.categories %}
+      {% assign category_notes = site.data.notes | where: "category", category.key %}
+      {% if category_notes.size > 0 %}
+        <a class="subject-link" href="{{ category.url | relative_url }}">
+          <span class="subject-name">{{ category.zh }}<span class="subject-english">{{ category.title }}</span></span>
+          <span class="subject-arrow" aria-hidden="true">↗</span>
+        </a>
+      {% endif %}
+    {% endfor %}
+  </div>
+
+</section>
+
+<section class="home-section home-journal" aria-labelledby="home-journal-title">
+  <header class="section-heading">
+    <div><p class="eyebrow">02 / Recent writings</p><h2 id="home-journal-title">最近写下的</h2></div>
+    <a class="text-link" href="{{ '/blog/' | relative_url }}">所有文章 <span aria-hidden="true">↗</span></a>
+  </header>
+  <div class="journal-list">
+    {% for post in site.posts limit:3 %}
+      <a class="journal-entry" href="{{ post.url | relative_url }}">
+        <time datetime="{{ post.date | date_to_xmlschema }}">{{ post.date | date: "%Y.%m.%d" }}</time>
+        <div class="journal-entry-body"><h3>{{ post.title }}</h3><p>{{ post.excerpt | strip_html | truncate: 90 }}</p></div>
+        <span aria-hidden="true">↗</span>
+      </a>
+    {% else %}
+      <p class="empty-state">新的记录还在酝酿中。</p>
+    {% endfor %}
+  </div>
+</section>
+
+<aside class="home-colophon">
+  <span class="colophon-star" aria-hidden="true">✦</span>
+  <p>在数学与幻想的交界处，<br>留下一点自己的足迹。</p>
+  <a class="text-link" href="{{ '/about/' | relative_url }}">关于 Renko <span aria-hidden="true">→</span></a>
+</aside>

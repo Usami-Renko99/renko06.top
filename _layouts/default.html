@@ -12,19 +12,27 @@
     {% include mathjax.html %}
   </head>
   <body>
+    <a class="skip-link" href="#main-content">跳至正文</a>
     <header class="site-header">
       <div class="container header-inner">
-        <a class="site-title" href="{{ '/' | relative_url }}">{{ site.title }}</a>
+        <a class="site-title" href="{{ '/' | relative_url }}">
+          <span class="site-brand-mark" aria-hidden="true">✦</span>
+          <span class="site-brand-text">
+            <span class="site-brand-name">{{ site.title }}</span>
+            <span class="site-brand-label">MATHEMATICS &amp; NOTES</span>
+          </span>
+        </a>
         {% include nav.html %}
       </div>
     </header>
 
-    <main class="container page-content">
+    <main id="main-content" class="container page-content{% if page.layout == 'home' %} page-home{% endif %}" tabindex="-1">
       {{ content }}
     </main>
 
     <footer class="site-footer">
       <div class="container footer-inner">
+        <p class="footer-note">数学笔记与学习记录</p>
         <p><a href="https://icp.gov.moe/?keyword=20266068" target="_blank" rel="noopener noreferrer">萌ICP备20266068号</a></p>
       </div>
     </footer>

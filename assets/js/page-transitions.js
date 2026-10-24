@@ -59,6 +59,15 @@
     }
   }
 
+  function updateNavigation(nextDoc) {
+    var currentNav = document.querySelector(".site-nav");
+    var nextNav = nextDoc.querySelector(".site-nav");
+
+    if (currentNav && nextNav) {
+      currentNav.replaceWith(nextNav);
+    }
+  }
+
   function restoreScroll(url) {
     if (url.hash) {
       var target = document.getElementById(decodeURIComponent(url.hash.slice(1)));
@@ -116,11 +125,13 @@
 
     currentMain.replaceWith(page.main);
     updateHead(page.doc);
+    updateNavigation(page.doc);
 
     if (shouldPush) {
       window.history.pushState({ renkoSoftNavigation: true }, "", url.href);
     }
 
+    page.main.focus({ preventScroll: true });
     restoreScroll(url);
     typesetMath(page.main);
   }
