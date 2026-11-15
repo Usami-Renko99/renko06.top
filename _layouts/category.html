@@ -3,7 +3,7 @@ layout: default
 ---
 <article class="page">
   {% assign category = site.data.categories | where: "key", page.category | first %}
-  <p class="breadcrumb"><a href="{{ '/notes/' | relative_url }}">&larr; 全部数学手记</a></p>
+  <p class="breadcrumb"><a href="{{ '/notes/' | relative_url }}">&larr; 全部数学笔记</a></p>
   <header class="page-heading">
     <h1>{{ page.display_title | default: category.zh | default: page.title }}</h1>
     {% if page.description %}<p class="page-intro">{{ page.description }}</p>{% endif %}
@@ -19,7 +19,7 @@ layout: default
     </div>
   {% else %}
     <div class="empty-state">
-      <p>这个主题的笔记还在整理中。先去看看<a href="{{ '/notes/' | relative_url }}">其他数学手记</a>吧。</p>
+      <p>这个主题的笔记还在整理中。先去看看<a href="{{ '/notes/' | relative_url }}">其他数学笔记</a>吧。</p>
     </div>
   {% endif %}
 </article>
