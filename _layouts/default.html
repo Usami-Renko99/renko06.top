@@ -13,29 +13,24 @@
   </head>
   <body>
     <a class="skip-link" href="#main-content">跳至正文</a>
-    <header class="site-header">
-      <div class="container header-inner">
+    <div class="site-shell">
+      <aside class="site-aside">
         <a class="site-title" href="{{ '/' | relative_url }}">
-          <span class="site-brand-mark" aria-hidden="true">✦</span>
-          <span class="site-brand-text">
-            <span class="site-brand-name">{{ site.title }}</span>
-            <span class="site-brand-label">MATHEMATICS &amp; NOTES</span>
-          </span>
+          <span class="site-kicker">Renko 的</span>
+          <span class="site-name">完美算数教室</span>
         </a>
+        <p class="site-intro">主要关注数论、表示论与代数几何，收集数学笔记，也写一些学习记录和杂谈。</p>
         {% include nav.html %}
-      </div>
-    </header>
+      </aside>
 
-    <main id="main-content" class="container page-content{% if page.layout == 'home' %} page-home{% endif %}" tabindex="-1">
-      {{ content }}
-    </main>
-
-    <footer class="site-footer">
-      <div class="container footer-inner">
-        <p class="footer-note">数学笔记与学习记录</p>
-        <p><a href="https://icp.gov.moe/?keyword=20266068" target="_blank" rel="noopener noreferrer">萌ICP备20266068号</a></p>
-      </div>
-    </footer>
+      <main id="main-content" class="page-content{% if page.layout == 'home' %} page-home{% endif %}" tabindex="-1">
+        {{ content }}
+        <footer class="site-footer">
+          <p>数学笔记与学习记录</p>
+          <p><a href="https://icp.gov.moe/?keyword=20266068" target="_blank" rel="noopener noreferrer">萌ICP备20266068号</a></p>
+        </footer>
+      </main>
+    </div>
 
     {% include live2d.html %}
 

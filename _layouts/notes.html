@@ -3,7 +3,6 @@ layout: default
 ---
 <article class="page">
   <header class="page-heading">
-    <p class="eyebrow">{{ page.eyebrow | default: 'NOTES / MATHEMATICS' }}</p>
     <h1>{{ page.display_title | default: page.title }}</h1>
     {% if page.description %}<p class="page-intro">{{ page.description }}</p>{% endif %}
   </header>

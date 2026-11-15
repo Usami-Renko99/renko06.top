@@ -5,7 +5,6 @@ layout: default
   {% assign category = site.data.categories | where: "key", page.category | first %}
   <p class="breadcrumb"><a href="{{ '/notes/' | relative_url }}">&larr; 全部数学手记</a></p>
   <header class="page-heading">
-    <p class="eyebrow">{{ page.eyebrow | default: category.title | default: 'MATHEMATICS' }}</p>
     <h1>{{ page.display_title | default: category.zh | default: page.title }}</h1>
     {% if page.description %}<p class="page-intro">{{ page.description }}</p>{% endif %}
   </header>

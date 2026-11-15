@@ -1,10 +1,10 @@
-- title: Home
+- title: 首页
   url: /
-- title: Notes
+- title: 笔记
   url: /notes/
-- title: Blog
+- title: 杂谈
   url: /blog/
-- title: Q&A
+- title: 问答
   url: /questions/
-- title: About
+- title: 关于
   url: /about/

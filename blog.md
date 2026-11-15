@@ -2,7 +2,6 @@
 layout: page
 title: Blog
 display_title: 记录与杂谈
-eyebrow: JOURNAL
 permalink: /blog/
 ---
 
@@ -31,7 +30,7 @@ permalink: /blog/
           {% if post.excerpt %}
             <p class="post-excerpt">{{ post.excerpt | strip_html | truncate: 120 }}</p>
           {% endif %}
-          <a class="text-link" href="{{ post.url | relative_url }}" aria-label="阅读 {{ post.title | escape }}">阅读全文 <span aria-hidden="true">↗</span></a>
+          <a class="text-link" href="{{ post.url | relative_url }}" aria-label="阅读 {{ post.title | escape }}">阅读全文</a>
         </div>
       </article>
     {% endfor %}
